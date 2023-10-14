@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="{{	url_for('static', filename='css/navbar.css') }}" />
+
+<nav class="navbar sticky-top navbar-expand-md navbar_layout bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" style="" href="/">Logo</a>
+
+      <!-- condensed menu button for smaller screens -->
+        <button class="navbar-toggler justify-content-end" data-bs-theme="dark" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!--This is for navbar to display active page-->
+        {% if session.logged_in %}
+
+            {% set navigation_bar = [
+                ('/', 'home', 'Home'),
+                ('/contact', 'contact', 'Contact'),
+                ('/testimonials', 'testimonials', 'Testimonials'),
+                ('/gallery', 'gallery', 'Gallery'),
+                ('/admin', 'admin', 'Admin Portal'),
+                ('/admin/view-images', 'viewImages', 'View Images')
+            ] -%}
+        {% else %}
+            {% set navigation_bar = [
+                ('/', 'home', 'Home'),
+                ('/contact', 'contact', 'Contact'),
+                ('/testimonials', 'testimonials', 'Testimonials'),
+                ('/gallery', 'gallery', 'Gallery'),
+            ] -%}
+        {% endif %}
+		{% set active_page = active_page|default('home') -%}
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+          <div class="navbar-nav" id="navigation">
+                {% for href, id, caption in navigation_bar %}
+                    <a {% if id == active_page %} class="nav-link active text-white-50" {% else %} class="hover nav-link text-dark" {% endif %} href="{{ href|e }}">
+                        {{ caption|e }}
+                    </a>
+                {% endfor %}
+
+              {% if session.logged_in %}
+              <!--<a class="nav-link text-light" href="/admin">Admin Portal</a>-->
+              <a class="nav-link text-dark" href="/logout">Logout</a>
+              {% endif %}
+
+          </div>
+        </div>
+
+    </div>
+
+</nav>
