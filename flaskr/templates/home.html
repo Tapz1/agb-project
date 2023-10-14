@@ -5,48 +5,29 @@
         <link rel="preload" href="" as="image"/>
     {% endblock %}
     {% block body %}
-
-    <div class="container-md">
-        <div class="row justify-content-center text-center">
-            <div class="col-md">
-                <div style="">
-                    <!--<h1 class="display-4 screen_titles">Test</h1>-->
-                    <!--preview carousel-->
-                    <div id="previewCarousel" class="carousel slide" data-bs-ride="carousel">
-                        <!--indicators-->
-                        <div class="carousel-indicators">
-                            {% for n in enumerated_photos %}
-                            <button type="button" data-bs-target="#previewCarousel" data-bs-slide-to="{{ n }}"
-                                    aria-label="Slide {{ n }}" {% if n == 0 %} class="active" {% else %} {% endif %}></button>
-                            {% endfor %}
-                        </div>
-
-                        <!--the slideshow-->
-                        <div class="carousel-inner">
-                            {% for photo in photos %}
-                            <div {% if photo == first_photo %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}>
-                                <img class="d-block w-100" src="{{ url_for('static', filename=photo) }}" alt="{{ photo }}">
-                            </div>
-                            {% endfor %}
-                        </div>
-
-                        <!--left & right controls-->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#previewCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#previewCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
+    <div id="main-content" class="main-content" style="">
+        <div class="container-md home-banner">
+            <div class="row justify-content-center text-center" style="padding-top: 100px;">
+                <div class="col-md" style="">
+                    <h1 style="font-weight: 600;">Allan Gilbert Builders</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center text-center" style="">
+                <div class="col-md">
+                    <h3>{ About Business }</h3>
+                </div>
+            </div>
+            <div class="row justify-content-center text-center" style="padding-top: 200px;">
+                <div class="col-md">
+                    <button class="buttons btn btn-primary"
+                        data-callback='onSubmit'
+                        data-action='submit'>Visit the Gallery</button>
                 </div>
             </div>
         </div>
-    </div>
-
-
 
 
     </div>
+
+
     {% endblock %}
