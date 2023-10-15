@@ -1,0 +1,126 @@
+from werkzeug.utils import secure_filename
+
+from flaskr.decorator_wraps import DecoratorWraps
+from flask import render_template, session, request, redirect, url_for, flash, current_app
+# from config.config import CLIENT_EMAIL
+from flaskr.services.testimonial_service import TestimonialService
+from flaskr.services.mail_service import MailService
+from flaskr.submissionForms import RequestTestimonial, UploadForm
+from flaskr.upload_controller import allowed_file
+import os
+
+@DecoratorWraps.is_logged_in
+def admin_portal():
+    session.modified = True
+    email = session.get("email")
+    if email == current_app.app_context().app.config['CLIENT_EMAIL']:
+        name = "Brandon"
+    else:
+        name = "Chris"
+
+    form = RequestTestimonial(request.form)
+    request_email = form.email.data
+
+    image_form = UploadForm()
+
+    testimonial_service = TestimonialService()
+    mail_service = MailService()
+
+    upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
+    existing_photos = os.listdir(upload_folder)
+
+    pending = None
+
+    try:
+        pending = testimonial_service.get_all_pending()
+    except Exception as e:
+        print(e)
+
+    if request.method == 'POST':
+        print("POST request detected")
+        if "send-request" in request.form and form.validate():
+            print("send button pressed")
+            mail_service.send_testimonial_request(request_email)
+            flash('Your request has been sent successfully!', 'success')
+            return redirect(request.url)
+
+        if "upload-image" in request.form:
+            # print("* upload button pressed *")
+
+            try:
+                if 'image' not in request.files:
+                    flash('No file')
+                    return redirect(request.url)
+                image = request.files['image']
+                # If the user does not select a file, the browser submits an
+                # empty file without a filename.
+                if image.filename == '':
+                    flash('No image selected')
+                    return redirect(request.url)
+
+                if image and allowed_file(image.filename):
+                    filename = secure_filename(image.filename)
+                    if filename in existing_photos:
+                        flash("Did you already upload this photo? A file already exists in here with that name.", "danger")
+                        return redirect(request.url)
+                    else:
+                        image_path = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], filename)
+                        image.save(image_path)
+
+                        img = Image.open(image_path)
+                        img = img.resize((2048, 1536), resample=None, box=None, reducing_gap=None)
+
+                        img.save(image_path)
+
+                        flash("Your image was uploaded successfully to your testimonial page!", 'success')
+                        return redirect(request.url)
+            except Exception as e:
+                print(e)
+                flash("Your image could not be uploaded", 'danger')
+                return redirect(request.url)
+
+    return render_template("admin.html", name=name, email=email, title="Admin", form=form,
+                           image_form=image_form, pending_testimonials=pending)
+
+
+@DecoratorWraps.is_logged_in
+def approve_testimonial(testimonial_id):
+    testimonial_service = TestimonialService()
+    try:
+        testimonial_service.update_approval(testimonial_id)
+        flash("Testimonial approved!", "success")
+        return redirect(url_for("blueprint.admin_portal"))
+    except Exception as e:
+        print(e)
+        error = "Testimonial could not be approved"
+        flash(error, "danger")
+        return redirect(url_for("blueprint.admin_portal"))
+
+
+@DecoratorWraps.is_logged_in
+def delete_testimonial_request(testimonial_id):
+    testimonial_service = TestimonialService()
+    try:
+        testimonial_service.delete_entry(testimonial_id)
+        flash("Testimonial deleted!", "success")
+        return redirect(url_for("blueprint.admin_portal"))
+    except Exception as e:
+        print(e)
+        error = "Testimonial could not be deleted"
+        flash(error, "danger")
+        return redirect(url_for("blueprint.admin_portal"))
+
+
+@DecoratorWraps.is_logged_in
+def delete_testimonial(testimonial_id):
+    testimonial_service = TestimonialService()
+    try:
+        testimonial_service.delete_entry(testimonial_id)
+        flash("Testimonial deleted!", "success")
+        return redirect(url_for("blueprint.testimonials"))
+    except Exception as e:
+        print(e)
+        error = "Testimonial could not be deleted"
+        flash(error, "danger")
+        return redirect(url_for("blueprint.testimonials"))
+
