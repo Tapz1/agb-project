@@ -6,27 +6,60 @@
     {% endblock %}
     {% block body %}
     <div id="main-content" class="main-content" style="">
-        <div class="container-md home-banner">
-            <div class="row justify-content-center text-center" style="padding-top: 100px;">
-                <div class="col-md" style="">
-                    <h1 style="font-weight: 600;">Allan Gilbert Builders</h1>
+        <!--home banner-->
+        <div class="container home-banner">
+            <div class="container-md">
+                <div class="row justify-content-center text-center" style="padding-top: 10%;">
+                    <div class="col-md" style="">
+                        <h1 style="font-weight: 600;">Allan Gilbert Builders</h1>
+                    </div>
                 </div>
-            </div>
-            <div class="row justify-content-center text-center" style="">
-                <div class="col-md">
-                    <h3>{ About Business }</h3>
+                <div class="row justify-content-center text-center" style="margin-top: 1%;">
+                    <div class="col-md">
+                        <h3>{ About Business }</h3>
+                    </div>
                 </div>
-            </div>
-            <div class="row justify-content-center text-center" style="padding-top: 200px;">
-                <div class="col-md">
-                    <button class="buttons btn btn-primary"
-                        data-callback='onSubmit'
-                        data-action='submit'>Visit the Gallery</button>
+                <div class="row justify-content-center text-center home-banner-button" style="padding-top: 30%; padding-bottom: 10%;">
+                    <div class="col-md">
+                        <button class="buttons btn btn-primary"
+                            data-callback='onSubmit'
+                            data-action='submit'>Visit the Gallery</button>
+                    </div>
                 </div>
             </div>
         </div>
+        <!--projects preview-->
+        <div class="container home-projects-container">
+            <div class="container-md project-content">
+                <div class="row justify-content-center text-center">
+                    <div class="col-md">
+                        <h2>View Our Projects</h2>
+                    </div>
+                </div>
+                <div class="row justify-content-center text-center" style="margin-top: 2%;">
+                    <!--for loop goes here for recent projects-->
+                    <div class="col-md">
 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--testimonials preview-->
+        <div class="container home-projects-container">
+            <div class="container-md testimonial-content">
+                <div class="row justify-content-center text-center">
+                    <div class="col-md">
+                        <h2>Read Our Testimonials</h2>
+                    </div>
+                </div>
+                <div class="row justify-content-center text-center" style="margin-top: 2%;">
+                    <!--for loop goes here for recent testimonials-->
+                    <div class="col-md">
 
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 

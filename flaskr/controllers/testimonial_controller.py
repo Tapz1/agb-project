@@ -6,4 +6,4 @@ def testimonials():
     session.modified = True
 
 
-    return render_template("testimonial.html")
+    return render_template("testimonials.html")

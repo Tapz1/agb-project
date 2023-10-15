@@ -301,18 +301,60 @@ p
     text-align: center;
 }
 
+
 .home-banner {
     background-image: url("../home-images/post-placeholder.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 50%;
      max-width: 100%;
-     height: 500px;;
      padding: 0px;
 }
 
-.home-banner-about {
+.home-projects-container {
+    max-width: 100%;
+    margin-top: 5%;
 
+}
+
+.project-content {
+    max-width: 100%;
+}
+
+.home-projects-container {
+    max-width: 100%;
+}
+
+.testimonial-content {
+    max-width: 100%;
+}
+
+.contact-banner {
+    background-image: url("../home-images/post-placeholder.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    max-width: 100%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+
+}
+
+.contact-content {
+    margin-top: 2%;
+    max-width: 100%;
+}
+
+.contact-left-column {
+    flex:1 1 40%;
+    position: relative;
+    min-width:320px;
+}
+
+.contact-right-column {
+    flex:1 1 40%;
+    position: relative;
+    min-width:320px;
 }
 
 /*

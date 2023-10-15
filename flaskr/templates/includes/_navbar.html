@@ -34,7 +34,7 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
           <div class="navbar-nav" id="navigation">
                 {% for href, id, caption in navigation_bar %}
-                    <a {% if id == active_page %} class="nav-link active text-white-50" {% else %} class="hover nav-link text-dark" {% endif %} href="{{ href|e }}">
+                    <a {% if id == active_page %} class="nav-link active text-black-50" {% else %} class="hover nav-link text-dark" {% endif %} href="{{ href|e }}">
                         {{ caption|e }}
                     </a>
                 {% endfor %}
