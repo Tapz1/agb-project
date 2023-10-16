@@ -52,29 +52,28 @@ def admin_portal():
                 if 'image' not in request.files:
                     flash('No file')
                     return redirect(request.url)
-                image = request.files['image']
-                # If the user does not select a file, the browser submits an
-                # empty file without a filename.
-                if image.filename == '':
+
+                # multiple photo upload
+                images = request.files.getlist(image_form.image.name)
+                if images:
+                    for image in images:
+                        if allowed_file(image.filename):
+                            filename = image.filename
+                            if filename in existing_photos:
+                                flash(
+                                    "Did you already upload this photo? A file already exists in here with that name.",
+                                    "danger")
+                                return redirect(request.url)
+                            else:
+                                image_path = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'],
+                                                          filename)
+                                image.save(image_path)
+                    flash("Your images were successfully uploaded!", 'success')
+                    return redirect(request.url)
+                else:
                     flash('No image selected')
                     return redirect(request.url)
 
-                if image and allowed_file(image.filename):
-                    filename = secure_filename(image.filename)
-                    if filename in existing_photos:
-                        flash("Did you already upload this photo? A file already exists in here with that name.", "danger")
-                        return redirect(request.url)
-                    else:
-                        image_path = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], filename)
-                        image.save(image_path)
-
-                        img = Image.open(image_path)
-                        img = img.resize((2048, 1536), resample=None, box=None, reducing_gap=None)
-
-                        img.save(image_path)
-
-                        flash("Your image was uploaded successfully to your testimonial page!", 'success')
-                        return redirect(request.url)
             except Exception as e:
                 print(e)
                 flash("Your image could not be uploaded", 'danger')

@@ -1,6 +1,6 @@
 
 :root {
-    /*--brokerColor: #670038;
+    /*--brandColor: #670038;
     --globalColorText: #3A3A3A;*/
 }
 
@@ -17,7 +17,7 @@ body
   /*font-family: Verdana, sans-serif;*/
   font-size: 19px;
   font-weight: 400;
-  line-height: 1.7em;
+  line-height: 1.5em;
   width: 100%;
   min-height: 100vh;
   /*height: 100%;*/
@@ -29,11 +29,11 @@ body
 
 p
 {
-    display: block;
+    /*display: block;
     margin-block-start: 1em;
     margin-block-end: 1em;
     margin-inline-start: 0px;
-    margin-inline-end: 0px;
+    margin-inline-end: 0px;*/
 
 }
 
@@ -58,7 +58,7 @@ p
 
 
 .screen_titles {
-    color: var(--brokerColor);
+    color: var(--brandColor);
 }
 
 .title_container {
@@ -102,10 +102,6 @@ p
 
     h1 {
         bottom-padding: 0px;
-    }
-
-    .p {
-
     }
 
     hr {
@@ -336,7 +332,7 @@ p
 
 
 .contact-content {
-    background-image: url("../contact-images/IMG_2872.jpg");
+   /* background-image: url("../contact-images/IMG_2872.jpg");*/
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 50%;
@@ -360,6 +356,18 @@ p
     flex:1 1 40%;
     position: relative;
     min-width:320px;
+}
+
+
+.testimonial-form{
+    /*margin-bottom: 10%;*/
+    /*max-height: 100%;*/
+    /* background-image: url("../contact-images/IMG_2872.jpg");*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    margin-top: 2%;
+    max-width: 100%;
 }
 
 /*

@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% set active_page = "viewImages" %}
+    {% block body %}
+
+    {% include 'includes/_messages.html' %}
+     <div class="container-md text-center">
+        <header>
+            <div class="row justify-content-start">
+                <div class="col-md-auto title_container">
+                    <h1 class="display-5 screen_titles"><strong>Uploaded Images</strong></h1>
+                </div>
+            </div>
+        </header>
+        <hr>
+    </div>
+
+
+        <!-- images from static/uploads -->
+    <div class="image-container" style="clear:both;">
+        <br>
+        {% for photo in all_photos %}
+        <table class="table table-light" align="center" style="width:90%; text-align:center; box-shadow:5px 5px 10px black; margin-bottom: 30px;">
+            <tr align="left">
+                <td>
+                    <div>
+                        <img class="d-block w-100" src="{{ url_for('static', filename=photo[0]) }}" alt="{{ i }}">
+                    </div>
+                </td>
+                <td class="btn btn-default">
+                  <form action="{{ url_for('blueprint.delete_image', filename=photo[1]) }}" method="post">
+                      <input type="submit" value="Delete" name="delete-button" onclick="return confirm('Are you sure you want to delete this image?');" class="btn btn-danger">
+                  </form>
+                </td>
+            </tr>
+        </table>
+        {% endfor %}
+    </div>
+
+
+    {% endblock %}

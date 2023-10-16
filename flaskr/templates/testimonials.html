@@ -9,6 +9,7 @@
 <div id="main-content" class="main-content" style="">
     <!--title banner-->
     <header class="testimonial-banner">
+        {% include 'includes/_messages.html' %}
         <div class="container-md text-center" style="max-width: 100%;">
             <div class="row justify-content-start">
                 <div class="col-md-auto ">
@@ -24,8 +25,15 @@
         {% for i in testimonials %}
         <div class="row justify-content-center text-center">
             <div class="col-md text-md" style="padding: 3% 120px;"> <!--top right bottom left-->
-                <p>"{{ i.message }}"</p>
+                <p style="padding-b: 2%;">"{{ i.message }}"</p>
                 <p><strong>{{ i.name }}</strong> - {{ i.town }}, NH</p>
+                {% if session.logged_in %}
+                <td class="btn btn-default">
+                  <form action="{{ url_for('blueprint.delete_testimonial', testimonial_id=i.testimonial_id) }}" method="post">
+                      <input type="submit" value="Delete" name="delete-button" onclick="return confirm('Are you sure you want to delete this testimonial?');" class="btn btn-danger">
+                  </form>
+                </td>
+                {% endif %}
             </div>
         </div>
         {% endfor %}

@@ -1,7 +1,7 @@
 import os.path
 import re
 import email_validator
-from wtforms import StringField, validators, Form, ValidationError, PasswordField, TextAreaField, TelField, EmailField, FileField, SubmitField
+from wtforms import StringField, validators, Form, ValidationError, PasswordField, TextAreaField, TelField, EmailField, FileField, SubmitField, MultipleFileField
 from wtforms.validators import Regexp
 
 
@@ -19,5 +19,6 @@ class RequestTestimonial(Form):
 
 
 class UploadForm(Form):
-    image = FileField('Image', [validators.DataRequired()])
+    #image = FileField('Image', [validators.DataRequired()])
+    image = MultipleFileField('', [validators.DataRequired()])
     # description = TextAreaField(u'Image Description')

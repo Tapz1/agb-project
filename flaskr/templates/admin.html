@@ -2,6 +2,8 @@
 {% set active_page = "admin" %}
 {% block body %}
 <div>
+   {% include 'includes/_messages.html' %}
+
     <h1>Admin Portal</h1>
     <hr>
     <h4 class="font-weight-lighter">Hi, {{ name }}.
@@ -42,7 +44,7 @@
         </div>
         <div class="row align-items-start">
              <div class="col-4 admin-forms">
-                {{ render_field(image_form.image, class="form-control", style="margin-top: -30px;") }}
+                {{ render_field(image_form.image, class="form-control", style="margin-top: -5%;", multiple="multiple") }}
             </div>
             <div class="col-md-auto">
                 <button class="btn btn-outline-primary" type="submit" name="upload-image">Upload</button>
