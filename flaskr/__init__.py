@@ -57,8 +57,8 @@ def create_app(test_config=None):
     from flaskr.blueprint import blueprint
     app.register_blueprint(blueprint, url_prefix='/')
 
-    #from flaskr import db
-    #db.init_app(app)
+    from flaskr import db
+    db.init_app(app)
 
     app.permanent_session_lifetime = timedelta(hours=4)
 

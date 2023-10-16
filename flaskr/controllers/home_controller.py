@@ -1,27 +1,24 @@
 import os
 from flask import render_template, redirect, flash, url_for, request, session, current_app
+from flaskr.services.testimonial_service import get_limited_approved
 
 
 def home():
     session.modified = True
-    photos = []
-    first_photo = None
-    enumerated_photos = []
-    # preview slideshow banner
+
     try:
-        folder_name = 'home_slideshow_banner'
-        #image_folder = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], f'{folder_name}')  # path for prod
-        image_folder = os.path.join('flaskr/static/uploads', f'{folder_name}')  # path for dev
-        photos = os.listdir(image_folder)
-        formatted_name = f"uploads/{folder_name}/"
-        photos = [formatted_name + photo for photo in photos]
-        if len(photos) > 0:
-            first_photo = photos[0]
-            enumerated_photos = [*range(0, len(photos))]  # for carousel indicators
+        testimonial_highlights = get_limited_approved()
+
+        if len(testimonial_highlights) == 0:
+            print("No testimonials")
+
+        return render_template("home.html", testimonials=testimonial_highlights)
+
     except Exception as e:
+        print("Error with getting testimonial highlights")
         print(e)
 
-    return render_template("home.html", photos=photos, enumerated_photos=enumerated_photos, first_photo=first_photo)
+    return render_template("home.html")
 
 
 

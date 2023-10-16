@@ -1,0 +1,45 @@
+    {% extends 'layout.html' %}
+
+    {% block body %}
+    <h2 class="display-4 screen_titles"><strong>Add your testimonial</strong></h2>
+    <hr>
+
+    <br>
+    <br>
+    <div class="text-center">
+        <h5 class="font-weight-lighter">How was your experience with Allan Gilbert Builders?</h5>
+    </div>
+
+    {% set town = 'town' %}
+    {% from "includes/_formhelpers.html" import render_field %}
+        <!--This iterates the form fields-->
+    <div class="container-md" style="padding-top: 30px; padding-left: 15%; padding-right: 15%;">
+        <form id="contact-form" method="post" action="" class="">
+            {% for field in form %}
+            <div class="row justify-content-center text-md" style="font-weight: 500;">
+
+                <div class="col-md-2 form-labels">
+                    <label>{{field.label}}</label>
+                </div>
+                <div class="col-md-4"> {% if field.id != email %}
+                    {{field(class="form-control")}}
+                    {% else %}
+                    {{field(class="form-control", disabled="True")}}
+                    {% endif %}
+                </div>
+
+            {% endfor %}
+            </div>
+
+            <div class="row justify-content-center text-center">
+                <div class="col-sm" style="padding-left: 5%; padding-right: 5%;">
+                    <button class="buttons btn btn-outline-primary"
+                        data-callback='onSubmit'
+                        data-action='submit'>Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    {% endblock %}

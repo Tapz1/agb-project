@@ -1,13 +1,20 @@
 CREATE TABLE IF NOT EXISTS testimonials (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    testimonial_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     email TEXT NOT NULL,
     message TEXT NOT NULL,
-    city TEXT NOT NULL,
+    town TEXT NOT NULL,
+    is_approved INTEGER DEFAULT 0 NOT NULL,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS projects (
+    project_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    project_name TEXT NOT NULL,
+    project_path TEXT NOT NULL,
+    owners_email TEXT NOT NULL,
+    town TEXT NOT NULL,
     state TEXT NOT NULL,
-    project_fk INTEGER,
-    FOREIGN KEY(project_fk) REFERENCES gallery(project_id)
-    is_approved INTEGER DEFAULT 0 NOT NULL
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 

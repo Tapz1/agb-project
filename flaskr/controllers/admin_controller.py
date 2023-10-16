@@ -3,11 +3,13 @@ from werkzeug.utils import secure_filename
 from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, request, redirect, url_for, flash, current_app
 # from config.config import CLIENT_EMAIL
-from flaskr.services.testimonial_service import TestimonialService
+from flaskr.services.testimonial_service import get_all_pending, delete_entry, update_approval
 from flaskr.services.mail_service import MailService
-from flaskr.submissionForms import RequestTestimonial, UploadForm
-from flaskr.upload_controller import allowed_file
+from flaskr.models.submissionForms import RequestTestimonial, UploadForm
+from flaskr.controllers.upload_controller import allowed_file
 import os
+from PIL import Image  # has to be commented out when deployed
+
 
 @DecoratorWraps.is_logged_in
 def admin_portal():
@@ -23,8 +25,7 @@ def admin_portal():
 
     image_form = UploadForm()
 
-    testimonial_service = TestimonialService()
-    mail_service = MailService()
+    ms = MailService()
 
     upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
     existing_photos = os.listdir(upload_folder)
@@ -32,7 +33,7 @@ def admin_portal():
     pending = None
 
     try:
-        pending = testimonial_service.get_all_pending()
+        pending = get_all_pending()
     except Exception as e:
         print(e)
 
@@ -40,7 +41,7 @@ def admin_portal():
         print("POST request detected")
         if "send-request" in request.form and form.validate():
             print("send button pressed")
-            mail_service.send_testimonial_request(request_email)
+            ms.send_testimonial_request(request_email)
             flash('Your request has been sent successfully!', 'success')
             return redirect(request.url)
 
@@ -85,9 +86,9 @@ def admin_portal():
 
 @DecoratorWraps.is_logged_in
 def approve_testimonial(testimonial_id):
-    testimonial_service = TestimonialService()
+
     try:
-        testimonial_service.update_approval(testimonial_id)
+        update_approval(testimonial_id)
         flash("Testimonial approved!", "success")
         return redirect(url_for("blueprint.admin_portal"))
     except Exception as e:
@@ -99,9 +100,9 @@ def approve_testimonial(testimonial_id):
 
 @DecoratorWraps.is_logged_in
 def delete_testimonial_request(testimonial_id):
-    testimonial_service = TestimonialService()
+
     try:
-        testimonial_service.delete_entry(testimonial_id)
+        delete_entry(testimonial_id)
         flash("Testimonial deleted!", "success")
         return redirect(url_for("blueprint.admin_portal"))
     except Exception as e:
@@ -113,9 +114,9 @@ def delete_testimonial_request(testimonial_id):
 
 @DecoratorWraps.is_logged_in
 def delete_testimonial(testimonial_id):
-    testimonial_service = TestimonialService()
+
     try:
-        testimonial_service.delete_entry(testimonial_id)
+        delete_entry(testimonial_id)
         flash("Testimonial deleted!", "success")
         return redirect(url_for("blueprint.testimonials"))
     except Exception as e:

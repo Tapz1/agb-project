@@ -67,16 +67,17 @@
                 <tr>
                     <!--<th scope="row">1</th>-->
                   <td class="testimonial-column">
-                      <h3>{{i.name}}<font size="-1"> ({{ email }}) </font></h3><p><i> {{i.city}}, {{i.state}}</i></p>
-                      <p class="testimonial-content">{{i.message}}</p>
+                      <h3>{{i.name}}<small class="text-muted"> ({{ email }}) </small></h3>
+                      <p><i> {{i.town}}, NH</i></p>
+                      <p class="testimonial-content text-center">"{{i.message}}"</p>
                   </td>
                   <td class="button-column">
-                      <form action="{{ url_for('blueprint.approve_testimonial', testimonial_id=i.id) }}" method="post" class="buttons">
+                      <form action="{{ url_for('blueprint.approve_testimonial', testimonial_id=i.testimonial_id) }}" method="post" class="buttons">
                           <input type="submit" value="Approve" name="approve-button" onclick="return confirm('Are you sure you want to approve this entry?');" class="btn btn-success">
                       </form>
                   </td>
                   <td class="button-column">
-                      <form action="{{ url_for('blueprint.delete_testimonial_request', testimonial_id=i.id) }}" method="post" class="buttons">
+                      <form action="{{ url_for('blueprint.delete_testimonial_request', testimonial_id=i.testimonial_id) }}" method="post" class="buttons">
                           <input type="submit" value="Delete" name="delete-button" onclick="return confirm('Are you sure you want to delete this testimonial?');" class="btn btn-danger">
                       </form>
                   </td>
@@ -88,7 +89,7 @@
 
         {% else %}
          <br>
-         <h3 align="center">That's awkward. There's nothing here....</h3>
+         <h3 align="center">There's nothing pending right now.</h3>
         {% endif %}
 
     </div>

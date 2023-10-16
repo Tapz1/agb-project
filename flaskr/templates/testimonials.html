@@ -8,7 +8,7 @@
 
 <div id="main-content" class="main-content" style="">
     <!--title banner-->
-    <header class="contact-banner">
+    <header class="testimonial-banner">
         <div class="container-md text-center" style="max-width: 100%;">
             <div class="row justify-content-start">
                 <div class="col-md-auto ">
@@ -19,16 +19,18 @@
     </header>
 
     <!--testimonials-->
-        <div class="container contact-content">
-            <!--for loop would go here for testimonials, row by row-->
-            <div class="row justify-content-center">
-                <div class="col-md">
-
-                </div>
+    <div class="container testimonial-container">
+        <!--for loop would go here for testimonials, row by row-->
+        {% for i in testimonials %}
+        <div class="row justify-content-center text-center">
+            <div class="col-md text-md" style="padding: 3% 120px;"> <!--top right bottom left-->
+                <p>"{{ i.message }}"</p>
+                <p><strong>{{ i.name }}</strong> - {{ i.town }}, NH</p>
             </div>
         </div>
-
-        </div>
+        {% endfor %}
+        {{ pagination.links }}
+    </div>
 
 
 </div>
