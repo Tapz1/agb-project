@@ -7,6 +7,7 @@ from flaskr.services.testimonial_service import get_all_pending, delete_entry, u
 from flaskr.services.mail_service import MailService
 from flaskr.models.submissionForms import RequestTestimonial, UploadForm
 from flaskr.controllers.upload_controller import allowed_file
+from flaskr.services.upload_service import get_projects
 import os
 from PIL import Image  # has to be commented out when deployed
 
@@ -14,16 +15,28 @@ from PIL import Image  # has to be commented out when deployed
 @DecoratorWraps.is_logged_in
 def admin_portal():
     session.modified = True
+    project_names = []
+
     email = session.get("email")
     if email == current_app.app_context().app.config['CLIENT_EMAIL']:
         name = "Brandon"
     else:
         name = "Chris"
 
+    try:
+        project_names = get_projects()
+    except Exception as e:
+        print("Couldn't get projects")
+        print(e)
+
     form = RequestTestimonial(request.form)
     request_email = form.email.data
 
     image_form = UploadForm()
+    image_form.project.choices = project_names
+
+
+
 
     ms = MailService()
 
@@ -81,6 +94,11 @@ def admin_portal():
 
     return render_template("admin.html", name=name, email=email, title="Admin", form=form,
                            image_form=image_form, pending_testimonials=pending)
+
+
+@DecoratorWraps.is_logged_in
+def add_project():
+    pass
 
 
 @DecoratorWraps.is_logged_in

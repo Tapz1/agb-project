@@ -1,7 +1,9 @@
 import os.path
 import re
 import email_validator
-from wtforms import StringField, validators, Form, ValidationError, PasswordField, TextAreaField, TelField, EmailField, FileField, SubmitField, MultipleFileField
+from wtforms import (StringField, validators, Form, ValidationError, PasswordField, TextAreaField, TelField, EmailField,
+                     FileField, SubmitField, MultipleFileField, SelectField, DateField)
+from datetime import date
 from wtforms.validators import Regexp
 
 
@@ -20,5 +22,12 @@ class RequestTestimonial(Form):
 
 class UploadForm(Form):
     #image = FileField('Image', [validators.DataRequired()])
+    project = SelectField(u'Project', choices=[])
     image = MultipleFileField('', [validators.DataRequired()])
+    project_type = SelectField('', choices=["New", "Existing"])
+    new_project = StringField('Project Name')
+    owners_email = EmailField("Owner's Email", [validators.DataRequired(), validators.Email(message='Must be a valid email address')])
+    town = StringField("Town", [validators.Length(min=3, max=40)])
+    project_date = DateField("Project Date", default=date.today)
     # description = TextAreaField(u'Image Description')
+

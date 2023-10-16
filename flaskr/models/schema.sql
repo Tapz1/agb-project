@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS projects (
     project_path TEXT NOT NULL,
     owners_email TEXT NOT NULL,
     town TEXT NOT NULL,
-    state TEXT NOT NULL,
+    date TEXT NOT NULL,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
