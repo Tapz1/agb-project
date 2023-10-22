@@ -37,7 +37,6 @@ def admin_portal():
 
 
 
-
     ms = MailService()
 
     upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']

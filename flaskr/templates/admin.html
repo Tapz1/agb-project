@@ -1,6 +1,7 @@
 {% extends 'layout.html' %}
 {% set active_page = "admin" %}
 {% block body %}
+
 <div>
    {% include 'includes/_messages.html' %}
 
@@ -42,40 +43,59 @@
                 <h1 class="display-6">Upload Images</h1>
             </div>
         </div>
-            <div class="row justify-content-center text-md" style="font-weight: 500;">
 
-                <div class="col-md-3 form-labels font-med-bold">
-                    <label>{{image_form.project.label}}</label>
-                </div>
-                 <div class="col-md-3 form-labels text-center">
-                    <label>{{image_form.project_type(style="width:100%; height: 100%;")}}</label>
-                </div>
+        <div class="row justify-content-center text-md" style="font-weight: 500;">
+
+            <div class="col-md-3 form-labels font-med-bold text-center" style="font-size: 20px; padding-top: 0.5%;">
+                <label>{{image_form.project.label}}</label>
             </div>
-            <div class="row justify-content-center text-md" style="font-weight: 500;">
-                <div class="col-md-3 form-labels">
-                    {% if image_form.project_type.value == New %}
-                    {{ image_form.new_project(style="width:100%; height: 100%;") }}
-                    {% else %}
-                    {{ image_form.project(style="width:100%; height: 100%;") }}
-                    {% endif %}
-                </div>
-                 <div class="col-md-3 form-labels">
-                    {{ render_field(image_form.image, class="form-control", style="margin-top: -5%;", multiple="multiple") }}
-                </div>
+             <div id="projectType" class="col-md-3 form-labels text-center">
+                <label>{{image_form.project_type(style="width:100%; height: 100%;")}}</label>
+                 <ul class="nav nav-pills nav-fill tabs">
+                    <a class="nav-link active" aria-current="page" href="#" data-tab-value="#tab_1">New</a>
+                    <a class="nav-link" href="#" data-tab-value="#tab_2">Existing</a>
+                </ul>
             </div>
-            <div class="row justify-content-center text-center">
-                <div class="col-md">
-                    <button class="buttons btn btn-outline-primary"
-                        data-callback='onSubmit'
-                        data-action='submit'
-                        name="upload-image">Upload</button>
-                    <!--<p class="buttons"><input type="Submit" class="btn btn-outline" value="Send"></p>-->
-                </div>
+        </div>
+        <div class="row justify-content-center text-md" style="font-weight: 500;">
+            {% if image_form.project_type == 'new' %}
+            <div class="col-md-3 form-labels active" id="tab_1" data-tab-info>
+                {{ image_form.new_project(style="width:100%; height: 100%;", placeholder="New Project Name") }}
             </div>
+            {% else %}
+            <div class="col-md-3 form-labels" id="tab_2" data-tab-info>
+                {{ image_form.project(style="width:100%; height: 100%;") }}
+            </div>
+            {% endif %}
+             <div class="col-md-3 form-labels">
+                {{ render_field(image_form.image, class="form-control", style="margin-top: -5%;", multiple="multiple") }}
+            </div>
+        </div>
+        <div class="row justify-content-center text-center">
+            <div class="col-md">
+                <button class="buttons btn btn-outline-primary"
+                    data-callback='onSubmit'
+                    data-action='submit'
+                    name="upload-image">Upload</button>
+                <!--<p class="buttons"><input type="Submit" class="btn btn-outline" value="Send"></p>-->
+            </div>
+        </div>
     </form>
 </div>
+<script>
+    window.onload = religionSelected()
 
+    function project_type_selected(){
+        "use strict";
+        var project_type = document.getElementById('relAffil').selectedOptions;
+        if(religion.length != 0 ){
+             document.getElementById("relImp").style.display = 'block';
+        }else{
+            document.getElementById("relImp").style.display = 'none';
+        }
+    };
 
+ </script>
 
 <div class="container-md admin-forms" style="padding-top: 10px;">
     <h2 class="display-6">Pending Testimonials</h2>

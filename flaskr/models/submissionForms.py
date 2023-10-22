@@ -24,7 +24,7 @@ class UploadForm(Form):
     #image = FileField('Image', [validators.DataRequired()])
     project = SelectField(u'Project', choices=[])
     image = MultipleFileField('', [validators.DataRequired()])
-    project_type = SelectField('', choices=["New", "Existing"])
+    project_type = SelectField('', choices=[("new", "New"), ("existing", "Existing")])
     new_project = StringField('Project Name')
     owners_email = EmailField("Owner's Email", [validators.DataRequired(), validators.Email(message='Must be a valid email address')])
     town = StringField("Town", [validators.Length(min=3, max=40)])
