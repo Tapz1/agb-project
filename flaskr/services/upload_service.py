@@ -6,17 +6,17 @@ def get_db_connection():
     return db
 
 
-def add_project(name, project_path, owners_email, town, date):
+def add_project(project_name, project_path, owners_email, town, date):
     conn = get_db_connection()
 
     cur = conn.cursor()
     insert_sql = "INSERT INTO projects (project_name, project_path, owners_email, town, date) " \
-                 "VALUES(:name, :project_path, :owners_email, :town, :date)"
-    cur.execute(insert_sql, {'project_name': name, 'project_path': project_path, 'owners_email': owners_email, 'town': town, 'date': date})
+                 "VALUES(:project_name, :project_path, :owners_email, :town, :date)"
+    cur.execute(insert_sql, {'project_name': project_name, 'project_path': project_path, 'owners_email': owners_email, 'town': town, 'date': date})
 
     conn.commit()
     cur.close()
-    conn.close()
+    #conn.close()
 
 
 def get_projects():

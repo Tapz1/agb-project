@@ -1,5 +1,3 @@
-from werkzeug.utils import secure_filename
-
 from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, request, redirect, url_for, flash, current_app
 # from config.config import CLIENT_EMAIL
@@ -7,10 +5,9 @@ from flaskr.services.testimonial_service import get_all_pending, delete_entry, u
 from flaskr.services.mail_service import MailService
 from flaskr.models.submissionForms import RequestTestimonial, UploadForm
 from flaskr.controllers.upload_controller import allowed_file
-from flaskr.services.upload_service import get_projects
+from flaskr.services.upload_service import get_projects, add_project
 import os
-from PIL import Image  # has to be commented out when deployed
-
+import traceback
 
 @DecoratorWraps.is_logged_in
 def admin_portal():
@@ -35,11 +32,20 @@ def admin_portal():
     image_form = UploadForm()
     image_form.project.choices = project_names
 
+    # new project
+    new_project_name = image_form.new_project.data
+    owners_email = image_form.owners_email.data
+    town = image_form.town.data
+    date = image_form.project_date.data
+
+    #if not new_project_name == "":
+
 
 
     ms = MailService()
 
-    upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
+    #upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
+    upload_folder = url_for('static', filename='uploads')
     existing_photos = os.listdir(upload_folder)
 
     pending = None
@@ -77,9 +83,31 @@ def admin_portal():
                                     "danger")
                                 return redirect(request.url)
                             else:
-                                image_path = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'],
-                                                          filename)
-                                image.save(image_path)
+                                if new_project_name != "":
+                                    # creating a new project
+
+                                    try:
+                                        new_project_name = request.form['new_project']
+                                        owners_email = request.form['owners_email']
+                                        town = request.form['town']
+                                        date = request.form['project_date']
+
+                                        project_path = upload_folder + '/' + new_project_name
+                                        os.makedirs(project_path)
+                                        print(new_project_name)
+                                        print(project_path)
+                                        print(owners_email)
+                                        print(town)
+                                        print(date)
+
+                                        add_project(new_project_name, project_path, owners_email, town, date)
+                                        image_path = os.path.join(project_path, filename)
+                                        image.save(image_path)
+                                    except Exception as e:
+                                        print(e)
+                                        print(traceback.format_exception(None, e, e.__traceback__))
+                                        flash("Unable to add project", 'warning')
+
                     flash("Your images were successfully uploaded!", 'success')
                     return redirect(request.url)
                 else:
@@ -95,9 +123,7 @@ def admin_portal():
                            image_form=image_form, pending_testimonials=pending)
 
 
-@DecoratorWraps.is_logged_in
-def add_project():
-    pass
+
 
 
 @DecoratorWraps.is_logged_in

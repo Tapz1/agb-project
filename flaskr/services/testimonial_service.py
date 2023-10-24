@@ -66,7 +66,7 @@ def get_all_pending():
 
     pending_testimonials = list(cur.execute("SELECT * FROM testimonials WHERE is_approved = FALSE").fetchall())
     cur.close()
-    conn.close()
+    #conn.close()
 
     return pending_testimonials
 

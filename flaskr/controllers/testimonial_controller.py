@@ -1,5 +1,5 @@
 
-from flask import render_template, redirect, flash, url_for, request, session, current_app
+from flask import render_template, redirect, flash, url_for, request, session
 from flaskr.services.testimonial_service import get_all_approved, paginate_approved, add_testimonial
 from flaskr.services.mail_service import MailService
 from flaskr.services.token_service import confirm_token

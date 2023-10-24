@@ -33,10 +33,9 @@
         {% endfor %}
     </form>
 </div>
-
+{% set type = new %}
 {% from "includes/_formhelpers.html" import render_field %}
 <div class="container-md" style="margin-bottom: 20px;">
-    <form method="post" action="" class="" enctype="multipart/form-data"><!-- enctype="multipart/form-data"-->
         <div class="row align-items-end">
             <!--{% from "includes/_formhelpers.html" import render_field %}-->
             <div class="col-4 text-md admin-forms font-med-bold" style="margin-top: 10px;">
@@ -49,24 +48,37 @@
             <div class="col-md-3 form-labels font-med-bold text-center" style="font-size: 20px; padding-top: 0.5%;">
                 <label>{{image_form.project.label}}</label>
             </div>
-             <div id="projectType" class="col-md-3 form-labels text-center">
-                <label>{{image_form.project_type(style="width:100%; height: 100%;")}}</label>
-                 <ul class="nav nav-pills nav-fill tabs">
-                    <a class="nav-link active" aria-current="page" href="#" data-tab-value="#tab_1">New</a>
-                    <a class="nav-link" href="#" data-tab-value="#tab_2">Existing</a>
-                </ul>
-            </div>
+            <form method="post">
+                 <div id="projectType" class="col-md-3 form-labels text-center">
+                    <!--<label>{{image_form.project_type(style="width:100%; height: 100%;", type="Submit")}}</label>-->
+                     <ul class="nav nav-pills nav-fill tabs">
+                        <a class="nav-link active" aria-current="page" href="#" data-tab-value="#tab_1" name="new_upload">New</a>
+                        <a class="nav-link" href="#" data-tab-value="#tab_2" name="existing_upload">Existing</a>
+                    </ul>
+                </div>
+            </form>
         </div>
+    <form method="post" action="" class="" enctype="multipart/form-data"><!-- enctype="multipart/form-data"-->
         <div class="row justify-content-center text-md" style="font-weight: 500;">
-            {% if image_form.project_type == 'new' %}
-            <div class="col-md-3 form-labels active" id="tab_1" data-tab-info>
-                {{ image_form.new_project(style="width:100%; height: 100%;", placeholder="New Project Name") }}
-            </div>
-            {% else %}
+
             <div class="col-md-3 form-labels" id="tab_2" data-tab-info>
                 {{ image_form.project(style="width:100%; height: 100%;") }}
             </div>
-            {% endif %}
+            <div class="col-md-3 form-labels active" id="tab_1" data-tab-info style="">
+                <div class="col-md form-labels">
+                    {{ image_form.new_project(style="width:100%; height: 100%;", placeholder="New Project Name") }}
+                </div>
+                <div class="col-md form-labels">
+                    {{ image_form.town(style="width:100%; height: 100%;", placeholder="Town") }}
+                </div>
+                <div class="col-md form-labels">
+                    {{ image_form.owners_email(style="width:100%; height: 100%;", placeholder="Owner's Email") }}
+                </div>
+                <div class="col-md form-labels">
+                    {{ image_form.project_date(style="width:100%; height: 100%;", placeholder="Project Date") }}
+                </div>
+            </div>
+
              <div class="col-md-3 form-labels">
                 {{ render_field(image_form.image, class="form-control", style="margin-top: -5%;", multiple="multiple") }}
             </div>
@@ -83,17 +95,25 @@
     </form>
 </div>
 <script>
-    window.onload = religionSelected()
+    const tabs = document.querySelectorAll('[data-tab-value]')
+    const tabInfos = document.querySelectorAll('[data-tab-info]')
 
-    function project_type_selected(){
-        "use strict";
-        var project_type = document.getElementById('relAffil').selectedOptions;
-        if(religion.length != 0 ){
-             document.getElementById("relImp").style.display = 'block';
-        }else{
-            document.getElementById("relImp").style.display = 'none';
-        }
-    };
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelector('.active')?.classList.remove('active');
+            tab.classList.add('active');
+            const target = document
+                .querySelector(tab.dataset.tabValue);
+            tabInfos.forEach(tabInfo => {
+                tabInfo.classList.remove('active')
+            })
+            target.classList.add('active');
+            document.querySelector('.active')?.classList.remove('active');
+            tab.classList.add('active');
+        })
+    })
+
+
 
  </script>
 

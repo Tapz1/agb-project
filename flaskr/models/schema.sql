@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS projects (
     project_id INTEGER PRIMARY KEY AUTOINCREMENT,
     project_name TEXT NOT NULL,
     project_path TEXT NOT NULL,
-    owners_email TEXT NOT NULL,
+    owners_email TEXT,
     town TEXT NOT NULL,
     date TEXT NOT NULL,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
