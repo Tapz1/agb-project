@@ -22,6 +22,26 @@ def view_images():
         projects = get_projects()
         print('test')
 
+        all_projects = os.listdir(upload_folder)
+        num_of_projects = len(all_projects)
+
+        project_names = []
+        photo_thumbnails = []
+
+        for project in projects:
+            project_photos = os.listdir(os.path.join(upload_folder, project[1]))
+            project_names.append(project[1])
+            first_photo_path = url_for('static', filename='Placeholder_view_vector.svg.png')
+            if len(project_photos) > 0:
+                print("project_photos[0]: " + project_photos[0])
+                first_photo_path = os.path.join('uploads', project[1], project_photos[0])
+
+            print("first_photo_path: " + first_photo_path)
+            photo_thumbnails.append(first_photo_path)
+
+        #project_photo_thumbnails = zip(project_names, photo_thumbnails)
+
+
         for project in projects:
             project_photos = os.listdir(os.path.join(upload_folder, project[1]))          # 2 = project path
             photo_names = [photo for photo in project_photos]
@@ -39,7 +59,8 @@ def view_images():
 
         # latest_photo = "uploads/" + max(glob.glob(upload_folder))
         # print(enumerated_photos)
-        return render_template("view_images.html", all_photos=zip(flat_list, flat_list_names), upload_folder=upload_folder)
+        return render_template("view_images.html", all_photos=zip(flat_list, flat_list_names),
+                               upload_folder=upload_folder, all_projects=all_projects, projects=projects, project_photo_thumbnails=zip(project_names, photo_thumbnails))
 
     except Exception as e:
         print("Error with getting images:")
@@ -50,9 +71,25 @@ def view_images():
 
 
 @DecoratorWraps.is_logged_in
-def delete_image(filename):
+def view_project(project_name):
+    try:
+        project_folder = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], project_name)
+        photos = os.listdir(project_folder)
+        photo_names = [photo for photo in photos]
+        photos = [f'uploads/{project_name}/' + photo for photo in photos]
+        print(f'uploads/{project_name}')
+        return render_template("view_project.html", project_name=project_name, all_photos=zip(photos, photo_names))
+
+    except Exception as e:
+        print("Error with getting images:")
+        print(e)
+        print(traceback.format_exception(None, e, e.__traceback__))
+
+
+@DecoratorWraps.is_logged_in
+def delete_image(project_name, filename):
     upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
-    file_path = os.path.join(upload_folder, filename)
+    file_path = os.path.join(upload_folder, project_name, filename)
     print(file_path)
     try:
         os.remove(file_path)

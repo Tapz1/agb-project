@@ -7,13 +7,25 @@
         <header>
             <div class="row justify-content-start">
                 <div class="col-md-auto title_container">
-                    <h1 class="display-5 screen_titles"><strong>Uploaded Images</strong></h1>
+                    <h1 class="display-5 screen_titles"><strong>Projects</strong></h1>
                 </div>
             </div>
         </header>
         <hr>
     </div>
 
+    <div class="image-container container-md">
+        <div class="row">
+            {% for project, thumbnail in project_photo_thumbnails %}
+            <div class="col-md-3">
+                <a href="{{ url_for('blueprint.view_project', project_name=project) }}">
+                    <h3 class="text-center font-med-bold">{{ project }}</h3>
+                    <img src="{{ thumbnail }}" alt="">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 
         <!-- images from static/uploads -->
     <div class="image-container" style="clear:both;">
@@ -24,9 +36,9 @@
                 <td>
                     <div>
                         <img class="d-block w-100" src="{{ url_for('static', filename=photo[0]) }}" alt="{{ i }}">
-                        <p>photo[0]: {{photo[0]}}</p>
+                        <!--<p>photo[0]: {{photo[0]}}</p>
                         <p>photo[1]: {{photo[1]}}</p>
-                        <p>upload_folder: {{url_for('static', filename=photo[0])}}</p>
+                        <p>upload_folder: {{url_for('static', filename=photo[0])}}</p>-->
                     </div>
                 </td>
                 <td class="btn btn-default">

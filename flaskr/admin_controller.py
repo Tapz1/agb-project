@@ -20,7 +20,7 @@ def admin_portal():
 
     email = session.get("email")
     if email == current_app.app_context().app.config['CLIENT_EMAIL']:
-        name = "Brandon"
+        name = "Allan"
     else:
         name = "Chris"
 
@@ -100,14 +100,14 @@ def admin_portal():
                         image_filename = []
                         # creating a new project
                         try:
-                            pathlib.Path(upload_folder, new_project_name).mkdir(exist_ok=False)
+                            pathlib.Path(current_app.app_context().app.config['UPLOAD_FOLDER'], new_project_name).mkdir(exist_ok=False)
                         except Exception as e:
                             print(e)
                             flash("There's already an existing project with that name", 'danger')
                             return redirect(request.url)
 
                         try:
-                            project_path = os.path.join(upload_folder, new_project_name)
+                            project_path = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], new_project_name)
                             for image in uploaded_images:
                                 image_filename = secure_filename(image.filename)
                                 image.save(os.path.join(project_path, image_filename))
