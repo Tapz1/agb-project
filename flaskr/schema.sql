@@ -1,3 +1,4 @@
+
 CREATE TABLE IF NOT EXISTS testimonials (
     testimonial_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,

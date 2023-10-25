@@ -18,8 +18,8 @@ def create_app(test_config=None):
         UPLOAD_FOLDER=UPLOAD_FOLDER,
         ALLOWED_EXTENSIONS=ALLOWED_EXTENSIONS,
         # DATABASE=os.path.join(flaskr.instance_path, 'flaskr.sqlite'),
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
-        # DATABASE=os.path.join(app.instance_path, DB_NAME),
+        # DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+        DATABASE=os.path.join(app.instance_path, DB_NAME),
         MAIL_SERVER='smtp.gmail.com',
         MAIL_PORT=587,
         MAIL_USE_TLS=True,
@@ -69,7 +69,7 @@ def create_app(test_config=None):
 app = create_app()
 
 # Press the green button in the gutter to run the script.
-#if __name__ == '__main__':
-#    app.run(debug=True, port=5002)
+if __name__ == '__main__':
+    app.run(debug=True, port=5002)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

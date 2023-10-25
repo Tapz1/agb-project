@@ -1,5 +1,5 @@
 from flask import render_template, session
-from flaskr.services.testimonial_service import get_limited_approved
+from flaskr.testimonial_service import get_limited_approved
 
 
 def home():

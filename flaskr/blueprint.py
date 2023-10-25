@@ -1,11 +1,11 @@
 from flask import Blueprint
-from flaskr.controllers.home_controller import home
-from flaskr.controllers.gallery_controller import gallery
-from flaskr.controllers.contact_controller import contact
-from flaskr.controllers.testimonial_controller import testimonials, testimonial_form
-from flaskr.controllers.login_controller import login, logout
-from flaskr.controllers.admin_controller import admin_portal, approve_testimonial, delete_testimonial, delete_testimonial_request
-from flaskr.controllers.image_controller import view_images, delete_image
+from flaskr.home_controller import home
+from flaskr.gallery_controller import gallery
+from flaskr.contact_controller import contact
+from flaskr.testimonial_controller import testimonials, testimonial_form
+from flaskr.login_controller import login, logout
+from flaskr.admin_controller import admin_portal, approve_testimonial, delete_testimonial, delete_testimonial_request
+from flaskr.image_controller import view_images, delete_image
 
 
 

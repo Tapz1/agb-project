@@ -1,13 +1,17 @@
 from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, request, redirect, url_for, flash, current_app
 # from config.config import CLIENT_EMAIL
-from flaskr.services.testimonial_service import get_all_pending, delete_entry, update_approval
-from flaskr.services.mail_service import MailService
-from flaskr.models.submissionForms import RequestTestimonial, UploadForm
-from flaskr.controllers.upload_controller import allowed_file
-from flaskr.services.upload_service import get_projects, add_project
+from flaskr.testimonial_service import get_all_pending, delete_entry, update_approval
+from flaskr.mail_service import MailService
+from flaskr.submissionForms import RequestTestimonial, UploadForm
+from flaskr.upload_controller import allowed_file
+from flaskr.upload_service import get_projects, add_project
 import os
 import traceback
+import pathlib
+from PIL import Image
+from werkzeug.utils import secure_filename
+
 
 @DecoratorWraps.is_logged_in
 def admin_portal():
@@ -38,14 +42,15 @@ def admin_portal():
     town = image_form.town.data
     date = image_form.project_date.data
 
+
     #if not new_project_name == "":
 
 
 
     ms = MailService()
 
-    #upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
-    upload_folder = url_for('static', filename='uploads')
+    upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
+    # upload_folder = url_for('static', filename='uploads')
     existing_photos = os.listdir(upload_folder)
 
     pending = None
@@ -72,9 +77,18 @@ def admin_portal():
                     return redirect(request.url)
 
                 # multiple photo upload
-                images = request.files.getlist(image_form.image.name)
-                if images:
-                    for image in images:
+                uploaded_images = request.files.getlist(image_form.image.name)
+                new_project_name = request.form['new_project']
+                owners_email = request.form['owners_email']
+                town = request.form['town']
+                date = request.form['project_date']
+
+                print(new_project_name)
+                print(owners_email)
+                print(town)
+                print(date)
+                if uploaded_images:
+                    for image in uploaded_images:
                         if allowed_file(image.filename):
                             filename = image.filename
                             if filename in existing_photos:
@@ -82,34 +96,30 @@ def admin_portal():
                                     "Did you already upload this photo? A file already exists in here with that name.",
                                     "danger")
                                 return redirect(request.url)
-                            else:
-                                if new_project_name != "":
-                                    # creating a new project
+                    if new_project_name != "":
+                        image_filename = []
+                        # creating a new project
+                        try:
+                            pathlib.Path(upload_folder, new_project_name).mkdir(exist_ok=False)
+                        except Exception as e:
+                            print(e)
+                            flash("There's already an existing project with that name", 'danger')
+                            return redirect(request.url)
 
-                                    try:
-                                        new_project_name = request.form['new_project']
-                                        owners_email = request.form['owners_email']
-                                        town = request.form['town']
-                                        date = request.form['project_date']
+                        try:
+                            project_path = os.path.join(upload_folder, new_project_name)
+                            for image in uploaded_images:
+                                image_filename = secure_filename(image.filename)
+                                image.save(os.path.join(project_path, image_filename))
 
-                                        project_path = upload_folder + '/' + new_project_name
-                                        os.makedirs(project_path)
-                                        print(new_project_name)
-                                        print(project_path)
-                                        print(owners_email)
-                                        print(town)
-                                        print(date)
+                            add_project(new_project_name, project_path, owners_email, town, date)
 
-                                        add_project(new_project_name, project_path, owners_email, town, date)
-                                        image_path = os.path.join(project_path, filename)
-                                        image.save(image_path)
-                                    except Exception as e:
-                                        print(e)
-                                        print(traceback.format_exception(None, e, e.__traceback__))
-                                        flash("Unable to add project", 'warning')
-
-                    flash("Your images were successfully uploaded!", 'success')
-                    return redirect(request.url)
+                            flash("Your images were successfully uploaded your new project!", 'success')
+                            return redirect(request.url)
+                        except Exception as e:
+                            print(e)
+                            print(traceback.format_exception(None, e, e.__traceback__))
+                            flash("Unable to add project", 'warning')
                 else:
                     flash('No image selected')
                     return redirect(request.url)

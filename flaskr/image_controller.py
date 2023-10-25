@@ -1,7 +1,7 @@
 import traceback
 from flaskr.decorator_wraps import DecoratorWraps
-from flask import render_template, session, request, redirect, url_for, flash, current_app
-from flaskr.services.upload_service import get_projects
+from flask import render_template, session, redirect, url_for, flash, current_app
+from flaskr.upload_service import get_projects
 import os
 
 

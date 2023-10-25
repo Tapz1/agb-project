@@ -1,9 +1,9 @@
 
 from flask import render_template, redirect, flash, url_for, request, session
-from flaskr.services.testimonial_service import get_all_approved, paginate_approved, add_testimonial
-from flaskr.services.mail_service import MailService
-from flaskr.services.token_service import confirm_token
-from flaskr.models.submissionForms import TestimonialForm
+from flaskr.testimonial_service import get_all_approved, paginate_approved, add_testimonial
+from flaskr.mail_service import MailService
+from flaskr.token_service import confirm_token
+from flaskr.submissionForms import TestimonialForm
 from flask_paginate import get_page_parameter, Pagination
 
 
