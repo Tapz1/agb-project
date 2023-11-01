@@ -7,8 +7,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_NAME = "database.db"
 
 # Upload Info ###
-#UPLOAD_FOLDER = './static/uploads'
-UPLOAD_FOLDER = 'flaskr/static/uploads'
+#UPLOAD_FOLDER = './static/uploads'         # path for production
+UPLOAD_FOLDER = 'flaskr/static/uploads'     # path for dev
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 # secret keys
