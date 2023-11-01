@@ -41,18 +41,6 @@ def get_project_names():
     return projects
 
 
-def get_project_id(project_name):
-    conn = get_db_connection()
-
-    cur = conn.cursor()
-
-    project_id = cur.execute("SELECT project_id FROM projects WHERE project_name = ?", [project_name]).fetchall()
-    print(f"acquired project_id = {project_id}")
-
-    cur.close()
-    return project_id
-
-
 def delete_project_row(project_id):
     conn = get_db_connection()
 

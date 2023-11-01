@@ -1,7 +1,13 @@
 import traceback
+
+from werkzeug.utils import secure_filename
+
 from flaskr.decorator_wraps import DecoratorWraps
-from flask import render_template, session, redirect, url_for, flash, current_app
-from flaskr.upload_service import get_projects, delete_project_row, get_project_id
+from flask import render_template, session, redirect, url_for, flash, current_app, request
+
+from flaskr.upload_controller import allowed_file
+from flaskr.upload_service import get_projects, delete_project_row
+from flaskr.submissionForms import UploadForm
 import os
 
 
@@ -9,15 +15,8 @@ import os
 def view_all_projects():
     session.modified = True
 
-    paths = []
-
-    photo_list = []
-    photo_list_names = []
     try:
         upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
-        #photos = os.listdir(upload_folder)
-        #photo_names = [photo for photo in photos]
-        #photos = ['uploads/' + photo for photo in photos]
 
         projects = get_projects()
         print('test')
@@ -36,7 +35,6 @@ def view_all_projects():
             print("first_photo_path: " + first_photo_path)
             photo_thumbnails.append(first_photo_path)
 
-
         """this may be good for the gallery page to pull all photos"""
         """
         for project in projects:
@@ -50,14 +48,12 @@ def view_all_projects():
             photos = [project_name + photo for photo in project_photos]
 
             photo_list.append(photos)
+            
+            #flat_list = [item for sublist in photo_list for item in sublist]
+            #flat_list_names = [item for sublist in photo_list_names for item in sublist]
+            # all_photos=zip(flat_list, flat_list_names)
         """
 
-        #flat_list = [item for sublist in photo_list for item in sublist]
-        #flat_list_names = [item for sublist in photo_list_names for item in sublist]
-        # all_photos=zip(flat_list, flat_list_names)
-
-        # latest_photo = "uploads/" + max(glob.glob(upload_folder))
-        # print(enumerated_photos)
         return render_template("view_all_projects.html",
                                upload_folder=upload_folder, all_projects=all_projects, projects=projects,
                                project_data=zip(projects, photo_thumbnails))
@@ -72,13 +68,58 @@ def view_all_projects():
 
 @DecoratorWraps.is_logged_in
 def view_project(project_name):
+    session.modified = True
+    image_form = UploadForm()
+
     try:
         project_folder = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], project_name)
-        photos = os.listdir(project_folder)
-        photo_names = [photo for photo in photos]
-        photos = [f'uploads/{project_name}/' + photo for photo in photos]
+        existing_photos = os.listdir(project_folder)
+        photo_names = [photo for photo in existing_photos]
+        photos = [f'uploads/{project_name}/' + photo for photo in existing_photos]
         print(f'uploads/{project_name}')
-        return render_template("view_project.html", project_name=project_name, all_photos=zip(photos, photo_names))
+
+        if request.method == 'POST':
+            if "upload-image" in request.form:
+                try:
+                    if 'image' not in request.files:
+                        flash('No file')
+                        return redirect(request.url)
+
+                    # multiple photo upload
+                    uploaded_images = request.files.getlist(image_form.image.name)
+
+                    if uploaded_images:
+                        for image in uploaded_images:
+                            if allowed_file(image.filename):
+                                filename = image.filename
+                                if filename in existing_photos:
+                                    flash(
+                                        "Did you already upload this photo? A file already exists in here with that name.",
+                                        "danger")
+                                    return redirect(request.url)
+                        try:
+                            for image in uploaded_images:
+                                image_filename = secure_filename(image.filename)
+                                image.save(os.path.join(project_folder, image_filename))
+
+                            flash("Your images were successfully uploaded your new project!", 'success')
+                            return redirect(request.url)
+                        except Exception as e:
+                            print(e)
+                            print(traceback.format_exception(None, e, e.__traceback__))
+                            flash("Unable to upload images", 'warning')
+                            return redirect(request.url)
+                    else:
+                        flash('No image selected')
+                        return redirect(request.url)
+
+                except Exception as e:
+                    print(e)
+                    flash("Your image could not be uploaded", 'danger')
+                    return redirect(request.url)
+
+        return render_template("view_project.html", project_name=project_name, all_photos=zip(photos, photo_names),
+                               image_form=image_form)
 
     except Exception as e:
         print("Error with getting images:")
