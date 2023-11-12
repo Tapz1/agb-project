@@ -22,8 +22,8 @@ class RequestTestimonial(Form):
 
 class UploadForm(Form):
     #image = FileField('Image', [validators.DataRequired()])
-    project = SelectField(u'Project', choices=[])
-    image = MultipleFileField('', [validators.DataRequired()])
+    project = SelectField(u'Project Info', choices=[])
+    image = MultipleFileField('Upload Images', [validators.DataRequired()])
     project_type = SelectField('', coerce=str, choices=[("new", "New"), ("existing", "Existing")], id='p_type')
     new_project = StringField('Project Name')
     owners_email = EmailField("", [validators.Email(message='Must be a valid email address')])
@@ -31,3 +31,7 @@ class UploadForm(Form):
     project_date = DateField("", default=date.today)
     # description = TextAreaField(u'Image Description')
 
+
+class GalleryDropdowns(Form):
+    sort_by = SelectField('Sort By', choices=[("latest", "Latest"), ("oldest", "Oldest")], id='filter')
+    filter_by = SelectField('Filter By Town', id='filter')

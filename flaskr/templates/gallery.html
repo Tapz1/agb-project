@@ -2,68 +2,131 @@
     {% set active_page = "gallery" %}
 
     {% block head %}
-    <style>
+    <!--<style>
         #previewCarousel{
         position: absolute;
         z-index: -1;
       }
-    </style>
+    </style>-->
     {% endblock %}
 
     {% block body %}
 <div id="main-content" class="main-content" style="">
-    <!--home banner-->
-    <div class="container">
-        {% include 'includes/_messages.html' %}
-        <div class="container-md">
-            <div class="row justify-content-center text-center" style="padding-top: 10%;">
-                <div class="col-md" style="">
-                    <h1 style="font-weight: 600;">Allan Gilbert Builders</h1>
+    <!--gallery title banner-->
+
+    {% include 'includes/_messages.html' %}
+    <header class="container-md" style="position:relative; max-width: 100%;">
+        <div class="row">
+            <p class="text-lg"><a id="" href="{{ curr_url }}">Project URL: {{project_name}}</a></p>
+        </div>
+        <div class="row justify-content-center" style="">
+                <!--preview carousel-->
+            <div id="previewCarousel" class="carousel slide" data-bs-ride="carousel">
+                <!--indicators-->
+                <div class="carousel-indicators">
+                    {% for n in enumerated_photos %}
+                    <button type="button" data-bs-target="#previewCarousel" data-bs-slide-to="{{ n }}" aria-label="Slide {{ n }}"
+                            {% if n == 0 %} class="active" aria-current="true" {% else %} {% endif %}></button>
+                    {% endfor %}
+                </div>
+
+                <!--the slideshow-->
+                <div class="carousel-inner" style="object-fit: cover;">
+                    {% for photo in images %}
+                    <div {% if photo == first_photo %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}
+                            style="">
+                        <img class="img-fluid" src="{{ photo.image_path }}" alt="{{ photo.filename }}" style="">
+                        <div class="carousel-caption d-none d-md-block">
+                            <div class="container-md">
+                                <div class="row justify-content-center">
+                                    <div class="col-md">
+                                        <h1 style="font-weight: 600; padding-bottom: 25%;">Project Gallery</h1>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-end">
+                                    <div class="col-md-2" style="background-color: #f0f0f0; opacity: 0.6;">
+                                        <h5 class="text-black"></h5>
+                                        <p class="text-lg font-med-bold"><a href="{{ url_for('blueprint.view_project', project_id=photo.project_id) }}">{{photo.project_name}}</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!-- Left and right controls -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#previewCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#previewCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
             </div>
-            <div class="row justify-content-center text-center" style="margin-top: 1%;">
-                <div class="col-md">
-                    <h3>{ About Business }</h3>
-                </div>
+        </div>
+    </header>
+
+    <div class="container-md" style="max-width: 100%; padding: 20px">
+
+            <div class="row justify-content-between">
+            <div class="col-md-4">
+                {{ form.sort_by.label }}
             </div>
-            <div class="row justify-content-center text-center home-banner-button" style="padding-top: 30%; padding-bottom: 10%;">
-                <div class="col-md">
-                    <button class="buttons btn btn-primary"
-                        data-callback='onSubmit'
-                        data-action='submit'>Visit the Gallery</button>
-                </div>
+            <div class="col-md-4">
+                {{ form.filter_by.label }}
             </div>
+        </div>
+        <form name="dropdown_form" method="POST"><!-- action="{{ url_for('blueprint.gallery') }}"-->
+            <div class="row justify-content-between">
+                <div class="col-md-4">
+                    {{ form.sort_by }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.filter_by(onchange="this.form.submit();") }} <!--onchange="this.form.submit();"-->
+                </div>
+
+        </div>
+
+        </form>
+    </div>
+
+    <!--projects-->
+    <div class="image-container container-md" style="max-width:100%;">
+        <div class="row justify-content-evenly">
+            {% for project, thumbnail in project_data %}
+            <div class="col-md-4">
+                <div class="row justify-content-center text-center">
+                    <a href="{{ url_for('blueprint.view_project', project_id=project[0]) }}" style="text-decoration: none;" class="text-dark">
+                        <h3 class="text-center font-med-bold">{{ project[1] }}</h3>
+                        <p>{{ project[4] }}, NH</p>
+                        <img class="img-thumbnail" style="" src="{{ thumbnail }}" alt="{{ thumbnail }}">
+                    </a>
+                </div>
+                <div class="row justify-content-center text-center">
+                    <div class="col-sm" style="padding-left: 5%; padding-right: 5%;">
+                        <button class="buttons btn btn-outline-primary"
+                            data-callback='onSubmit'
+                            data-action='submit'>View Project</button>
+                    </div>
+                </div>
+
+                {% if session.logged_in %}
+                <button class="btn btn-default" style="">
+                  <form action="{{ url_for('blueprint.delete_project', project_id=project[0]) }}" method="post">
+                      <input type="submit" value="Delete" name="delete-button" onclick="return confirm('Are you sure you want to delete this project?');" class="btn btn-danger">
+                  </form>
+                </button>
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+            {{ pagination.links }}
         </div>
     </div>
 
-    <!--preview carousel-->
-    <div id="previewCarousel" class="carousel slide" data-bs-ride="carousel">
-        <!--indicators-->
-        <div class="carousel-indicators">
-            {% for n in enumerated_photos %}
-            <button type="button" data-bs-target="#previewCarousel" data-bs-slide-to="{{ n }}"
-                    aria-label="Slide {{ n }}" {% if n == 0 %} class="active" {% else %} {% endif %}></button>
-            {% endfor %}
-        </div>
+</div>
 
-        <!--the slideshow-->
-        <div class="carousel-inner">
-            {% for photo in photos %}
-            <div {% if photo == first_photo %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}>
-                <img class="d-block " src="{{ url_for('static', filename=photo) }}" alt="{{ photo }}" style="">
-            </div>
-            {% endfor %}
-        </div>
-
-        <!--left & right controls-->
-        <button class="carousel-control-prev" type="button" data-bs-target="#previewCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#previewCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
 
      {% endblock %}

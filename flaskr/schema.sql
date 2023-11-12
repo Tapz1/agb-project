@@ -19,3 +19,12 @@ CREATE TABLE IF NOT EXISTS projects (
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS images (
+    image_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date_uploaded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    image_path TEXT NOT NULL,
+    filename TEXT NOT NULL,
+    project_name TEXT NOT NULL,
+    project_id INTEGER NOT NULL,
+    FOREIGN KEY(project_id) REFERENCES projects(project_id)
+)
