@@ -19,7 +19,8 @@ def add_project(project_name, project_path, owners_email, town, date):
     #conn.close()
 
 
-def get_all_projects():
+def get_all_projects(limit, offset):
+    """paginated"""
     db = get_db_connection()
 
     cur = db.cursor()
@@ -27,23 +28,32 @@ def get_all_projects():
     projects = list(cur.execute(
         "SELECT * FROM projects ORDER BY created desc").fetchall())
 
+    paginated_projects = list(cur.execute(
+        "SELECT * FROM projects ORDER BY created desc LIMIT ? OFFSET ?",
+        (limit, offset)
+    ).fetchall())
+
     cur.close()
-    return projects
+    return projects, paginated_projects
 
 
-def get_paginated_projects_db(limit, offset):
+def get_projects_by_town(town, limit, offset):
     """paginated"""
     db = get_db_connection()
 
     cur = db.cursor()
 
     projects = list(cur.execute(
-        "SELECT * FROM projects ORDER BY created desc LIMIT ? OFFSET ?",
-        (limit, offset)
+        "SELECT * FROM projects WHERE town = ? ORDER BY created desc", [town]
+    ).fetchall())
+
+    paginated_projects = list(cur.execute(
+        "SELECT * FROM projects WHERE town = ? ORDER BY created desc LIMIT ? OFFSET ?",
+        (town, limit, offset)
     ).fetchall())
 
     cur.close()
-    return projects
+    return projects, paginated_projects
 
 
 def get_project_names():
@@ -90,21 +100,6 @@ def get_project_towns():
 
     cur.close()
     return towns
-
-
-def get_projects_by_town(town, limit, offset):
-    """paginated"""
-    db = get_db_connection()
-
-    cur = db.cursor()
-
-    projects = list(cur.execute(
-        "SELECT * FROM projects WHERE town = ? ORDER BY created desc LIMIT ? OFFSET ?",
-        (town, limit, offset)
-    ).fetchall())
-
-    cur.close()
-    return projects
 
 
 def delete_project_row(project_id):

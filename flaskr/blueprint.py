@@ -9,12 +9,13 @@ from flaskr.project_controller import view_all_projects, view_project, delete_pr
 from flaskr.image_controller import delete_image
 
 
-blueprint = Blueprint('blueprint', __name__)
+blueprint = Blueprint('blueprint', __name__, template_folder='templates')
 
 blueprint.route('/', methods=['GET'])(home)
 blueprint.route('/contact', methods=['GET'])(contact)
 blueprint.route('/testimonials', methods=['GET'])(testimonials)
-blueprint.route('/gallery', methods=['GET', 'POST'])(gallery)
+blueprint.route('/gallery', defaults={'town': 'All'}, methods=['GET', 'POST'])(gallery)
+blueprint.route('/gallery/town', methods=['GET', 'POST'])(gallery)
 blueprint.route('/login', methods=['GET', 'POST'])(login)
 blueprint.route('/logout', methods=['GET', 'POST'])(logout)
 blueprint.route('/admin', methods=['GET', 'POST'])(admin_portal)

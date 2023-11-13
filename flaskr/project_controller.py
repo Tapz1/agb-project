@@ -5,13 +5,14 @@ from werkzeug.utils import secure_filename
 from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, redirect, url_for, flash, current_app, request
 from flaskr.upload_controller import upload_multiple_images
-from flaskr.project_service import delete_project_row, get_project_name, get_all_projects, get_paginated_projects_db, get_projects_by_town
+from flaskr.project_service import delete_project_row, get_project_name, get_all_projects, get_projects_by_town
 from flaskr.image_service import get_images_from_project
 from flaskr.submissionForms import UploadForm
 from flask_paginate import get_page_parameter, Pagination
 import os
 import shutil
 from PIL import Image   # needs to get commented out during production
+import traceback as tb
 
 
 @DecoratorWraps.is_logged_in
@@ -21,7 +22,7 @@ def view_all_projects():
     try:
         upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
 
-        projects, pagination = get_paginated_projects_db()
+        projects, pagination = get_paginated_projects()
         print('test')
 
         photo_thumbnails = []
@@ -97,11 +98,7 @@ def delete_project(project_id):
 
 def get_paginated_projects(town=None):
     all_projects = []
-    try:
-        all_projects = get_all_projects()
-    except Exception as e:
-        print("Error with getting testimonials")
-        print(e)
+    paginated_projects = []
 
     search = False
     q = request.args.get('q')
@@ -114,14 +111,23 @@ def get_paginated_projects(town=None):
     offset = page * limit - limit
 
     if town is None:
-        projects = get_paginated_projects_db(limit=limit, offset=offset)
+        try:
+            all_projects, paginated_projects = get_all_projects(limit=limit, offset=offset)
+        except Exception as e:
+            print("Error with getting projects")
+            print(e)
 
         pagination = Pagination(page=page, total=len(all_projects), search=search, record_name='projects',
                                 per_page=limit, css_framework='bootstrap', alignment='center', bs_version='5')
     else:
-        projects = get_projects_by_town(town=town, limit=limit, offset=offset)
-
+        try:
+            all_projects, paginated_projects = get_projects_by_town(town=town, limit=limit, offset=offset)
+        except Exception as e:
+            print("Error with getting projects by town")
+            print(e)
+            print(tb.format_exception(None, e, e.__traceback__))
+        print("projects by town length: "+ str(len(all_projects)))
         pagination = Pagination(page=page, total=len(all_projects), search=search, record_name='projects',
                                 per_page=limit, css_framework='bootstrap', alignment='center', bs_version='5')
 
-    return projects, pagination
+    return paginated_projects, pagination

@@ -18,6 +18,18 @@ def get_all_images():
     return images
 
 
+def get_limited_images():
+    db = get_db_connection()
+
+    cur = db.cursor()
+
+    images = list(cur.execute("SELECT * FROM images ORDER BY date_uploaded DESC LIMIT 5").fetchall())
+
+    cur.close()
+
+    return images
+
+
 def get_images_from_project(project_id):
     db = get_db_connection()
 
