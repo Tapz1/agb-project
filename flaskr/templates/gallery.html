@@ -15,7 +15,7 @@
     <!--gallery title banner-->
 
     {% include 'includes/_messages.html' %}
-    <header class="container-md" style="position:relative; max-width: 100%; width:100%;">
+    <header class="container-md" style="position:relative; max-width: 100%;">
         <div class="row">
             <p class="text-lg"><a id="" href="{{ curr_url }}">Project URL: {{project_name}}</a></p>
         </div>
@@ -69,24 +69,24 @@
 
     <!--dropdowns-->
     <div class="container-md" style="max-width: 100%; padding: 20px">
-
-            <div class="row justify-content-between">
-            <div class="col-md-4">
-                {{ form.sort_by.label }}
-            </div>
-            <div class="col-md-4">
-                {{ form.filter_by.label }}
-            </div>
-        </div>
-        <form name="dropdown_form" method="POST"><!-- action="{{ url_for('blueprint.gallery') }}"-->
+        <form name="dropdown_form" method="POST" action="{{ url_for('blueprint.gallery', page='1') }}">
             <div class="row justify-content-between">
                 <div class="col-md-4">
-                    {{ form.sort_by }}
+                    {{ form.sort_by.label }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.filter_by.label }}
+                </div>
+            </div>
+
+            <div class="row justify-content-between">
+                <div class="col-md-4">
+                    {{ form.sort_by(onchange="this.form.submit();") }}
                 </div>
                 <div class="col-md-4">
                     {{ form.filter_by(onchange="this.form.submit();") }} <!--onchange="this.form.submit();"-->
                 </div>
-        </div>
+            </div>
         </form>
     </div>
 
@@ -125,6 +125,7 @@
             {{ pagination.links }}
         </div>
     </div>
+
 
 </div>
 

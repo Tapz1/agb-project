@@ -1,6 +1,10 @@
 
 from flask import render_template, redirect, flash, url_for, request, session
-from flaskr.testimonial_service import get_all_approved, paginate_approved, add_testimonial
+
+from flaskr.project_controller import get_paginated_projects
+from flaskr.project_service import project_exists, get_project_id_by_email
+from flaskr.testimonial_service import get_all_approved, paginate_approved, add_testimonial, add_project_id, \
+    get_testimonial_id_by_email
 from flaskr.mail_service import MailService
 from flaskr.token_service import confirm_token
 from flaskr.submissionForms import TestimonialForm
@@ -70,6 +74,10 @@ def testimonial_form(token):
             add_testimonial(name, email, message, town)
             ms.send_testimonial_email(name, email, message, town)
             ms.testimonial_receipt(name, email, message, town)
+
+            if project_exists(email) > 0:
+                add_project_id(project_id=get_project_id_by_email(email), testimonial_id=get_testimonial_id_by_email(email))
+
             flash("Your testimonial was successfully sent for approval", 'success')
             return redirect(url_for("blueprint.home"))
         else:

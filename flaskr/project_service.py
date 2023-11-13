@@ -19,41 +19,56 @@ def add_project(project_name, project_path, owners_email, town, date):
     #conn.close()
 
 
-def get_all_projects(limit, offset):
+def get_all_projects(limit, offset, sort_by):
     """paginated"""
     db = get_db_connection()
 
     cur = db.cursor()
-
+    print(f"sort_by value in db: {sort_by}")
     projects = list(cur.execute(
-        "SELECT * FROM projects ORDER BY created desc").fetchall())
+        f"SELECT * FROM projects ORDER BY date {sort_by}").fetchall())
 
     paginated_projects = list(cur.execute(
-        "SELECT * FROM projects ORDER BY created desc LIMIT ? OFFSET ?",
-        (limit, offset)
+        f"SELECT * FROM projects ORDER BY date {sort_by} LIMIT {limit} OFFSET {offset}"
     ).fetchall())
 
     cur.close()
     return projects, paginated_projects
 
 
-def get_projects_by_town(town, limit, offset):
+def get_projects_by_town(town, limit, offset, sort_by):
     """paginated"""
     db = get_db_connection()
 
     cur = db.cursor()
 
     projects = list(cur.execute(
-        "SELECT * FROM projects WHERE town = ? ORDER BY created desc", [town]
+        f"SELECT * FROM projects WHERE town = ? ORDER BY date {sort_by}", [town]
     ).fetchall())
 
     paginated_projects = list(cur.execute(
-        "SELECT * FROM projects WHERE town = ? ORDER BY created desc LIMIT ? OFFSET ?",
-        (town, limit, offset)
+        f"SELECT * FROM projects WHERE town = ? ORDER BY date {sort_by} LIMIT {limit} OFFSET {offset}", [town]
     ).fetchall())
 
     cur.close()
     return projects, paginated_projects
+
+
+def get_projects_by_email_db(email):
+    db = get_db_connection()
+
+    cur = db.cursor()
+
+    projects = cur.execute(
+        "SELECT * "
+        "FROM projects "
+        "WHERE email = ?"
+        "INNER JOIN testimonials on testimonials.email = projects.owners_email",
+        [email]
+    ).fetchall()
+
+    cur.close()
+    return projects
 
 
 def get_project_names():
@@ -116,3 +131,25 @@ def delete_project_row(project_id):
     db.close()
 
 
+def get_project_id_by_email(email):
+    db = get_db_connection()
+
+    cur = db.cursor()
+
+    project = list(cur.execute("SELECT * FROM projects WHERE email = ?", [email]).fetchone())
+
+    cur.close()
+
+    return project[0]
+
+
+def project_exists(email):
+    db = get_db_connection()
+
+    cur = db.cursor()
+
+    count = cur.execute("SELECT COUNT(*) FROM projects WHERE email = ?", [email]).fetchone()[0]
+    print(f"count: {count}")
+    cur.close()
+
+    return count

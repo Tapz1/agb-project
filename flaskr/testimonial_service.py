@@ -83,7 +83,7 @@ def update_approval(testimonial_id):
     return
 
 
-def delete_entry( testimonial_id):
+def delete_entry(testimonial_id):
     conn = get_db_connection()
     cur = conn.cursor()
 
@@ -93,3 +93,28 @@ def delete_entry( testimonial_id):
     cur.close()
     conn.close()
     return
+
+
+def add_project_id(project_id, testimonial_id):
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute("UPDATE testimonials SET project_id = ? WHERE testimonial_id = ?", (project_id, testimonial_id))
+    conn.commit()
+
+    cur.close()
+    conn.close()
+    return
+
+
+def get_testimonial_id_by_email(email):
+    conn = get_db_connection()
+
+    cur = conn.cursor()
+    testimonials = list(cur.execute(
+        "SELECT * FROM testimonials WHERE email = ?", [email]).fetchall())
+
+    cur.close()
+    # conn.close() # can't close connection since need to run paginate_approved
+
+    return testimonials

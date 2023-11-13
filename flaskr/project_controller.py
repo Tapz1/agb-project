@@ -6,7 +6,7 @@ from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, redirect, url_for, flash, current_app, request
 from flaskr.upload_controller import upload_multiple_images
 from flaskr.project_service import delete_project_row, get_project_name, get_all_projects, get_projects_by_town
-from flaskr.image_service import get_images_from_project
+from flaskr.image_service import get_images_from_project, get_project_thumbnail
 from flaskr.submissionForms import UploadForm
 from flask_paginate import get_page_parameter, Pagination
 import os
@@ -96,7 +96,7 @@ def delete_project(project_id):
         return redirect(url_for("blueprint.view_all_projects"))
 
 
-def get_paginated_projects(town=None):
+def get_paginated_projects(sort_by, town=None):
     all_projects = []
     paginated_projects = []
 
@@ -112,16 +112,16 @@ def get_paginated_projects(town=None):
 
     if town is None:
         try:
-            all_projects, paginated_projects = get_all_projects(limit=limit, offset=offset)
+            all_projects, paginated_projects = get_all_projects(limit=limit, offset=offset, sort_by=sort_by)
         except Exception as e:
             print("Error with getting projects")
             print(e)
-
+            print(tb.format_exception(None, e, e.__traceback__))
         pagination = Pagination(page=page, total=len(all_projects), search=search, record_name='projects',
                                 per_page=limit, css_framework='bootstrap', alignment='center', bs_version='5')
     else:
         try:
-            all_projects, paginated_projects = get_projects_by_town(town=town, limit=limit, offset=offset)
+            all_projects, paginated_projects = get_projects_by_town(town=town, limit=limit, offset=offset, sort_by=sort_by)
         except Exception as e:
             print("Error with getting projects by town")
             print(e)
@@ -131,3 +131,19 @@ def get_paginated_projects(town=None):
                                 per_page=limit, css_framework='bootstrap', alignment='center', bs_version='5')
 
     return paginated_projects, pagination
+
+
+def get_all_project_thumbnails(projects):
+    photo_thumbnails = []
+
+    for project in projects:
+        thumbnail = get_project_thumbnail(project_id=project[0])
+        first_photo_path = url_for('static', filename='Placeholder_view_vector.svg.png')
+        if len(thumbnail) > 0:
+            # first_photo_path = url_for('static', filename='uploads/' + project[1] + '/' + project_photos[0])
+            first_photo_path = thumbnail
+            # print(first_photo_path)
+        photo_thumbnails.append(first_photo_path)
+
+    return photo_thumbnails
+

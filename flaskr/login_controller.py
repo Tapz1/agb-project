@@ -37,4 +37,4 @@ def logout():
         flash(error, "danger")
         return render_template("index.html")
 
-    return redirect(url_for("blueprint.login"))
+    return redirect(url_for("blueprint.home"))

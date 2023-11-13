@@ -33,5 +33,5 @@ class UploadForm(Form):
 
 
 class GalleryDropdowns(Form):
-    sort_by = SelectField('Sort By', choices=[("latest", "Latest"), ("oldest", "Oldest")], id='filter')
+    sort_by = SelectField('Sort By', choices=[("DESC", "Latest"), ("ASC", "Oldest")], id='sort')
     filter_by = SelectField('Filter By Town', id='filter')

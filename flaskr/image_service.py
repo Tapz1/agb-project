@@ -19,6 +19,7 @@ def get_all_images():
 
 
 def get_limited_images():
+    """used for carousel"""
     db = get_db_connection()
 
     cur = db.cursor()
@@ -40,6 +41,18 @@ def get_images_from_project(project_id):
     cur.close()
 
     return images
+
+
+def get_project_thumbnail(project_id):
+    db = get_db_connection()
+
+    cur = db.cursor()
+
+    thumbnail = list(cur.execute("SELECT * FROM images WHERE project_id = ? ORDER BY date_uploaded LIMIT 1", [project_id]).fetchone())
+
+    cur.close()
+
+    return thumbnail[2]
 
 
 def add_image_db(image_path, filename, project_name, project_id):
