@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+
+{% from "includes/_formhelpers.html" import render_field %}
+
+    <!-- images from static/uploads -->
+<div class="container-md image-container" style="clear:both; max-width: 100%;">
+    <div class="row justify-content-evenly">
+        <div class="col-lg text-center">
+            <div>
+                <div>
+                    <img class="img-fluid" src="{{image_path}}" alt="{{ filename }}">
+                </div>
+            </div>
+            {% if session.logged_in %}
+            <div class="btn btn-default">
+              <form action="{{ url_for('blueprint.delete_image', image_id=image_id, project_id=project_id, filename=filename) }}" method="post">
+                  <input type="submit" value="Delete" name="delete-button" onclick="return confirm('Are you sure you want to delete this image?');" class="btn btn-danger">
+              </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

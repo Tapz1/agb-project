@@ -29,7 +29,7 @@ class MailService(object):
         token = generate_confirmation_token(email)
         matching_url = url_for("blueprint.testimonial_form", token=token, _external=True)
 
-        email_subject = "Brandon is requesting to post your experience!"
+        email_subject = "Allan Gilbert Builders is requesting to post your experience!"
         email_body = render_template("testimonial_request.html", matching_url=matching_url)
         msg = Message(
             subject=email_subject,

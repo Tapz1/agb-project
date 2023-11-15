@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS testimonials (
     message TEXT NOT NULL,
     town TEXT NOT NULL,
     is_approved INTEGER DEFAULT 0 NOT NULL,
-    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    project_id INTEGER
+    project_id INTEGER,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS projects (
@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS projects (
     owners_email TEXT,
     town TEXT NOT NULL,
     date TEXT NOT NULL,
+    testimonial_id INTEGER,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -28,4 +29,5 @@ CREATE TABLE IF NOT EXISTS images (
     project_name TEXT NOT NULL,
     project_id INTEGER NOT NULL,
     FOREIGN KEY(project_id) REFERENCES projects(project_id)
-)
+);
+

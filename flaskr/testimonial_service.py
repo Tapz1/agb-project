@@ -7,22 +7,21 @@ def get_db_connection():
 
 
 def add_testimonial(name, email, message, town):
-    conn = get_db_connection()
+    db = get_db_connection()
 
-    cur = conn.cursor()
+    cur = db.cursor()
     insert_sql = "INSERT INTO testimonials (name, email, message, town) " \
                  "VALUES(:name, :email, :message, :town)"
     cur.execute(insert_sql, {'name': name, 'email': email, 'message': message, 'town': town})
 
-    conn.commit()
+    db.commit()
     cur.close()
-    conn.close()
 
 
 def get_all_approved():
-    conn = get_db_connection()
+    db = get_db_connection()
 
-    cur = conn.cursor()
+    cur = db.cursor()
     testimonials = list(cur.execute(
         "SELECT * FROM testimonials WHERE is_approved = TRUE ORDER BY created desc").fetchall())
 
@@ -33,36 +32,36 @@ def get_all_approved():
 
 
 def paginate_approved(limit, offset):
-    conn = get_db_connection()
+    db = get_db_connection()
 
-    cur = conn.cursor()
+    cur = db.cursor()
     testimonials = list(cur.execute(
         "SELECT * FROM testimonials WHERE is_approved = TRUE ORDER BY created desc LIMIT ? OFFSET ?",
         (limit, offset)
     ).fetchall())
 
     cur.close()
-    conn.close()
+    db.close()
 
     return testimonials
 
 
-def get_limited_approved():
+def get_limited_approved(limit):
     """for home page highlights"""
-    conn = get_db_connection()
-    cur = conn.cursor()
+    db = get_db_connection()
+    cur = db.cursor()
 
     testimonials = list(cur.execute(
-        "SELECT name, message, town FROM testimonials WHERE is_approved = TRUE ORDER BY created asc LIMIT 2").fetchall())
+        "SELECT name, message, town FROM testimonials WHERE is_approved = TRUE ORDER BY created asc LIMIT ?", [limit]).fetchall())
     cur.close()
-    conn.close()
+    db.close()
 
     return testimonials
 
 
 def get_all_pending():
-    conn = get_db_connection()
-    cur = conn.cursor()
+    db = get_db_connection()
+    cur = db.cursor()
 
     pending_testimonials = list(cur.execute("SELECT * FROM testimonials WHERE is_approved = FALSE").fetchall())
     cur.close()
@@ -72,49 +71,48 @@ def get_all_pending():
 
 
 def update_approval(testimonial_id):
-    conn = get_db_connection()
-    cur = conn.cursor()
+    db = get_db_connection()
+    cur = db.cursor()
 
     cur.execute("UPDATE testimonials SET is_approved = 1 WHERE testimonial_id = ?", [testimonial_id])
-    conn.commit()
+    db.commit()
 
     cur.close()
-    conn.close()
+    db.close()
     return
 
 
 def delete_entry(testimonial_id):
-    conn = get_db_connection()
-    cur = conn.cursor()
+    db = get_db_connection()
+    cur = db.cursor()
 
     cur.execute("DELETE FROM testimonials WHERE testimonial_id = ?", [testimonial_id])
-    conn.commit()
+    db.commit()
 
     cur.close()
-    conn.close()
+    db.close()
     return
 
 
 def add_project_id(project_id, testimonial_id):
-    conn = get_db_connection()
-    cur = conn.cursor()
+    db = get_db_connection()
+    cur = db.cursor()
 
     cur.execute("UPDATE testimonials SET project_id = ? WHERE testimonial_id = ?", (project_id, testimonial_id))
-    conn.commit()
+    db.commit()
 
     cur.close()
-    conn.close()
+
     return
 
 
 def get_testimonial_id_by_email(email):
-    conn = get_db_connection()
+    db = get_db_connection()
 
-    cur = conn.cursor()
-    testimonials = list(cur.execute(
-        "SELECT * FROM testimonials WHERE email = ?", [email]).fetchall())
+    cur = db.cursor()
+
+    testimonial_id = list(cur.execute("SELECT testimonial_id FROM testimonials WHERE email = ?", [email]).fetchone())
 
     cur.close()
-    # conn.close() # can't close connection since need to run paginate_approved
 
-    return testimonials
+    return testimonial_id[0]

@@ -3,7 +3,7 @@ from flask import render_template, redirect, flash, url_for, request, session, c
 
 from flaskr.project_controller import get_paginated_projects, get_all_project_thumbnails
 from flaskr.project_service import get_project_towns
-from flaskr.image_service import get_limited_images
+from flaskr.image_controller import get_limited_images
 from flaskr.submissionForms import GalleryDropdowns
 import traceback as tb
 
@@ -30,7 +30,7 @@ def gallery():
         # image_folder = os.path.join('flaskr/static/uploads', f'{folder_name}')  # path for dev
         upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
 
-        images = get_limited_images()
+        images = get_limited_images(5)
 
         if len(images) > 0:
             first_photo = images[0]
@@ -68,9 +68,6 @@ def gallery():
         sort_by = request.form['sort_by']
         dropdown_form.sort_by.data = sort_by
         town = request.form['filter_by']
-
-        print(f"sort_by value: {sort_by}")
-        print(f"filter_by value: {town}")
 
         #town = dropdown_form.filter_by.data
         if town == 'All':

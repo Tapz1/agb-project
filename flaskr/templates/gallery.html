@@ -16,9 +16,6 @@
 
     {% include 'includes/_messages.html' %}
     <header class="container-md" style="position:relative; max-width: 100%;">
-        <div class="row">
-            <p class="text-lg"><a id="" href="{{ curr_url }}">Project URL: {{project_name}}</a></p>
-        </div>
         <div class="row justify-content-center " style="">
                 <!--preview carousel-->
             <div id="previewCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -36,16 +33,18 @@
                     <div {% if photo == first_photo %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}
                             style="">
                         <img class="d-block w-100" src="{{ photo.image_path }}" alt="{{ photo.filename }}"  style="">
-                        <div class="carousel-caption d-none d-md-block">
+                        <div class="carousel-caption">
                             <div class="container-md">
                                 <div class="row justify-content-center">
-                                    <div class="col-md">
-                                        <h1 style="font-weight: 600; padding-bottom: 25%;">Project Gallery</h1>
+                                    <div class="col-md-6" style="padding-bottom: 18.0rem;">
+                                        <div style="background-color: rgba(255,255,255,.3);">
+                                            <h1 style="font-weight: 600;" class="text-dark">Project Gallery</h1>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="row justify-content-end">
-                                    <div class="col-md-2" style="background-color: #f0f0f0; opacity: 0.6;">
-                                        <h5 class="text-black"></h5>
+                                    <div class="col-sm-2" style="background-color: #f0f0f0; opacity: 0.6;">
                                         <p class="text-lg font-med-bold"><a href="{{ url_for('blueprint.view_project', project_id=photo.project_id) }}">{{photo.project_name}}</a></p>
                                     </div>
                                 </div>
@@ -90,18 +89,18 @@
         </form>
     </div>
 
-    {{ pagination.info }}
-    <!--p rojects-->
+    <!--projects-->
     <div class="image-container container-md" style="max-width:100%;">
         <div class="row justify-content-evenly">
             {% for project, thumbnail in project_data %}
             <div class="col-md-4" style="padding: 20px;"> <!--background-image: url({{ thumbnail }}); background-size: cover;-->
-                <div class="row justify-content-center text-center">
-                    <a href="{{ url_for('blueprint.view_project', project_id=project[0]) }}" style="text-decoration: none;" class="text-dark">
+                <a href="{{ url_for('blueprint.view_project', project_id=project[0]) }}" style="text-decoration: none;" class="text-dark">
+                <div class="row justify-content-center text-center project">
+
                         <h3 class="text-center font-med-bold">{{ project[1] }}</h3>
                         <p>{{ project[4] }}, NH</p>
-                        <img class="img-thumbnail" style="" src="{{ thumbnail }}" alt="{{ thumbnail }}">
-                    </a>
+                        <img class="img-thumbnail" style="" src="{{ thumbnail }}" alt="">
+
                 </div>
                 <div class="row justify-content-center text-center">
                     <div class="col-sm" style="padding-left: 5%; padding-right: 5%;">
@@ -110,6 +109,7 @@
                             data-action='submit'>View Project</button>
                     </div>
                 </div>
+                </a>
 
                 {% if session.logged_in %}
                 <button class="btn btn-default" style="">

@@ -136,11 +136,12 @@ def get_project_id_by_email(email):
 
     cur = db.cursor()
 
-    project = list(cur.execute("SELECT * FROM projects WHERE email = ?", [email]).fetchone())
+    project_path = list(cur.execute("SELECT project_id FROM projects WHERE owners_email = ?", [email]).fetchone())
 
     cur.close()
+    print(f"project id from db: {project_path[0]}")
 
-    return project[0]
+    return project_path[0]
 
 
 def project_exists(email):
@@ -148,8 +149,32 @@ def project_exists(email):
 
     cur = db.cursor()
 
-    count = cur.execute("SELECT COUNT(*) FROM projects WHERE email = ?", [email]).fetchone()[0]
-    print(f"count: {count}")
+    count = cur.execute("SELECT COUNT(*) FROM projects WHERE owners_email = ?", [email]).fetchone()[0]
+    print(f"project exists count: {count}")
     cur.close()
 
     return count
+
+
+def get_project_by_testimonial(testimonial_id):
+    db = get_db_connection()
+
+    cur = db.cursor()
+
+    project = list(cur.execute("SELECT * FROM projects WHERE testimonial_id = ?", [testimonial_id]).fetchone())
+
+    cur.close()
+
+    return project
+
+
+def get_limited_projects(limit):
+    db = get_db_connection()
+
+    cur = db.cursor()
+
+    project = list(cur.execute("SELECT * FROM projects ORDER BY date desc LIMIT ?", [limit]).fetchall())
+
+    cur.close()
+
+    return project

@@ -22,7 +22,7 @@ def view_all_projects():
     try:
         upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
 
-        projects, pagination = get_paginated_projects()
+        projects, pagination = get_paginated_projects(sort_by="DESC")
         print('test')
 
         photo_thumbnails = []
@@ -49,8 +49,46 @@ def view_all_projects():
     return render_template("view_all_projects.html")
 
 
-@DecoratorWraps.is_logged_in
 def view_project(project_id):
+    session.modified = True
+    image_form = UploadForm()
+    project_name = get_project_name(project_id)
+    print(project_name)
+
+    first_photo = None
+    enumerated_photos = []
+
+    try:
+
+        project_folder = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], project_name)
+        existing_photos = os.listdir(project_folder)
+        photo_names = [photo for photo in existing_photos]
+        #photos = [f'uploads/{project_name}/' + photo for photo in existing_photos]\
+        photos = get_images_from_project(project_id)
+        #print(f'uploads/{project_name}')
+
+        if len(photos) > 0:
+            first_photo = photos[0]
+            enumerated_photos = [*range(0, len(photos))]  # for carousel indicators
+        #print(f"photos len: {len(photos)}")
+
+        if request.method == 'POST':
+            if "upload-image" in request.form:
+                upload_multiple_images(image_form=image_form, existing_photos=existing_photos, isNew=False, project_name=project_name)
+
+        return render_template("view_project.html", project_name=project_name, all_photos=zip(photos, photo_names),
+                               image_form=image_form, photos=photos, first_photo=first_photo, enumerated_photos=enumerated_photos)
+
+    except Exception as e:
+        print("Error with getting images:")
+        print(e)
+        print(traceback.format_exception(None, e, e.__traceback__))
+        return redirect(url_for("blueprint.view_all_projects"))
+
+
+
+@DecoratorWraps.is_logged_in
+def view_project_admin(project_id):
     session.modified = True
     image_form = UploadForm()
     project_name = get_project_name(project_id)
@@ -69,14 +107,14 @@ def view_project(project_id):
             if "upload-image" in request.form:
                 upload_multiple_images(image_form=image_form, existing_photos=existing_photos, isNew=False, project_name=project_name)
 
-        return render_template("view_project.html", project_name=project_name, all_photos=zip(photos, photo_names),
+        return render_template("view_project_admin.html", project_name=project_name, all_photos=zip(photos, photo_names),
                                image_form=image_form, photos=photos)
 
     except Exception as e:
         print("Error with getting images:")
         print(e)
         print(traceback.format_exception(None, e, e.__traceback__))
-        return redirect(url_for("blueprint.view_all_projects"))
+        return redirect(url_for("blueprint.view_project_admin"))
 
 
 @DecoratorWraps.is_logged_in
@@ -92,6 +130,7 @@ def delete_project(project_id):
         return redirect(url_for("blueprint.view_all_projects"))
     except Exception as e:
         print(e)
+        print(tb.format_exception(None, e, e.__traceback__))
         flash("Project could not be deleted!", "danger")
         return redirect(url_for("blueprint.view_all_projects"))
 
@@ -126,7 +165,7 @@ def get_paginated_projects(sort_by, town=None):
             print("Error with getting projects by town")
             print(e)
             print(tb.format_exception(None, e, e.__traceback__))
-        print("projects by town length: "+ str(len(all_projects)))
+        print("projects by town length: " + str(len(all_projects)))
         pagination = Pagination(page=page, total=len(all_projects), search=search, record_name='projects',
                                 per_page=limit, css_framework='bootstrap', alignment='center', bs_version='5')
 
@@ -136,14 +175,21 @@ def get_paginated_projects(sort_by, town=None):
 def get_all_project_thumbnails(projects):
     photo_thumbnails = []
 
-    for project in projects:
-        thumbnail = get_project_thumbnail(project_id=project[0])
-        first_photo_path = url_for('static', filename='Placeholder_view_vector.svg.png')
-        if len(thumbnail) > 0:
-            # first_photo_path = url_for('static', filename='uploads/' + project[1] + '/' + project_photos[0])
-            first_photo_path = thumbnail
-            # print(first_photo_path)
-        photo_thumbnails.append(first_photo_path)
-
+    try:
+        for project in projects:
+            thumbnail = get_project_thumbnail(project_id=project[0])
+            first_photo_path = url_for('static', filename='Placeholder_view_vector.svg.png')
+            if len(thumbnail) > 0:
+                # first_photo_path = url_for('static', filename='uploads/' + project[1] + '/' + project_photos[0])
+                first_photo_path = str(thumbnail).replace('\\', '/')
+                # print(first_photo_path)
+            photo_thumbnails.append(first_photo_path)
+    except Exception as e:
+        print("Error getting thumbnails")
+        print(e)
+        print(tb.format_exception(None, e, e.__traceback__))
     return photo_thumbnails
 
+
+def get_projects(sort_by='DESC'):
+    return get_all_projects(sort_by=sort_by)

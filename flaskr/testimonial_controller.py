@@ -3,12 +3,14 @@ from flask import render_template, redirect, flash, url_for, request, session
 
 from flaskr.project_controller import get_paginated_projects
 from flaskr.project_service import project_exists, get_project_id_by_email
-from flaskr.testimonial_service import get_all_approved, paginate_approved, add_testimonial, add_project_id, \
-    get_testimonial_id_by_email
+from flaskr.testimonial_service import (get_all_approved, paginate_approved, add_testimonial, get_testimonial_id_by_email,
+                                        get_all_pending, get_limited_approved, add_project_id)
 from flaskr.mail_service import MailService
 from flaskr.token_service import confirm_token
 from flaskr.submissionForms import TestimonialForm
 from flask_paginate import get_page_parameter, Pagination
+
+from flaskr.upload_controller import allowed_file
 
 
 def testimonials():
@@ -19,9 +21,20 @@ def testimonials():
     paginated_data = []
 
     try:
-        all_testimonials = get_all_approved()
+        all_testimonials = get_testimonials('approved')
     except Exception as e:
         print("Error with getting testimonials")
+        print(e)
+
+    try:        # looks for any existing projects with the same email in a testimonial
+        for testimonial in all_testimonials:
+            email = testimonial[2]
+            if project_exists(email) > 0:
+                print("Project exists with same email in testimonials")
+                add_project_id(project_id=get_project_id_by_email(email),
+                                 testimonial_id=get_testimonial_id_by_email(email))
+    except Exception as e:
+        print("Unable to attach project ids")
         print(e)
 
     try:
@@ -75,9 +88,13 @@ def testimonial_form(token):
             ms.send_testimonial_email(name, email, message, town)
             ms.testimonial_receipt(name, email, message, town)
 
-            if project_exists(email) > 0:
-                add_project_id(project_id=get_project_id_by_email(email), testimonial_id=get_testimonial_id_by_email(email))
-
+            try:
+                if project_exists(email) > 0:
+                    print("Project exists with same email")
+                    add_project_id(project_id=get_project_id_by_email(email), testimonial_id=get_testimonial_id_by_email(email))
+            except Exception as e:
+                print("Issue with adding project_id to testimonial")
+                print(e)
             flash("Your testimonial was successfully sent for approval", 'success')
             return redirect(url_for("blueprint.home"))
         else:
@@ -85,3 +102,19 @@ def testimonial_form(token):
             flash(error, "danger")
             return render_template('testimonial_form.html', form=form, title="Add Testimonial")
     return render_template("testimonial_form.html", form=form, title="Add Testimonial")
+
+
+def get_testimonials(option, limit=""):
+    """
+    encapsulation for db
+        option can be pending or approved
+    """
+    if option == 'pending':
+        return get_all_pending()
+    elif option == 'approved':
+        return get_all_approved()
+
+
+def get_limited_testimonials(limit):
+    return get_limited_approved(limit)
+

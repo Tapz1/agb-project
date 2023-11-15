@@ -1,5 +1,8 @@
 from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, request, redirect, url_for, flash, current_app
+
+from flaskr.project_controller import get_projects
+from flaskr.testimonial_controller import get_testimonials
 # from config.config import CLIENT_EMAIL
 from flaskr.testimonial_service import get_all_pending, delete_entry, update_approval
 from flaskr.mail_service import MailService
@@ -24,17 +27,10 @@ def admin_portal():
     else:
         name = "Chris"
 
-    try:
-        project_names = get_all_projects()
-    except Exception as e:
-        print("Couldn't get projects")
-        print(e)
-
     form = RequestTestimonial(request.form)
     request_email = form.email.data
 
     image_form = UploadForm()
-    image_form.project.choices = project_names
 
     ms = MailService()
 
@@ -45,7 +41,7 @@ def admin_portal():
     pending = None
 
     try:
-        pending = get_all_pending()
+        pending = get_testimonials('pending')
     except Exception as e:
         print(e)
 
@@ -63,9 +59,6 @@ def admin_portal():
 
     return render_template("admin.html", name=name, email=email, title="Admin", form=form,
                            image_form=image_form, pending_testimonials=pending)
-
-
-
 
 
 @DecoratorWraps.is_logged_in

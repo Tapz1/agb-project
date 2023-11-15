@@ -6,7 +6,7 @@ from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, redirect, url_for, flash, current_app, request
 from flaskr.upload_controller import allowed_file
 from flaskr.project_service import get_all_projects, delete_project_row, get_project_id, get_project_name
-from flaskr.image_service import add_image_db, delete_image_db, get_all_images, get_images_from_project
+from flaskr.image_service import delete_image_db, get_image_by_id, get_limited_images_db
 from flaskr.submissionForms import UploadForm
 import os
 from PIL import Image   # needs to get commented out during production
@@ -29,3 +29,16 @@ def delete_image(image_id, project_id, filename):
     return redirect(url_for("blueprint.view_project", project_id=project_id))
 
 
+def view_image(image_id):
+    image = get_image_by_id(image_id)
+    image_path = image[2]
+    filename = image[3]
+    project_name = image[4]
+    project_id = image[5]
+
+    return render_template("view_image.html", image_path=image_path, filename=filename,
+                           image_id=image_id, project_name=project_name, project_id=project_id)
+
+
+def get_limited_images(limit):
+    return get_limited_images_db(limit)

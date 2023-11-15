@@ -18,13 +18,13 @@ def get_all_images():
     return images
 
 
-def get_limited_images():
+def get_limited_images_db(limit):
     """used for carousel"""
     db = get_db_connection()
 
     cur = db.cursor()
 
-    images = list(cur.execute("SELECT * FROM images ORDER BY date_uploaded DESC LIMIT 5").fetchall())
+    images = list(cur.execute("SELECT * FROM images ORDER BY date_uploaded DESC LIMIT ?", [limit]).fetchall())
 
     cur.close()
 
@@ -78,3 +78,15 @@ def delete_image_db(image_id):
 
     cur.close()
     db.close()
+
+
+def get_image_by_id(image_id):
+    db = get_db_connection()
+
+    cur = db.cursor()
+
+    thumbnail = list(cur.execute("SELECT * FROM images WHERE image_id = ?", [image_id]).fetchone())
+
+    cur.close()
+
+    return thumbnail
