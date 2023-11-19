@@ -35,7 +35,17 @@
 {% include 'includes/_navbar.html' %}
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100"
+		{% if active_page == 'testimonials' %}
+			style="background-image: url({{url_for('static', filename='background-images/IMG_7823.JPG')}});"
+		{% elif active_page == 'home' %}
+			style="background-image: url({{url_for('static', filename='background-images/IMG_7829.JPG')}});"
+		{% elif active_page == 'gallery' %}
+			style="background-image: url({{url_for('static', filename='background-images/')}});"
+		{% elif active_page == 'contact' %}
+			style="background-image: url({{url_for('static', filename='background-images/')}});"
+		{% endif %}
+>
 
 <!--
 	<div class="container text-center" style="">
@@ -53,8 +63,8 @@
 	{% block body %}{% endblock %}
 
 
-	<footer class="" style="">
-		<div class="contaner-md">
+	<footer class="mt-auto" style="">
+		<div class="container-md">
 			<div class="row justify-content-center">
 				<hr>
 

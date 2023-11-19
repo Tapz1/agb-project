@@ -4,8 +4,12 @@
     <div class="container-fluid">
         <a class="navbar-brand" style="" href="/">Logo</a>
 
+        <span class="navbar-text font-med-bold text-xl">
+            Allan Gilbert Builders
+        </span>
+
       <!-- condensed menu button for smaller screens -->
-        <button class="navbar-toggler justify-content-end" data-bs-theme="dark" type="button" data-bs-toggle="collapse"
+        <button class="navbar-toggler justify-content-end" data-bs-theme="light" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,18 +19,20 @@
 
             {% set navigation_bar = [
                 ('/', 'home', 'Home'),
-                ('/contact', 'contact', 'Contact'),
-                ('/testimonials', 'testimonials', 'Testimonials'),
                 ('/gallery', 'gallery', 'Gallery'),
+                ('/testimonials', 'testimonials', 'Testimonials'),
+
                 ('/admin', 'admin', 'Admin Portal'),
-                ('/admin/view-projects', 'viewProjects', 'View Projects')
+                ('/admin/view-projects', 'viewProjects', 'View Projects'),
+                ('/contact', 'contact', 'Contact')
             ] -%}
         {% else %}
             {% set navigation_bar = [
                 ('/', 'home', 'Home'),
-                ('/contact', 'contact', 'Contact'),
-                ('/testimonials', 'testimonials', 'Testimonials'),
                 ('/gallery', 'gallery', 'Gallery'),
+                ('/testimonials', 'testimonials', 'Testimonials'),
+
+                ('/contact', 'contact', 'Contact'),
                 ('/login', 'login', 'Login')
             ] -%}
         {% endif %}

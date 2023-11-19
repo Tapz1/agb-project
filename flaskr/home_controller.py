@@ -5,12 +5,16 @@ from flaskr.project_service import get_limited_projects
 from flaskr.testimonial_controller import get_limited_testimonials
 import traceback as tb
 
+from flaskr.testimonial_service import get_all_approved
+
 
 def home():
     session.modified = True
     projects = []
     project_thumbnails = []
     testimonial_highlights = []
+    first_testimonial = None
+    enumerated_testimonials = []
 
     try:
         projects = get_limited_projects(8)
@@ -25,15 +29,23 @@ def home():
 
     try:
         testimonial_highlights = get_limited_testimonials(2)
+        #testimonial_highlights = get_all_approved() # for carousel style
 
         if len(testimonial_highlights) == 0:
             print("No testimonials")
+
+        if len(testimonial_highlights) > 0:
+            first_testimonial = testimonial_highlights[0]
+            enumerated_testimonials = [*range(0, len(testimonial_highlights))]  # for carousel indicators
+        print(f"photos len: {len(testimonial_highlights)}")
+
 
     except Exception as e:
         print("Error with getting testimonial highlights")
         print(e)
 
-    return render_template("home.html", testimonials=testimonial_highlights, project_data=zip(projects, project_thumbnails))
+    return render_template("home.html", testimonials=testimonial_highlights, first_testimonial=first_testimonial,
+                           project_data=zip(projects, project_thumbnails), enumerated_testimonials=enumerated_testimonials)
 
 
 

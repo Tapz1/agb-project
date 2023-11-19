@@ -6,7 +6,7 @@
 {% endblock %}
 {% block body %}
 
-<div id="main-content" class="main-content" style="">
+<div id="main-content" class="testimonial-content" style="">
     <!--title banner-->
     <header class="testimonial-banner">
         {% include 'includes/_messages.html' %}
@@ -24,12 +24,18 @@
         <!--for loop would go here for testimonials, row by row-->
         {% for i in testimonials %}
         <div class="row justify-content-center text-center">
-            <div class="col-md text-md" style="padding: 3% 120px;"> <!--top right bottom left-->
+            <div class="col-md text-md" style="padding: 2px 100px;"> <!--top right bottom left-->
                 <p style="padding-b: 2%;">"{{ i.message }}"</p>
 
                 <p><strong>{{ i.name }}</strong> - {{ i.town }}, NH</p>
-                <p><a href="{{ url_for('blueprint.view_project', project_id=i.project_id) }}">View the Project</a></p>
-                <p>{{ i.project_path }}</p>
+
+                {% if session.logged_in %}
+                <a href="mailto:{{i.email}}" class="text-sm">{{i.email}}</a>
+                {% endif %}
+
+                {% if i.project_id %}
+                    <p><a href="{{ url_for('blueprint.view_project', project_id=i.project_id) }}">View the Project</a></p>
+                {% endif %}
                 {% if session.logged_in %}
                 <td class="btn btn-default">
                   <form action="{{ url_for('blueprint.delete_testimonial', testimonial_id=i.testimonial_id) }}" method="post">

@@ -181,7 +181,7 @@ def get_all_project_thumbnails(projects):
             first_photo_path = url_for('static', filename='Placeholder_view_vector.svg.png')
             if len(thumbnail) > 0:
                 # first_photo_path = url_for('static', filename='uploads/' + project[1] + '/' + project_photos[0])
-                first_photo_path = str(thumbnail).replace('\\', '/')
+                first_photo_path = str(thumbnail).replace('\\', '/').replace(' ', '%20')
                 # print(first_photo_path)
             photo_thumbnails.append(first_photo_path)
     except Exception as e:
