@@ -1,10 +1,10 @@
 :root {
-    /*--brokerColor: #670038;*/
+    --backgroundColor: #E3EDF0;
 }
 
 .navbar_layout {
-    /*background-color: var(--brokerColor);*/
-    font-size: 17px;
+    /*background-color: var(--backgroundColor);*/
+    font-size: 20px;
     padding-left: 0px;
     padding-right: 0px;
     padding-top: 5px;

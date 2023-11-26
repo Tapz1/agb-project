@@ -6,24 +6,24 @@
 {% endblock %}
 {% block body %}
 
-<div id="main-content" class="testimonial-content" style="">
+<div id="main-content" class="" style="">
     <!--title banner-->
     <header class="testimonial-banner">
         {% include 'includes/_messages.html' %}
         <div class="container-md text-center" style="max-width: 100%;">
             <div class="row justify-content-start">
                 <div class="col-md-auto ">
-                    <h1 class="screen_titles" style="font-weight: 600;">Testimonials</h1>
+                    <h1 class="screen_titles text-dark" style="font-weight: 600;">Testimonials</h1>
                 </div>
             </div>
         </div>
     </header>
 
-    <!--testimonials-->
-    <div class="container testimonial-container" style="max-width: 100%;">
+            <!--testimonials-->
+    <div class="container-md" style="max-width: 100%; padding: 3% 1rem;">
         <!--for loop would go here for testimonials, row by row-->
         {% for i in testimonials %}
-        <div class="row justify-content-center text-center">
+        <div class="row justify-content-center text-center" style="padding: 1rem 0px">
             <div class="col-md text-md" style="padding: 2px 100px;"> <!--top right bottom left-->
                 <p style="padding-b: 2%;">"{{ i.message }}"</p>
 
@@ -46,9 +46,13 @@
             </div>
         </div>
         {% endfor %}
-        {{ pagination.links }}
-    </div>
+        <div class="row justify-content-center">
+            <div class="col-md">
+                {{ pagination.links }}
+            </div>
+        </div>
 
+    </div>
 
 </div>
 

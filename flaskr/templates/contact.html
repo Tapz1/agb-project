@@ -3,6 +3,7 @@
 
 {% block head %}
     <link rel="preload" href="" as="image"/>
+
 {% endblock %}
 {% block body %}
 
@@ -13,40 +14,129 @@
         <div class="container-md text-center" style="max-width: 100%;">
             <div class="row justify-content-start">
                 <div class="col-md-auto ">
-                    <h1 class="screen_titles" style="font-weight: 600;">Contact Us</h1>
+                    <h1 class="screen_titles text-light" style="font-weight: 600;">Contact Us</h1>
                 </div>
             </div>
         </div>
     </header>
 
     <!--contact info-->
-    <div class="container contact-content fill-height" style="max-height: 100%; max-width: 100%;">
-        <div class="row content justify-content-center">
-            <div class="row justify-content-between">
-                <div class="col-md-4" style="margin-top: 5%;">
-                    <p class="text-md" style="">Call:
-                        <a href="tel:603-235-7427" class="font-weight-lighter text-dark" style="text-decoration:none">
-                            (603) 235-7427</a>
-                    </p>
-                    <p class="text-md">Email:
-                        <a href="mailto:allangilbertbuilders@gmail.com" class="font-weight-lighter text-dark" style="text-decoration:none">
-                            allangilbertbuilders@gmail.com
+    <div class="container" style="max-height: 100%; max-width: 100%;">
+        <div class="row justify-content-start">
+            <div class="col-md" style="margin-top: 5%; padding-left: 30px; text-align: left;">
+                <div class="font-med-bold" style="">
+                    <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                        </svg>
+                         &nbsp;
+                        <a href="tel:603-235-7427" class="text-dark contact-link">
+                           (603) 235-7427
                         </a>
                     </p>
-                    <p style=""><small>Follow us on Facebook</small></p>
-                    <a class="" style="text-decoration:none" href="https://www.facebook.com/allangilbertbuilders/">
-                        <i class="fab fa-facebook fa-lg social-icons"></i>
-                    </a>
-                    </div>
-                <div class="col-md-4">
-                    <img class="img-fluid" src="{{ url_for('static', filename='contact-images/award.jpg') }}" alt="" style="height: 70%;">
+                </div>
+                <div class="font-med-bold">
+                    <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                          <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+                        </svg>
+                        &nbsp;
+                        <a href="mailto:allangilbertbuilders@gmail.com" class="text-dark contact-link">
+                             allangilbertbuilders@gmail.com
+                        </a>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-sign-turn-right-fill" viewBox="0 0 16 16">
+                          <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435ZM9 8.466V7H7.5A1.5 1.5 0 0 0 6 8.5V11H5V8.5A2.5 2.5 0 0 1 7.5 6H9V4.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L9.41 8.658A.25.25 0 0 1 9 8.466"/>
+                        </svg>
+                        &nbsp;
+                        <a href="https://www.google.com/maps/search/?api=1&query=50+Jodi+Drive%2C+Belmont%2C+NH" target=”_blank”
+                            class="font-med-bold text-dark contact-link">
+                             50 Jodi Dr, Belmont, NH
+                        </a>
+                    </p>
                 </div>
             </div>
 
         </div>
+        <div class="row justify-content-center">
+            <div class="col-md font-med-bold" style="margin-top: 5%; padding-right: 20px; text-align: center;">
+                <p>Hours of Operation </p>
+                <p>Monday - Friday, 8:00am - 5:00pm</p>
+            </div>
+
+        </div>
+<!--
         <div class="row justify-content-between">
-            <p>Hours of Operation </p>
-            <p>Monday - Friday, 8:00am - 5:00pm</p>
+            <div class="col-md-7" style="margin-top: 5%; padding-left: 30px;">
+                <div class="font-med-bold" style="">
+                    <p>
+                    <a href="tel:603-235-7427" class="text-dark contact-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                        </svg>
+                        &nbsp; (603) 235-7427
+                    </a>
+                    </p>
+                </div>
+                <div class="font-med-bold">
+                    <p>
+                    <a href="mailto:allangilbertbuilders@gmail.com" class="text-dark contact-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                          <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+                        </svg>
+                        &nbsp; allangilbertbuilders@gmail.com
+                    </a>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=50+Jodi+Drive%2C+Belmont%2C+NH" target=”_blank”
+                        class="font-med-bold text-dark contact-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-sign-turn-right-fill" viewBox="0 0 16 16">
+                          <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435ZM9 8.466V7H7.5A1.5 1.5 0 0 0 6 8.5V11H5V8.5A2.5 2.5 0 0 1 7.5 6H9V4.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L9.41 8.658A.25.25 0 0 1 9 8.466"/>
+                        </svg>
+                        &nbsp; 50 Jodi Dr, Belmont, NH
+                    </a>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-5 font-med-bold" style="margin-top: 5%; padding-right: 20px; text-align: right;">
+                <p>Hours of Operation </p>
+                <p>Monday - Friday, 8:00am - 5:00pm</p>
+            </div>
+        </div>
+-->
+        <div class="row justify-content-start" style="margin-top: 5rem; margin-bottom: 8rem;">
+            <div class="col-md" style="padding-left: 30px;">
+                <div class="font-med-bold">
+                    <p class="text-md">
+                        Follow us on Facebook
+                    </p>
+                </div>
+                <div>
+                    <a class=" contact-link" href="https://www.facebook.com/allangilbertbuilders/" style="text-decoration: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                          <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                        </svg>
+                        &nbsp;
+                    </a>
+                    <a href="https://www.facebook.com/allangilbertbuilders/reviews" class="text-dark contact-link">
+                       (<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16" style="padding-bottom: 5px;">
+                          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                         Rating · 4.6)
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md" style="text-align: center;">
+                <img class="img-fluid" src="{{ url_for('static', filename='contact-images/award.png') }}" alt="" style="max-height: 10rem;">
+            </div>
+
         </div>
     </div>
 

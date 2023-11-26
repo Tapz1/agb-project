@@ -9,10 +9,10 @@
     <meta name="description" content="">
 
     <!--favicons-->
-<!--    <link rel="apple-touch-icon" sizes="180x180" href="{{	url_for('static', filename='favicon.ico/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{	url_for('static', filename='favicon.ico/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{	url_for('static', filename='favicon.ico/favicon-16x16.png') }}">
-    <link rel="manifest" href="{{	url_for('static', filename='favicon.ico/site.webmanifest') }}">-->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{	url_for('static', filename='favicon_io/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{	url_for('static', filename='favicon_io/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{	url_for('static', filename='favicon_io/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{	url_for('static', filename='favicon_io/site.webmanifest') }}">
 
 
 	{% if title %}
@@ -29,7 +29,11 @@
 	<link rel="stylesheet" href="{{	url_for('static', filename='css/layout.css') }}" />
 
 	<!-- Font Awesome for Social buttons -->
-    <script src="https://kit.fontawesome.com/8c81907eaa.js"></script>
+   <!-- <script src="https://kit.fontawesome.com/8c81907eaa.js"></script>-->
+	<script src="https://kit.fontawesome.com/8c81907eaa.js" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
 	{% block head %}{% endblock %}
 {% include 'includes/_navbar.html' %}
@@ -37,13 +41,14 @@
 
 <body class="d-flex flex-column min-vh-100"
 		{% if active_page == 'testimonials' %}
-			style="background-image: url({{url_for('static', filename='background-images/IMG_7823.JPG')}});"
+			style="background: linear-gradient(rgba(240, 240, 240, 0.6), rgba(240, 240, 240, 0.6)), url({{url_for('static', filename='background-images/IMG_7832.jpg')}});"
 		{% elif active_page == 'home' %}
-			style="background-image: url({{url_for('static', filename='background-images/IMG_7829.JPG')}});"
+			style="background: url({{url_for('static', filename='background-images/IMG_7829.JPG')}});"
 		{% elif active_page == 'gallery' %}
-			style="background-image: url({{url_for('static', filename='background-images/')}});"
+			style="background-image: url({{url_for('static', filename='background-images/pexels-pixabay-235994.jpg')}});
+					background-position: 50% 50%; background-size: cover; background-repeat: no-repeat;"
 		{% elif active_page == 'contact' %}
-			style="background-image: url({{url_for('static', filename='background-images/')}});"
+			style="background: linear-gradient(rgba(240, 240, 240, 0.4), rgba(240, 240, 240, 0.4)), url({{url_for('static', filename='background-images/wood-panel.png')}});"
 		{% endif %}
 >
 
@@ -80,9 +85,9 @@
 			</div>
 			<div class="row justify-content-center" style="padding-top: 1%;">
 				<div class="col-md-4">
-					<p class="" style="">Call:
+					<p class="text-sm" style="">Call:
                         <a href="tel:603-235-7427" class="text-dark" style="text-decoration:none">
-                            603.235-7427</a>
+                            603.235.7427</a>
                     </p>
 				</div>
 			</div>

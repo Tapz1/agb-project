@@ -22,7 +22,6 @@ def gallery():
     towns = ["All"]
     #town = dropdown_form.filter_by.data
 
-
     # preview slideshow banner
     try:
         folder_name = ''
@@ -46,7 +45,6 @@ def gallery():
 
         # projects & thumbnails binding
         project_thumbnails = get_all_project_thumbnails(projects)
-
 
     except Exception as e:
         print(e)
