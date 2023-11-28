@@ -90,3 +90,18 @@ def get_image_by_id(image_id):
     cur.close()
 
     return thumbnail
+
+
+def update_check(image_id, isChecked):
+    db = get_db_connection()
+    cur = db.cursor()
+
+    value = 0
+    if isChecked:
+        value = 1
+
+    cur.execute("UPDATE images SET is_approved = ? WHERE testimonial_id = ?", (value, image_id))
+    db.commit()
+
+    cur.close()
+    db.close()

@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS images (
     filename TEXT NOT NULL,
     project_name TEXT NOT NULL,
     project_id INTEGER NOT NULL,
+    isChecked INTEGER DEFAULT 0 NOT NULL,
     FOREIGN KEY(project_id) REFERENCES projects(project_id)
 );
 

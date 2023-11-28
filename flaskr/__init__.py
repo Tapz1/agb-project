@@ -8,6 +8,7 @@ from flask import Flask
 from flaskr.config import (UPLOAD_FOLDER, DB_NAME, SECRET_KEY, SECURITY_PASSWORD_SALT, EMAIL_USERNAME,
                            EMAIL_PASSWORD, EMAIL_SEND_AS, TO_EMAIL, DEV_EMAIL, CLIENT_EMAIL, ADMIN_PASSWORD, ALLOWED_EXTENSIONS,
                            PATH_SLICE)
+from flaskr.project_service import add_project
 
 
 def create_app(test_config=None):

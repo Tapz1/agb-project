@@ -6,7 +6,7 @@ from flaskr.testimonial_controller import testimonials, testimonial_form
 from flaskr.login_controller import login, logout
 from flaskr.admin_controller import admin_portal, approve_testimonial, delete_testimonial, delete_testimonial_request
 from flaskr.project_controller import view_all_projects, view_project_admin, view_project, delete_project
-from flaskr.image_controller import delete_image, view_image
+from flaskr.image_controller import delete_image, view_image, delete_carousel_image
 
 
 blueprint = Blueprint('blueprint', __name__, template_folder='templates')
@@ -29,4 +29,5 @@ blueprint.route('/admin/view-projects', methods=['GET', 'POST'])(view_all_projec
 blueprint.route('/admin/view-project/<string:project_id>', methods=['GET', 'POST'])(view_project_admin)
 blueprint.route('/admin/delete-project/<string:project_id>', methods=['POST'])(delete_project)
 blueprint.route('/admin/delete-image/<string:image_id>/<string:project_id>/<string:filename>', methods=['POST'])(delete_image)
+blueprint.route('/admin/delete-carousel-image/<string:filename>', methods=['POST'])(delete_carousel_image)
 

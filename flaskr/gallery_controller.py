@@ -1,15 +1,18 @@
 import os
+import traceback
+
 from flask import render_template, redirect, flash, url_for, request, session, current_app
 
 from flaskr.project_controller import get_paginated_projects, get_all_project_thumbnails
-from flaskr.project_service import get_project_towns
+from flaskr.project_service import get_project_towns, add_project
 from flaskr.image_controller import get_limited_images
-from flaskr.submissionForms import GalleryDropdowns
+from flaskr.submissionForms import GalleryDropdowns, UploadForm
 import traceback as tb
 
 
 def gallery():
     session.modified = True
+    image_form = UploadForm()
 
     images = []
     first_photo = None
@@ -22,23 +25,22 @@ def gallery():
     towns = ["All"]
     #town = dropdown_form.filter_by.data
 
+
     # preview slideshow banner
     try:
-        folder_name = ''
-        # image_folder = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], f'{folder_name}')  # path for prod
-        # image_folder = os.path.join('flaskr/static/uploads', f'{folder_name}')  # path for dev
-        upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
-
-        images = get_limited_images(5)
-
+        upload_folder = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], "gallery_carousel")
+        image = os.listdir(upload_folder)
+        images = ['uploads/gallery_carousel' + photo for photo in images]
         if len(images) > 0:
-            first_photo = images[0]
+            first_photo = images[0]  # to add first photo as active on carousel
+            # latest_photo = "uploads/" + max(glob.glob(upload_folder))
             enumerated_photos = [*range(0, len(images))]  # for carousel indicators
-        print(f"photos len: {len(images)}")
+            # print(enumerated_photos)
 
     except Exception as e:
-        flash("Unable to get images", 'danger')
+        print("Error with getting images:")
         print(e)
+        print(traceback.format_exception(None, e, e.__traceback__))
 
     try:
         projects, pagination = get_paginated_projects(sort_by='DESC')
@@ -92,10 +94,28 @@ def gallery():
                 flash("Unable to get town-specific projects", 'danger')
                 print(e)
 
-    return render_template("gallery.html", images=images, form=dropdown_form,
+    return render_template("gallery.html", images=images, form=dropdown_form, image_form=image_form,
                            enumerated_photos=enumerated_photos, first_photo=first_photo,
                            project_data=zip(projects, project_thumbnails), pagination=pagination)
 
 
+def view_gallery_carousel():
+    session.modified = True
+    image_form = UploadForm()
 
+    upload_folder = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], "gallery_carousel")
+    photos = []
+
+    try:
+        photos = os.listdir(upload_folder)
+        photo_names = [photo for photo in photos]
+        photos = ['uploads/gallery_carousel' + photo for photo in photos]
+
+        return render_template("gallery_carousel_photos.html", all_photos=zip(photos, photo_names))
+
+
+    except Exception as e:
+        print("Error with getting images:")
+        print(e)
+        print(traceback.format_exception(None, e, e.__traceback__))
 
