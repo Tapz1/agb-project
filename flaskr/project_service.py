@@ -71,17 +71,6 @@ def get_projects_by_email_db(email):
     return projects
 
 
-def get_project_names():
-    db = get_db_connection()
-
-    cur = db.cursor()
-
-    projects = list(cur.execute("SELECT name FROM projects").fetchall())
-
-    cur.close()
-    return projects
-
-
 def get_project_id(project_name):
     db = get_db_connection()
 
@@ -94,27 +83,27 @@ def get_project_id(project_name):
     return project_id
 
 
-def get_project_name(project_id):
+def get_project_item_db(project_id, item):
     db = get_db_connection()
 
     cur = db.cursor()
 
-    project_name = cur.execute("SELECT project_name FROM projects WHERE project_id = ?", [project_id]).fetchone()[0]
+    project_item = cur.execute(f"SELECT {item} FROM projects WHERE project_id = ?", [project_id]).fetchone()[0]
 
-    print(project_name)
+    print(project_item)
     cur.close()
-    return project_name
+    return project_item
 
 
-def get_project_towns():
+def get_multiple_project_items_db(item):
     db = get_db_connection()
 
     cur = db.cursor()
-    print("getting towns")
-    towns = list(cur.execute("SELECT DISTINCT(town) FROM projects").fetchall())
+    print(f"getting {item}s")
+    items = list(cur.execute(f"SELECT DISTINCT({item}) FROM projects").fetchall())
 
     cur.close()
-    return towns
+    return items
 
 
 def delete_project_row(project_id):

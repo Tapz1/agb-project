@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-{% set active_page = "viewProjects" %}
+{% set active_page = "gallery" %}
 
 {% block body %}
 
@@ -23,6 +23,7 @@
                     <div {% if photo == first_photo %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}
                             style="">
                         <img class="d-block w-100" src="{{ photo.image_path }}" alt="{{ photo.filename }}"  style="height: 50%;">
+<!--
                         <div class="carousel-caption">
                             <div class="container-md">
                                 <div class="row justify-content-center">
@@ -34,6 +35,7 @@
                                 </div>
                             </div>
                         </div>
+-->
                     </div>
                     {% endfor %}
                     <!-- Left and right controls -->
@@ -53,6 +55,22 @@
 
 </div>
 
+<div class="container-md" style="margin: 10px 10px">
+    <div class="row text-center">
+        <div class="col-sm-auto" style="padding:0;">
+            <div style="background-color: rgba(255,255,255,.8);">
+                <h1 style="font-weight: 600;" class="">{{ project_name }}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-sm-auto" style="padding:0;">
+            <div style="background-color: rgba(255,255,255,.8);">
+                <h3>{{ project_town }}, NH</h3>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% if session.logged_in %}
 {% from "includes/_formhelpers.html" import render_field %}
@@ -84,24 +102,36 @@
 
 
     <!-- images from static/uploads -->
-<div class="container-md image-container" style="clear:both;">
+<div class="container-md image-container" style="clear:both; max-width: 100%;">
     <div class="row justify-content-evenly">
         {% for photo in photos %}
         <div class="col-md-4 text-center">
             <div>
                 <a href="{{ url_for('blueprint.view_image', image_id=photo.image_id) }}">
-                    <img class="img-thumbnail" src="{{photo.image_path}}" alt="photo.filename">
+                    <img class="img-thumbnail" src="{{photo.image_path}}" alt="photo.filename" style="width: 300px; height: 300px;">
                 </a>
             </div>
+
             {% if session.logged_in %}
-            <form method="post" action="">
-                <div class="form-check" style="margin-left: 30px;">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Add to Gallery slideshow
-                      </label>
-                </div>
-            </form>
+            <!--check value in db: 0 == false | 1 == true-->
+            <div class="container-md" style="padding: 10px 0px;">
+              <form
+                  {% if photo.isChecked == 0 %}
+                      action="{{ url_for('blueprint.update_check_image', image_id=photo.image_id, isChecked=1, project_id=photo.project_id) }}" method="post"
+                  {% else %}
+                      action="{{ url_for('blueprint.update_check_image', image_id=photo.image_id, isChecked=0, project_id=photo.project_id) }}" method="post"
+                  {% endif %}
+              >
+
+                        <input style="outline: 1px solid;" class="form-check-input" type="checkbox" value="" id="flexCheck" name="check" onChange="this.form.submit()" {% if photo.isChecked %} checked {% endif %}>
+                  </form>
+                    <label class="form-check-label font-med-bold" for="flexCheck">
+                      Add to Gallery slideshow
+                    </label>
+
+            </div>
+
+
 
             <div class="btn btn-default">
               <form action="{{ url_for('blueprint.delete_image', image_id=photo.image_id, project_id=photo.project_id, filename=photo.filename) }}" method="post">

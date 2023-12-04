@@ -1,5 +1,4 @@
 {% extends 'layout.html' %}
-{% set active_page = "viewProjects" %}
     {% block body %}
 
     {% include 'includes/_messages.html' %}
@@ -18,8 +17,8 @@
         <div class="row">
             {% for project, thumbnail in project_data %}
             <div class="col-md-3">
-                <a href="{{ url_for('blueprint.view_project_admin', project_id=project[0]) }}">
-                    <h3 class="text-center font-med-bold">{{ project[1] }}</h3>
+                <a href="{{ url_for('blueprint.view_project', project_id=project[0]) }}">
+                    <h5 class="text-center font-med-bold">{{ project[1] }}</h5>
                     <img class="img-thumbnail" style="" src="{{ thumbnail }}" alt="{{ thumbnail }}">
                 </a>
                 <button class="btn btn-default" style="">

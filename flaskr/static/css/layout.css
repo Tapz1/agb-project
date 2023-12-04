@@ -414,7 +414,7 @@ p
 
 
 .carousel .carousel-item {
-  height: 500px;
+  height: 450px;
 }
 
 .carousel-item img {
@@ -422,7 +422,7 @@ p
     object-fit: cover;
     top: 0;
     left: 0;
-    min-height: 500px;
+    min-height: 450px;
 }
 
 
@@ -448,3 +448,8 @@ p
 
 /*social buttons*/
 /* Facebook */
+
+.form-check-input:hover {
+    background-color: rgba(255,255,255,.5);
+    border-color: blue;
+}

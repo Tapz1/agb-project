@@ -32,19 +32,20 @@
                     {% for photo in images %}
                     <div {% if photo == first_photo %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}
                             style="">
-                        <img class="d-block w-100" src="{{ url_for('static', filename=photo) }}"  style="">
+                        <img class="d-block w-100" src="{{ photo.image_path }}"  style="">
+                        <p>{{photo.image_path}}</p>
                         <div class="carousel-caption">
                             <div class="container-md">
                                 <div class="row justify-content-center">
-                                    <div class="col-md-6" style="padding-bottom: 18.0rem;">
-                                        <div style="background-color: rgba(255,255,255,.3);">
+                                    <div class="col-md-6" style="padding-bottom: 15.0rem;">
+                                        <div style="background-color: rgba(255,255,255,.5);">
                                             <h1 style="font-weight: 600;" class="text-dark">Project Gallery</h1>
                                         </div>
 
                                     </div>
                                 </div>
                                 <div class="row justify-content-end">
-                                    <div class="col-sm-2" style="background-color: #f0f0f0; opacity: 0.6;">
+                                    <div class="col-sm-2" style="background-color: #f0f0f0; opacity: 0.8;">
                                         <p class="text-lg font-med-bold"><a href="{{ url_for('blueprint.view_project', project_id=photo.project_id) }}">{{photo.project_name}}</a></p>
                                     </div>
                                 </div>
@@ -76,14 +77,8 @@
                 </div>
 
                 {% if session.logged_in %}
-                <div class="col-md-auto" style="margin-bottom: 20px;">
-                    <div class="row justify-content-center text-center">
-                        <div class="col-md">
-                            <a href="{{ url_for('blueprint.view_project', project_id=1 ) }}">
-                                <p class="text-center font-med-bold">Edit Slideshow</p>
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-md-auto" style="text-align: center; padding: 0px 20px;">
+                    <a href="{{ url_for('blueprint.view_all_projects') }}" class="text-lg">View All Projects - Admin</a>
                 </div>
                 {% endif %}
 

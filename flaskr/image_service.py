@@ -18,6 +18,18 @@ def get_all_images():
     return images
 
 
+def get_checked_images_db():
+    db = get_db_connection()
+
+    cur = db.cursor()
+
+    images = list(cur.execute("SELECT * FROM images WHERE isChecked = 1").fetchall())
+
+    cur.close()
+
+    return images
+
+
 def get_limited_images_db(limit):
     """used for carousel"""
     db = get_db_connection()
@@ -92,15 +104,12 @@ def get_image_by_id(image_id):
     return thumbnail
 
 
-def update_check(image_id, isChecked):
+def update_check_db(image_id, isChecked):
     db = get_db_connection()
     cur = db.cursor()
 
-    value = 0
-    if isChecked:
-        value = 1
-
-    cur.execute("UPDATE images SET is_approved = ? WHERE testimonial_id = ?", (value, image_id))
+    print("isCheck value: " + isChecked)
+    cur.execute("UPDATE images SET isChecked = ? WHERE image_id = ?", (isChecked, image_id))
     db.commit()
 
     cur.close()

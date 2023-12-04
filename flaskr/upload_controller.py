@@ -2,7 +2,7 @@ import os
 import pathlib
 import traceback
 
-from flask import current_app, send_from_directory, request, flash, redirect
+from flask import current_app, send_from_directory, request, flash, redirect, url_for
 from werkzeug.utils import secure_filename
 
 from flaskr.image_service import add_image_db
@@ -41,7 +41,7 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                         flash(
                             "Did you already upload this photo? A file already exists in here with that name.",
                             "danger")
-                        return redirect(request.url)
+                        # return redirect(request.url)
             if isNew:
                 image_filename = []
                 # creating a new project #
@@ -56,7 +56,7 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                 except Exception as e:
                     print(e)
                     flash("There's already an existing project with that name", 'danger')
-                    return redirect(request.url)
+                    # return redirect(request.url)
 
                 try:
                     project_path = os.path.join(project_upload_path, project_name)
@@ -69,11 +69,12 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                     print(e)
                     print(traceback.format_exception(None, e, e.__traceback__))
                     flash("Unable to add project", 'warning')
-                    return redirect(request.url)
+                    # return redirect(request.url)
             else:
                 project_path = os.path.join(project_upload_path, project_name)
 
             try:
+                project_id = None
 
                 for image in uploaded_images:
                     image_filename = secure_filename(image.filename)
@@ -86,24 +87,25 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                     #img.save(image_path)
 
                     print("project name: "+project_name)
+                    project_id = get_project_id(project_name)
 
                     # image_path[6:] is to splice off the "flaskr" from path
                     add_image_db(image_path=image_path[path_slice:], filename=image_filename, project_name=project_name,
-                                 project_id=get_project_id(project_name))
+                                 project_id=project_id)
 
                 flash("Your images were successfully uploaded your new project!", 'success')
-                return redirect(request.url)
+                redirect(url_for("blueprint.view_project", project_id=project_id))
             except Exception as e:
                 print(e)
                 print(traceback.format_exception(None, e, e.__traceback__))
                 flash("Unable to upload images", 'warning')
-                return redirect(request.url)
+                # return redirect(request.url)
         else:
             flash('No image selected')
-            return redirect(request.url)
+            # return redirect(request.url)
 
     except Exception as e:
         print(e)
         flash("Your image could not be uploaded", 'danger')
-        return redirect(request.url)
+        # return redirect(request.url)
 

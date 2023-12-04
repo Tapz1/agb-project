@@ -5,8 +5,9 @@ from werkzeug.utils import secure_filename
 from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, redirect, url_for, flash, current_app, request
 from flaskr.upload_controller import upload_multiple_images
-from flaskr.project_service import delete_project_row, get_project_name, get_all_projects, get_projects_by_town
-from flaskr.image_service import get_images_from_project, get_project_thumbnail
+from flaskr.project_service import delete_project_row, get_all_projects, get_projects_by_town, \
+    get_project_item_db, get_multiple_project_items_db
+from flaskr.image_service import get_images_from_project, get_project_thumbnail, update_check_db
 from flaskr.submissionForms import UploadForm
 from flask_paginate import get_page_parameter, Pagination
 import os
@@ -52,8 +53,8 @@ def view_all_projects():
 def view_project(project_id):
     session.modified = True
     image_form = UploadForm()
-    project_name = get_project_name(project_id)
-    print(project_name)
+    project_name = get_project_item(project_id, "project_name")
+    project_town = get_project_item(project_id, "town")
 
     first_photo = None
     enumerated_photos = []
@@ -75,53 +76,24 @@ def view_project(project_id):
         if request.method == 'POST':
             if "upload-image" in request.form:
                 upload_multiple_images(image_form=image_form, existing_photos=existing_photos, isNew=False, project_name=project_name)
+                return redirect(request.url)
 
         return render_template("view_project.html", project_name=project_name, all_photos=zip(photos, photo_names),
-                               image_form=image_form, photos=photos, first_photo=first_photo, enumerated_photos=enumerated_photos)
+                               image_form=image_form, photos=photos, first_photo=first_photo, enumerated_photos=enumerated_photos,
+                               project_town=project_town)
 
     except Exception as e:
         print("Error with getting images:")
         print(e)
         print(traceback.format_exception(None, e, e.__traceback__))
-        return redirect(url_for("blueprint.view_all_projects"))
-
-
-
-@DecoratorWraps.is_logged_in
-def view_project_admin(project_id):
-    session.modified = True
-    image_form = UploadForm()
-    project_name = get_project_name(project_id)
-    print(project_name)
-
-    try:
-
-        project_folder = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], project_name)
-        existing_photos = os.listdir(project_folder)
-        photo_names = [photo for photo in existing_photos]
-        #photos = [f'uploads/{project_name}/' + photo for photo in existing_photos]\
-        photos = get_images_from_project(project_id)
-        print(f'uploads/{project_name}')
-
-        if request.method == 'POST':
-            if "upload-image" in request.form:
-                upload_multiple_images(image_form=image_form, existing_photos=existing_photos, isNew=False, project_name=project_name)
-
-        return render_template("view_project_admin.html", project_name=project_name, all_photos=zip(photos, photo_names),
-                               image_form=image_form, photos=photos)
-
-    except Exception as e:
-        print("Error with getting images:")
-        print(e)
-        print(traceback.format_exception(None, e, e.__traceback__))
-        return redirect(url_for("blueprint.view_project_admin"))
+        return redirect(url_for("blueprint.gallery"))
 
 
 @DecoratorWraps.is_logged_in
 def delete_project(project_id):
     upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
     try:
-        project_name = get_project_name(project_id)
+        project_name = get_project_item_db(project_id, "project_name")
         file_path = os.path.join(upload_folder, project_name)
         delete_project_row(project_id)
         #os.rmdir(file_path)
@@ -191,5 +163,14 @@ def get_all_project_thumbnails(projects):
     return photo_thumbnails
 
 
+def get_project_item(project_id, item):
+    """item can be 'town', 'project_name', 'date'"""
+    return get_project_item_db(project_id, item)
+
+
 def get_projects(sort_by='DESC'):
     return get_all_projects(sort_by=sort_by)
+
+
+def get_multiple_project_items(items):
+    return get_multiple_project_items_db(items)

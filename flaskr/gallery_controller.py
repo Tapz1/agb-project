@@ -4,8 +4,8 @@ import traceback
 from flask import render_template, redirect, flash, url_for, request, session, current_app
 
 from flaskr.project_controller import get_paginated_projects, get_all_project_thumbnails
-from flaskr.project_service import get_project_towns, add_project
-from flaskr.image_controller import get_limited_images
+from flaskr.project_controller import get_multiple_project_items
+from flaskr.image_controller import get_checked_images
 from flaskr.submissionForms import GalleryDropdowns, UploadForm
 import traceback as tb
 
@@ -30,7 +30,7 @@ def gallery():
     try:
         upload_folder = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], "gallery_carousel")
         image = os.listdir(upload_folder)
-        images = ['uploads/gallery_carousel' + photo for photo in images]
+        images = get_checked_images()
         if len(images) > 0:
             first_photo = images[0]  # to add first photo as active on carousel
             # latest_photo = "uploads/" + max(glob.glob(upload_folder))
@@ -55,7 +55,7 @@ def gallery():
 
     try:
         """town filtering"""
-        get_towns = get_project_towns()
+        get_towns = get_multiple_project_items("town")
         for town in get_towns:
             towns.append(town[0])
         dropdown_form.filter_by.choices = towns

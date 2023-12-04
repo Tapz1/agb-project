@@ -45,8 +45,8 @@
 		{% elif active_page == 'home' %}
 			style="background: url({{url_for('static', filename='background-images/IMG_7829.JPG')}});"
 		{% elif active_page == 'gallery' %}
-			style="background-image: url({{url_for('static', filename='background-images/pexels-pixabay-235994.jpg')}});
-					background-position: 50% 50%; background-size: cover; background-repeat: no-repeat;"
+			style="background: url({{url_for('static', filename='background-images/pexels-pixabay-235994.jpg')}});
+					 "
 		{% elif active_page == 'contact' %}
 			style="background: linear-gradient(rgba(240, 240, 240, 0.4), rgba(240, 240, 240, 0.4)), url({{url_for('static', filename='background-images/wood-panel.png')}});"
 		{% endif %}
