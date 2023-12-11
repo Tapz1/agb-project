@@ -1,9 +1,13 @@
 <link rel="stylesheet" href="{{	url_for('static', filename='css/navbar.css') }}" />
 
-<nav class="navbar sticky-top navbar-expand-md navbar_layout bg-light">
+<nav class="navbar navbar-expand-md navbar_layout">
     <div class="container-fluid">
         <a class="navbar-brand text-center" style="" href="/">
-            <img src="{{ url_for('static', filename='logo/FullLogo_Transparent_NoBuffer.png') }}" alt="" width="80" height="80">
+            {% if active_page == 'home' %}
+                <img src="{{ url_for('static', filename='logo/icononly_transparent_nobuffer.png') }}" alt="" width="105" height="105">
+            {% else %}
+                <img src="{{ url_for('static', filename='logo/FullLogo_Transparent_NoBuffer.png') }}" alt="" width="105" height="105">
+            {% endif %}
         </a>
 
 <!--

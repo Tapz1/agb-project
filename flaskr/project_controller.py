@@ -56,31 +56,21 @@ def view_project(project_id):
     project_name = get_project_item(project_id, "project_name")
     project_town = get_project_item(project_id, "town")
 
-    first_photo = None
-    enumerated_photos = []
 
     try:
 
         project_folder = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], project_name)
         existing_photos = os.listdir(project_folder)
-        photo_names = [photo for photo in existing_photos]
-        #photos = [f'uploads/{project_name}/' + photo for photo in existing_photos]\
         photos = get_images_from_project(project_id)
         #print(f'uploads/{project_name}')
-
-        if len(photos) > 0:
-            first_photo = photos[0]
-            enumerated_photos = [*range(0, len(photos))]  # for carousel indicators
-        #print(f"photos len: {len(photos)}")
 
         if request.method == 'POST':
             if "upload-image" in request.form:
                 upload_multiple_images(image_form=image_form, existing_photos=existing_photos, isNew=False, project_name=project_name)
                 return redirect(request.url)
 
-        return render_template("view_project.html", project_name=project_name, all_photos=zip(photos, photo_names),
-                               image_form=image_form, photos=photos, first_photo=first_photo, enumerated_photos=enumerated_photos,
-                               project_town=project_town)
+        return render_template("view_project.html", project_name=project_name,
+                               image_form=image_form, photos=photos, project_town=project_town)
 
     except Exception as e:
         print("Error with getting images:")

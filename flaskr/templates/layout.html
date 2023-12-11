@@ -43,10 +43,11 @@
 		{% if active_page == 'testimonials' %}
 			style="background: linear-gradient(rgba(240, 240, 240, 0.6), rgba(240, 240, 240, 0.6)), url({{url_for('static', filename='background-images/IMG_7832.jpg')}});"
 		{% elif active_page == 'home' %}
-			style="background: url({{url_for('static', filename='background-images/IMG_7829.JPG')}});"
+			style="background: url({{url_for('static', filename='background-images/ceiling.png')}});
+    background-repeat: no-repeat; background-size: cover; background-position: 50% 50%;"
 		{% elif active_page == 'gallery' %}
 			style="background: url({{url_for('static', filename='background-images/pexels-pixabay-235994.jpg')}});
-					 "
+					 " `
 		{% elif active_page == 'contact' %}
 			style="background: linear-gradient(rgba(240, 240, 240, 0.4), rgba(240, 240, 240, 0.4)), url({{url_for('static', filename='background-images/wood-panel.png')}});"
 		{% endif %}
@@ -68,10 +69,9 @@
 	{% block body %}{% endblock %}
 
 
-	<footer class="mt-auto" style="">
+	<footer class="mt-auto" style="background: rgba(240, 240, 240, 0.0); padding-top: 1%;">
 		<div class="container-md">
 			<div class="row justify-content-center">
-				<hr>
 
 				<div class="col-md-2" style="margin-top: -10px;">
 					<a class="text-dark" href="{{ url_for('blueprint.contact') }}" style="text-decoration:none">Contact</a>

@@ -60,8 +60,10 @@ p
 }
 
 
-.screen_titles {
-    /*color: white;*/
+.screen_title {
+    max-width: 100%;
+    padding-top: 5%;
+    padding-bottom: 5%;
 }
 
 .title_container {
@@ -269,16 +271,6 @@ p
 }
 
 
-.home-banner {
-    background-image: url("../home-images/post-placeholder.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-     max-width: 100%;
-     padding: 0px;
-     height : 100vh;
-}
-
 .info-sections {
     max-width: 100%;
     margin-top: 8rem;
@@ -305,8 +297,8 @@ p
 
 
 .services-subsection {
-    margin-top: 5%;
     background-color: white;
+    margin: 0px 30px;
 }
 
 .services-subsection-title {
@@ -318,16 +310,6 @@ p
 }
 
 
-.testimonial-banner {
-    background-image: url("../banner-photos/chairs-flipped.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: 10% 65%;
-    max-width: 100%;
-    padding-top: 5%;
-    padding-bottom: 5%;
-
-}
 
 .testimonial-container {
     max-width: 100%;
@@ -335,16 +317,6 @@ p
 }
 
 
-.contact-banner {
-    background-image: url("../contact-images/eIW2AkUZSQi8Ih9ghpNDxw.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: 80% 80%;
-    max-width: 100%;
-    padding-top: 5%;
-    padding-bottom: 5%;
-
-}
 
 .contact-link{
     text-decoration: none;

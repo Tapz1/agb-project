@@ -6,48 +6,19 @@
  <div class="container-md text-center" style="max-width: 100%;">
         {% include 'includes/_messages.html' %}
     <header class="container-md" style="position:relative; max-width: 100%;">
-        <div class="row justify-content-center " style="">
-                <!--preview carousel-->
-            <div id="previewCarousel" class="carousel slide" data-bs-ride="carousel">
-                <!--indicators-->
-                <div class="carousel-indicators">
-                    {% for n in enumerated_photos %}
-                    <button type="button" data-bs-target="#previewCarousel" data-bs-slide-to="{{ n }}" aria-label="Slide {{ n }}"
-                            {% if n == 0 %} class="active" aria-current="true" {% else %} {% endif %}></button>
-                    {% endfor %}
-                </div>
-
-                <!--the slideshow-->
-                <div class="carousel-inner">
-                    {% for photo in photos %}
-                    <div {% if photo == first_photo %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}
-                            style="">
-                        <img class="d-block w-100" src="{{ photo.image_path }}" alt="{{ photo.filename }}"  style="height: 50%;">
-<!--
-                        <div class="carousel-caption">
-                            <div class="container-md">
-                                <div class="row justify-content-center">
-                                    <div class="col-md-6" style="padding-bottom: 22.0rem;">
-                                        <div style="background-color: rgba(255,255,255,.4);">
-                                            <h1 style="font-weight: 600;" class="text-dark">{{ project_name }}</h1>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
--->
+        <div class="container-md" style="margin: 10px 10px">
+            <div class="row text-center">
+                <div class="col-sm-auto" style="padding:0;">
+                    <div style="background-color: rgba(255,255,255,.8);">
+                        <h1 style="font-weight: 600;" class="">{{ project_name }}</h1>
                     </div>
-                    {% endfor %}
-                    <!-- Left and right controls -->
-                    <button class="carousel-control-prev" type="button" data-bs-target="#previewCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#previewCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-sm-auto" style="padding:0;">
+                    <div style="background-color: rgba(255,255,255,.8);">
+                        <h3>{{ project_town }}, NH</h3>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,22 +26,6 @@
 
 </div>
 
-<div class="container-md" style="margin: 10px 10px">
-    <div class="row text-center">
-        <div class="col-sm-auto" style="padding:0;">
-            <div style="background-color: rgba(255,255,255,.8);">
-                <h1 style="font-weight: 600;" class="">{{ project_name }}</h1>
-            </div>
-        </div>
-    </div>
-    <div class="row text-center">
-        <div class="col-sm-auto" style="padding:0;">
-            <div style="background-color: rgba(255,255,255,.8);">
-                <h3>{{ project_town }}, NH</h3>
-            </div>
-        </div>
-    </div>
-</div>
 
 {% if session.logged_in %}
 {% from "includes/_formhelpers.html" import render_field %}
