@@ -12,12 +12,9 @@
 
     {% endif %}
     <div class="container-fluid">
-        <a class="navbar-brand text-center" style="" href="/">
-            {% if active_page == 'home' %}
-                <img src="{{ url_for('static', filename='logo/icononly_transparent_nobuffer.png') }}" alt="" width="105" height="105">
-            {% else %}
-                <img src="{{ url_for('static', filename='logo/FullLogo_Transparent_NoBuffer.png') }}" alt="" width="105" height="105">
-            {% endif %}
+        <a class="navbar-brand" style="" href="/">
+            <img class="d-none d-md-block" src="{{ url_for('static', filename='logo/FullLogo_Transparent_NoBuffer.png') }}" alt="Logo" width="150" height="150">
+            <img class="d-md-none" src="{{ url_for('static', filename='logo/FullLogo_Transparent_NoBuffer.png') }}" alt="Logo" width="120" height="120">
         </a>
 
 <!--
