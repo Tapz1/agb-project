@@ -4,6 +4,7 @@
 
 .navbar_layout {
     /*background-color: var(--backgroundColor);*/
+    /*background: linear-gradient(to bottom, rgba(240, 240, 240, 0.4), #E4C4A0, rgba(240, 240, 240, 0.0));*/
     font-size: 20px;
     padding-left: 0px;
     padding-right: 0px;

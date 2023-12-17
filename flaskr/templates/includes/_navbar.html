@@ -1,6 +1,16 @@
 <link rel="stylesheet" href="{{	url_for('static', filename='css/navbar.css') }}" />
 
-<nav class="navbar navbar-expand-md navbar_layout">
+<nav class="navbar navbar-expand-md navbar_layout sticky-top"
+     {% if active_page == 'home' %}
+        style="background: linear-gradient(to bottom, rgba(240, 240, 240, 0.0), white, rgba(240, 240, 240, 0.0));">
+     {% elif active_page == 'testimonials' %}
+        style="background: linear-gradient(to bottom, rgba(240, 240, 240, 0.0), #B6A18C, rgba(240, 240, 240, 0.0));">
+    {% elif active_page == 'contact' %}
+        style="">
+    {% elif active_page == 'gallery' %}
+        style="background: linear-gradient(to bottom, rgba(240, 240, 240, 0.0), white, rgba(240, 240, 240, 0.0));">
+
+    {% endif %}
     <div class="container-fluid">
         <a class="navbar-brand text-center" style="" href="/">
             {% if active_page == 'home' %}
@@ -46,9 +56,15 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
           <div class="navbar-nav" id="navigation" style="text-align: right;">
                 {% for href, id, caption in navigation_bar %}
+                    {% if active_page == 'login' %}
+                        <a {% if id == active_page %} class="nav-link active text-white-50" {% else %} class="hover nav-link text-light" {% endif %} href="{{ href|e }}">
+                        {{ caption|e }}
+                        </a>
+                    {% else %}
                     <a {% if id == active_page %} class="nav-link active text-black-50" {% else %} class="hover nav-link text-dark" {% endif %} href="{{ href|e }}">
                         {{ caption|e }}
                     </a>
+                    {% endif %}
                 {% endfor %}
 
               {% if session.logged_in %}

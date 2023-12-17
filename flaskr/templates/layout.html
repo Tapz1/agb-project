@@ -41,15 +41,20 @@
 
 <body class="d-flex flex-column min-vh-100"
 		{% if active_page == 'testimonials' %}
-			style="background: linear-gradient(rgba(240, 240, 240, 0.6), rgba(240, 240, 240, 0.6)), url({{url_for('static', filename='background-images/IMG_7832.jpg')}});"
+			style="background: linear-gradient(rgba(240, 240, 240, 0.0), rgba(240, 240, 240, 0.0)), url({{url_for('static', filename='background-images/ceiling long.png')}});
+				background-size: cover; background-attachment: fixed; background-repeat: no-repeat;"
 		{% elif active_page == 'home' %}
-			style="background: url({{url_for('static', filename='background-images/ceiling.png')}});
-    background-repeat: no-repeat; background-size: cover; background-position: 50% 50%;"
+			style="background-image: url({{url_for('static', filename='background-images/IMG_8106.jpg')}});
+    background-repeat: no-repeat; background-size: cover; background-attachment: fixed; background-position: 50% 50%;"
 		{% elif active_page == 'gallery' %}
 			style="background: url({{url_for('static', filename='background-images/pexels-pixabay-235994.jpg')}});
 					 " `
 		{% elif active_page == 'contact' %}
-			style="background: linear-gradient(rgba(240, 240, 240, 0.4), rgba(240, 240, 240, 0.4)), url({{url_for('static', filename='background-images/wood-panel.png')}});"
+			style="background: linear-gradient(rgba(240, 240, 240, 0.1), rgba(240, 240, 240, 0.1)), url({{url_for('static', filename='background-images/cairn.jpg')}});
+			background-size: cover; background-attachment: fixed; background-position: 40% 50%;"
+		{% elif active_page == 'login' %}
+			style="background: linear-gradient(rgba(240, 240, 240, 0.1), rgba(240, 240, 240, 0.1)), url({{ url_for('static', filename='background-images/image006.JPG') }});
+				background-size: cover; background-repeat: no-repeat; display: flex;"
 		{% endif %}
 >
 
@@ -69,17 +74,19 @@
 	{% block body %}{% endblock %}
 
 
-	<footer class="mt-auto" style="background: rgba(240, 240, 240, 0.0); padding-top: 1%;">
+{% if active_page == 'login' %}
+{% else %}
+	<footer class="mt-auto" style="padding-top: 20px;">
 		<div class="container-md">
 			<div class="row justify-content-center">
 
-				<div class="col-md-2" style="margin-top: -10px;">
+				<div class="col-md-2" style="">
 					<a class="text-dark" href="{{ url_for('blueprint.contact') }}" style="text-decoration:none">Contact</a>
 				</div>
-				<div class="col-md-2" style="margin-top: -10px;">
+				<div class="col-md-2" style="">
 					<a class="text-dark" href="{{ url_for('blueprint.testimonials') }}" style="text-decoration:none">Testimonials</a>
 				</div>
-				<div class="col-md-2" style="margin-top: -10px;">
+				<div class="col-md-2" style="">
 					<a class="text-dark" href="{{ url_for('blueprint.gallery') }}" style="text-decoration:none">Gallery</a>
 				</div>
 			</div>
@@ -93,7 +100,7 @@
 			</div>
 		</div>
 	</footer>
-
+{% endif %}
 
   <!-- updated as of 07/2023, Bootstrap's JS bundle that includes Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
