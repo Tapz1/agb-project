@@ -67,11 +67,24 @@ p
 }
 
 
-.screen_title {
+.screen_title_container {
     max-width: 100%;
     padding-top: 5%;
     padding-bottom: 5%;
 }
+
+
+.screen_title {
+    font-weight: 600;
+}
+
+
+@media screen and (max-width: 600px) {
+    .screen_title {
+        font-size: 40px;
+    }
+}
+
 
 .title_container {
     margin-top: 20px;
@@ -393,6 +406,10 @@ p
     min-height: 500px;
 }*/
 
+
+.gallery_title {
+    -webkit-text-stroke: 1px black;
+}
 
 .carousel .carousel-item {
   height: 450px;

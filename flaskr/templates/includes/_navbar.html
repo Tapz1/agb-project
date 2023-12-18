@@ -1,16 +1,22 @@
 <link rel="stylesheet" href="{{	url_for('static', filename='css/navbar.css') }}" />
 
-<nav class="navbar navbar-expand-md navbar_layout sticky-top"
-     {% if active_page == 'home' %}
-        style="background: linear-gradient(to bottom, rgba(240, 240, 240, 0.0), white, rgba(240, 240, 240, 0.0));">
+<style>
+    .navbar_bar {
+    {% if active_page == 'home' %}
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.0), white, rgba(255, 255, 255, 0.0));
      {% elif active_page == 'testimonials' %}
-        style="background: linear-gradient(to bottom, rgba(240, 240, 240, 0.0), #B6A18C, rgba(240, 240, 240, 0.0));">
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.0), #A1BBCF, rgba(255, 255, 255, 0.0));
     {% elif active_page == 'contact' %}
-        style="">
+
     {% elif active_page == 'gallery' %}
-        style="background: linear-gradient(to bottom, rgba(240, 240, 240, 0.0), white, rgba(240, 240, 240, 0.0));">
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.0), white, rgba(255, 255, 255, 0.0));
 
     {% endif %}
+    }
+</style>
+
+<nav class="navbar navbar-expand-md navbar_layout sticky-top navbar_bar">
+
     <div class="container-fluid">
         <a class="navbar-brand" style="" href="/">
             <img class="d-none d-md-block" src="{{ url_for('static', filename='logo/FullLogo_Transparent_NoBuffer.png') }}" alt="Logo" width="150" height="150">
