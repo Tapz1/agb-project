@@ -48,7 +48,7 @@
     background-repeat: no-repeat; background-size: cover; background-attachment: fixed;"
 		{% elif active_page == 'gallery' %}
 			style="background: url({{url_for('static', filename='background-images/pexels-pixabay-235994.jpg')}});
-					 " `
+					 background-size: cover; background-attachment: fixed; background-repeat: no-repeat;"
 		{% elif active_page == 'contact' %}
 			style="background: linear-gradient(rgba(240, 240, 240, 0.1), rgba(240, 240, 240, 0.1)), url({{url_for('static', filename='background-images/cairn.jpg')}});
 			background-size: cover; background-attachment: fixed; background-position: 40% 50%;"

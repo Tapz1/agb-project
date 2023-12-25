@@ -37,16 +37,16 @@
                         <div class="carousel-caption">
                             <div class="container-md">
                                 <div class="row justify-content-center">
-                                    <div class="col-md-6" style="padding-bottom: 15.0rem;">
+                                    <div class="col-md" style="padding-bottom: 15.0rem;">
                                         <div style="">
-                                            <h1 style="font-weight: 600;" class=" gallery_title">Project Gallery</h1>
+                                            <h1 style="font-weight: 600; font-size: 50px;" class="gallery_title">Project Gallery</h1>
                                         </div>
 
                                     </div>
                                 </div>
                                 <div class="row justify-content-end">
-                                    <div class="col-sm-auto" style="">
-                                        <p class="text-lg font-med-bold"><a href="{{ url_for('blueprint.view_project', project_id=photo.project_id) }}">{{photo.project_name}}</a></p>
+                                    <div class="col-sm" style="">
+                                        <p class="text-lg font-med-bold project_link" style=""><a href="{{ url_for('blueprint.view_project', project_id=photo.project_id) }}">{{photo.project_name}}</a></p>
                                     </div>
                                 </div>
                             </div>
