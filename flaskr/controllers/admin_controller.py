@@ -1,19 +1,13 @@
 from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, request, redirect, url_for, flash, current_app
 
-from flaskr.project_controller import get_projects
-from flaskr.testimonial_controller import get_testimonials
+from flaskr.controllers.testimonial_controller import get_testimonials
 # from config.config import CLIENT_EMAIL
-from flaskr.testimonial_service import get_all_pending, delete_entry, update_approval
-from flaskr.mail_service import MailService
-from flaskr.submissionForms import RequestTestimonial, UploadForm
-from flaskr.upload_controller import upload_multiple_images
-from flaskr.project_service import get_all_projects, add_project
+from flaskr.services.testimonial_service import delete_entry, update_approval
+from flaskr.services.mail_service import MailService
+from flaskr.models.submissionForms import RequestTestimonial, UploadForm
+from flaskr.controllers.upload_controller import upload_multiple_images
 import os
-import traceback
-import pathlib
-from PIL import Image
-from werkzeug.utils import secure_filename
 
 
 @DecoratorWraps.is_logged_in

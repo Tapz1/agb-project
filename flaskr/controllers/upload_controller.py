@@ -5,10 +5,10 @@ import traceback
 from flask import current_app, send_from_directory, request, flash, redirect, url_for
 from werkzeug.utils import secure_filename
 
-from flaskr.image_service import add_image_db
-from flaskr.project_service import get_project_id, add_project
-from flaskr.submissionForms import UploadForm
-from PIL import Image
+from flaskr.services.image_service import add_image_db
+from flaskr.services.project_service import get_project_id, add_project
+
+
 # from config.config import ALLOWED_EXTENSIONS
 
 

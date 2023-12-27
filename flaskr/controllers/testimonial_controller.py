@@ -1,16 +1,13 @@
 
 from flask import render_template, redirect, flash, url_for, request, session
 
-from flaskr.project_controller import get_paginated_projects
-from flaskr.project_service import project_exists, get_project_id_by_email
-from flaskr.testimonial_service import (get_all_approved, paginate_approved, add_testimonial, get_testimonial_id_by_email,
-                                        get_all_pending, get_limited_approved, add_project_id)
-from flaskr.mail_service import MailService
-from flaskr.token_service import confirm_token
-from flaskr.submissionForms import TestimonialForm
+from flaskr.services.project_service import project_exists, get_project_id_by_email
+from flaskr.services.testimonial_service import (get_all_approved, paginate_approved, add_testimonial, get_testimonial_id_by_email,
+                                                 get_all_pending, get_limited_approved, add_project_id)
+from flaskr.services.mail_service import MailService
+from flaskr.services.token_service import confirm_token
+from flaskr.models.submissionForms import TestimonialForm
 from flask_paginate import get_page_parameter, Pagination
-
-from flaskr.upload_controller import allowed_file
 
 
 def testimonials():

@@ -1,12 +1,12 @@
 import os
 import traceback
 
-from flask import render_template, redirect, flash, url_for, request, session, current_app
+from flask import render_template, flash, url_for, request, session, current_app
 
-from flaskr.project_controller import get_paginated_projects, get_all_project_thumbnails
-from flaskr.project_controller import get_multiple_project_items
-from flaskr.image_controller import get_checked_images
-from flaskr.submissionForms import GalleryDropdowns, UploadForm
+from flaskr.controllers.project_controller import get_paginated_projects, get_all_project_thumbnails
+from flaskr.controllers.project_controller import get_multiple_project_items
+from flaskr.controllers.image_controller import get_checked_images
+from flaskr.models.submissionForms import GalleryDropdowns, UploadForm
 import traceback as tb
 
 

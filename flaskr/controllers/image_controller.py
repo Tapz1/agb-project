@@ -1,15 +1,9 @@
-import traceback
-
-from werkzeug.utils import secure_filename
-
 from flaskr.decorator_wraps import DecoratorWraps
-from flask import render_template, session, redirect, url_for, flash, current_app, request
-from flaskr.project_controller import get_project_item
-from flaskr.image_service import delete_image_db, get_image_by_id, get_limited_images_db, update_check_db, \
+from flask import render_template, redirect, url_for, flash, current_app
+from flaskr.controllers.project_controller import get_project_item
+from flaskr.services.image_service import delete_image_db, get_image_by_id, get_limited_images_db, update_check_db, \
     get_checked_images_db
-from flaskr.submissionForms import UploadForm
 import os
-from PIL import Image   # needs to get commented out during production
 
 
 @DecoratorWraps.is_logged_in

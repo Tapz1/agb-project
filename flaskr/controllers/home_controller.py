@@ -1,11 +1,9 @@
 from flask import render_template, session, flash
 
-from flaskr.project_controller import get_all_project_thumbnails
-from flaskr.project_service import get_limited_projects
-from flaskr.testimonial_controller import get_limited_testimonials
+from flaskr.controllers.project_controller import get_all_project_thumbnails
+from flaskr.services.project_service import get_limited_projects
+from flaskr.controllers.testimonial_controller import get_limited_testimonials
 import traceback as tb
-
-from flaskr.testimonial_service import get_all_approved
 
 
 def home():
