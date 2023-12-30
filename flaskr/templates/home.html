@@ -6,6 +6,27 @@
     {% endblock %}
     {% block body %}
     <div id="" class="">
+        <!--replace background-->
+        {% if session.logged_in %}
+        {% from "includes/_formhelpers.html" import render_field %}
+        <div class="container-md" style="max-width: 100%;">
+
+            <form method="post" action="" class="" enctype="multipart/form-data">
+                <div class="row justify-content-end text-sm" style="font-weight: 500;">
+                    <div class="col-3 form-labels" style="text-align: right;">
+                            <p class="text-md">Change Background</p>
+                        {{ image_form.image(class="form-control text-sm") }}
+                            <button class="buttons btn btn-outline-primary"
+                            data-callback='onSubmit'
+                            data-action='submit'
+                            name="upload-image">Upload</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+
 
         <!--welcome preview-->
         <div class="container-md info-sections" style="">

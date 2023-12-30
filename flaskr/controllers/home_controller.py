@@ -1,8 +1,10 @@
-from flask import render_template, session, flash
+from flask import render_template, session, flash, request
 
 from flaskr.controllers.project_controller import get_all_project_thumbnails
 from flaskr.services.project_service import get_limited_projects
 from flaskr.controllers.testimonial_controller import get_limited_testimonials
+from flaskr.models.submissionForms import UploadForm
+from flaskr.controllers.upload_controller import upload_bg_image
 import traceback as tb
 
 
@@ -13,6 +15,8 @@ def home():
     testimonial_highlights = []
     first_testimonial = None
     enumerated_testimonials = []
+
+    image_form = UploadForm()
 
     try:
         projects = get_limited_projects(8)
@@ -37,13 +41,15 @@ def home():
             enumerated_testimonials = [*range(0, len(testimonial_highlights))]  # for carousel indicators
         print(f"photos len: {len(testimonial_highlights)}")
 
-
     except Exception as e:
         print("Error with getting testimonial highlights")
         print(e)
 
+    if request.method == 'POST' and "upload-image" in request.form:
+        upload_bg_image(image_form, page_name="home")
+
     return render_template("home.html", testimonials=testimonial_highlights, first_testimonial=first_testimonial,
-                           project_data=zip(projects, project_thumbnails), enumerated_testimonials=enumerated_testimonials)
+                           project_data=zip(projects, project_thumbnails), enumerated_testimonials=enumerated_testimonials, image_form=image_form)
 
 
 

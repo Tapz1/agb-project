@@ -41,19 +41,19 @@
 
 <body class="d-flex flex-column min-vh-100"
 		{% if active_page == 'testimonials' %}
-			style="background: linear-gradient(rgba(240, 240, 240, 0.0), rgba(240, 240, 240, 0.0)), url({{url_for('static', filename='background-images/water view.jpg')}});
+			style="background: linear-gradient(rgba(240, 240, 240, 0.0), rgba(240, 240, 240, 0.0)), url({{url_for('static', filename='background-images/testimonials-bg.jpg')}});
 				background-size: cover; background-attachment: fixed; background-repeat: no-repeat; background-position: 50% 50%;"
 		{% elif active_page == 'home' %}
-			style="background-image: url({{url_for('static', filename='background-images/IMG_8106.jpg')}});
+			style="background-image: url({{url_for('static', filename='background-images/home-bg.jpg')}});
     background-repeat: no-repeat; background-size: cover; background-attachment: fixed;"
 		{% elif active_page == 'gallery' %}
-			style="background: url({{url_for('static', filename='background-images/pexels-pixabay-235994.jpg')}});
+			style="background: url({{url_for('static', filename='background-images/gallery-bg.jpg')}});
 					 background-size: cover; background-attachment: fixed; background-repeat: no-repeat;"
 		{% elif active_page == 'contact' %}
-			style="background: linear-gradient(rgba(240, 240, 240, 0.1), rgba(240, 240, 240, 0.1)), url({{url_for('static', filename='background-images/cairn.jpg')}});
+			style="background: linear-gradient(rgba(240, 240, 240, 0.1), rgba(240, 240, 240, 0.1)), url({{url_for('static', filename='background-images/contact-bg.jpg')}});
 			background-size: cover; background-attachment: fixed; background-position: 40% 50%;"
 		{% elif active_page == 'login' %}
-			style="background: linear-gradient(rgba(240, 240, 240, 0.1), rgba(240, 240, 240, 0.1)), url({{ url_for('static', filename='background-images/image006.JPG') }});
+			style="background: linear-gradient(rgba(240, 240, 240, 0.1), rgba(240, 240, 240, 0.1)), url({{ url_for('static', filename='background-images/login-bg.JPG') }});
 				background-size: cover; background-repeat: no-repeat; display: flex;"
 		{% endif %}
 >

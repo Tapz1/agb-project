@@ -9,6 +9,7 @@ DB_NAME = "database.db"
 # Upload Info ###
 #UPLOAD_FOLDER = './static/uploads'         # path for production
 UPLOAD_FOLDER = 'flaskr/static/uploads'     # path for dev
+STATIC_PATH = 'flaskr/static'     # path for dev
 PATH_SLICE = 6
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 

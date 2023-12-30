@@ -9,18 +9,18 @@ import os
 @DecoratorWraps.is_logged_in
 def delete_image(image_id, project_id, filename):
     upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
-    project_name = ""
-    try:
-        project_name = get_project_item(project_id, "project_name")
-        file_path = os.path.join(upload_folder, project_name, filename)
-        os.remove(file_path)
-        delete_image_db(image_id)
-        flash("Image deleted!", "success")
+    if DecoratorWraps.is_logged_in:
+        try:
+            project_name = get_project_item(project_id, "project_name")
+            file_path = os.path.join(upload_folder, project_name, filename)
+            os.remove(file_path)
+            delete_image_db(image_id)
+            flash("Image deleted!", "success")
 
-    except Exception as e:
-        print(e)
-        flash("Image could not be deleted!", "danger")
-    return redirect(url_for("blueprint.view_project", project_id=project_id))
+        except Exception as e:
+            print(e)
+            flash("Image could not be deleted!", "danger")
+        return redirect(url_for("blueprint.view_project", project_id=project_id))
 
 
 def view_image(image_id):

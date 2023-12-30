@@ -11,7 +11,7 @@ from flaskr.controllers.image_controller import delete_image, view_image, update
 
 blueprint = Blueprint('blueprint', __name__, template_folder='templates')
 
-blueprint.route('/', methods=['GET'])(home)
+blueprint.route('/', methods=['GET', 'POST'])(home)
 blueprint.route('/contact', methods=['GET'])(contact)
 blueprint.route('/testimonials', methods=['GET'])(testimonials)
 blueprint.route('/gallery', methods=['GET', 'POST'])(gallery)

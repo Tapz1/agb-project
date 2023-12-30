@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 
 from flaskr.services.image_service import add_image_db
 from flaskr.services.project_service import get_project_id, add_project
-
+from PIL import Image
 
 # from config.config import ALLOWED_EXTENSIONS
 
@@ -39,9 +39,9 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                     filename = image.filename
                     if filename in existing_photos:
                         flash(
-                            "Did you already upload this photo? A file already exists in here with that name.",
-                            "danger")
-                        # return redirect(request.url)
+                            f"Did you already upload this photo? An image already exists in here with the name: {filename}",
+                            "warning")
+                        return redirect(request.url)
             if isNew:
                 image_filename = []
                 # creating a new project #
@@ -81,10 +81,9 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                     image_path = os.path.join(project_path, image_filename)
                     image.save(image_path)
 
-                    #img = Image.open(image_path)
-                    #img = img.resize((2048, 1152), resample=None, box=None, reducing_gap=None)
+                    img = Image.open(image_path)
 
-                    #img.save(image_path)
+                    img.save(image_path, "JPEG", optimize=True)     # optimizes images
 
                     print("project name: "+project_name)
                     project_id = get_project_id(project_name)
@@ -98,7 +97,7 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
             except Exception as e:
                 print(e)
                 print(traceback.format_exception(None, e, e.__traceback__))
-                flash("Unable to upload images", 'warning')
+                flash("Unable to upload images", 'danger')
                 # return redirect(request.url)
         else:
             flash('No image selected')
@@ -108,4 +107,50 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
         print(e)
         flash("Your image could not be uploaded", 'danger')
         # return redirect(request.url)
+
+
+def upload_bg_image(image_form, page_name):
+    path_slice = current_app.app_context().app.config['PATH_SLICE']
+    project_upload_path = current_app.app_context().app.config['UPLOAD_FOLDER']
+    static_path = current_app.app_context().app.config['STATIC_PATH']
+
+    page_filename = ""
+    if page_name == 'home':
+        page_filename = "home-bg.jpg"
+    elif page_name == 'gallery':
+        page_filename = "gallery-bg.jpg"
+    elif page_name == 'contact':
+        page_filename = "contact-bg.jpg"
+    elif page_name == 'testimonials':
+        page_filename = "testimonials-bg.jpg"
+    elif page_name == 'login':
+        page_filename = "login-bg.jpg"
+
+    try:
+        if 'image' not in request.files:
+            flash('No file')
+            return redirect(request.url)
+        image = request.files['image']
+
+        if image.filename == '':
+            flash('No image selected')
+            return redirect(request.url)
+
+        if image and allowed_file(image.filename):
+            filename = secure_filename(image.filename)
+
+            image_path = os.path.join(static_path, "background-images", page_filename)
+
+            img = Image.open(image_path)        # can go straight into Pillow since filename already in system
+            img.save(image_path, "JPEG", optimize=True)  # optimizes images
+
+            flash("Your image was uploaded as a background image!", 'success')
+            return redirect(request.url)
+
+    except Exception as e:
+        print(e)
+        flash("Your image could not be uploaded", 'danger')
+        return redirect(request.url)
+
+
 

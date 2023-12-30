@@ -7,7 +7,7 @@ from datetime import timedelta
 from flask import Flask
 from flaskr.config import (UPLOAD_FOLDER, DB_NAME, SECRET_KEY, SECURITY_PASSWORD_SALT, EMAIL_USERNAME,
                            EMAIL_PASSWORD, EMAIL_SEND_AS, TO_EMAIL, DEV_EMAIL, CLIENT_EMAIL, ADMIN_PASSWORD, ALLOWED_EXTENSIONS,
-                           PATH_SLICE)
+                           PATH_SLICE, STATIC_PATH)
 from flaskr.services.project_service import add_project
 
 
@@ -18,6 +18,7 @@ def create_app(test_config=None):
         SECRET_KEY=SECRET_KEY,
         SECURITY_PASSWORD_SALT=SECURITY_PASSWORD_SALT,
         UPLOAD_FOLDER=UPLOAD_FOLDER,
+        STATIC_PATH=STATIC_PATH,
         PATH_SLICE=PATH_SLICE,
         ALLOWED_EXTENSIONS=ALLOWED_EXTENSIONS,
         # DATABASE=os.path.join(flaskr.instance_path, 'flaskr.sqlite'),
