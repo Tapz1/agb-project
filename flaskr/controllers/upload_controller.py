@@ -109,11 +109,9 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
         # return redirect(request.url)
 
 
-def upload_bg_image(image_form, page_name):
-    path_slice = current_app.app_context().app.config['PATH_SLICE']
-    project_upload_path = current_app.app_context().app.config['UPLOAD_FOLDER']
+def upload_bg_image(page_name):
     static_path = current_app.app_context().app.config['STATIC_PATH']
-
+    print(f"page_name: {page_name}")
     page_filename = ""
     if page_name == 'home':
         page_filename = "home-bg.jpg"
@@ -126,20 +124,26 @@ def upload_bg_image(image_form, page_name):
     elif page_name == 'login':
         page_filename = "login-bg.jpg"
 
+    print(f"page_filename: {page_filename}")
+
     try:
-        if 'image' not in request.files:
-            flash('No file')
+        if 'bg_image' not in request.files:
+            flash('No file', 'warning')
             return redirect(request.url)
-        image = request.files['image']
+        image = request.files['bg_image']
 
         if image.filename == '':
-            flash('No image selected')
+            flash('No image selected', 'warning')
+            print("no image selected")
             return redirect(request.url)
 
         if image and allowed_file(image.filename):
-            filename = secure_filename(image.filename)
+            #filename = secure_filename(image.filename)
 
             image_path = os.path.join(static_path, "background-images", page_filename)
+            image.save(image_path)
+
+            print("image saved")
 
             img = Image.open(image_path)        # can go straight into Pillow since filename already in system
             img.save(image_path, "JPEG", optimize=True)  # optimizes images

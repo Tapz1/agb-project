@@ -16,7 +16,7 @@ def login():
             session['logged_in'] = True
             session['email'] = email
             flash('You are now logged in', 'success')
-            return redirect(url_for("blueprint.admin_portal"))
+            return redirect(request.referrer)
         else:
             error = 'Invalid login'
             flash(error, "danger")
@@ -37,4 +37,4 @@ def logout():
         flash(error, "danger")
         return render_template("index.html")
 
-    return redirect(url_for("blueprint.home"))
+    return redirect(request.referrer)

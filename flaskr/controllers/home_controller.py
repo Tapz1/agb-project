@@ -46,7 +46,8 @@ def home():
         print(e)
 
     if request.method == 'POST' and "upload-image" in request.form:
-        upload_bg_image(image_form, page_name="home")
+        print("upload bg attempted")
+        upload_bg_image(page_name="home")
 
     return render_template("home.html", testimonials=testimonial_highlights, first_testimonial=first_testimonial,
                            project_data=zip(projects, project_thumbnails), enumerated_testimonials=enumerated_testimonials, image_form=image_form)

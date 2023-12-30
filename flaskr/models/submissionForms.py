@@ -21,7 +21,7 @@ class RequestTestimonial(Form):
 
 
 class UploadForm(Form):
-    #image = FileField('Image', [validators.DataRequired()])
+    bg_image = FileField(u'Change Background', [validators.DataRequired()])
     project = SelectField(u'Project Info', choices=[])
     image = MultipleFileField('Upload Images', [validators.DataRequired()])
     new_project = StringField('Project Name')

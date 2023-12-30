@@ -8,6 +8,27 @@
 {% block body %}
 
 <div id="main-content" class="main-content" style="">
+        <!--replace background-->
+        {% if session.logged_in %}
+        {% from "includes/_formhelpers.html" import render_field %}
+        <div class="" style="max-width: 100%;">
+
+            <form method="post" action="" class="" enctype="multipart/form-data">
+                <div class="row justify-content-end" style="font-weight: 500;">
+                    <div class="col-3 form-labels" style="text-align: right;">
+                            <p class="font-med-bold text-normal">Change Background</p>
+                        {{ image_form.bg_image(class="form-control", style="font-size: 10px;") }}
+                            <button class="buttons btn btn-outline-primary btn-sm"
+                            data-callback='onSubmit'
+                            data-action='submit'
+                            name="upload-image" style="">Upload</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+
     <!--title banner-->
     <header class="screen_title_container">
         {% include 'includes/_messages.html' %}
@@ -19,6 +40,7 @@
             </div>
         </div>
     </header>
+
 
     <!--contact info-->
     <div class="container" style="max-height: 100%; max-width: 100%;">

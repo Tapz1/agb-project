@@ -43,7 +43,8 @@
                 ('/gallery', 'gallery', 'Gallery'),
                 ('/testimonials', 'testimonials', 'Testimonials'),
                 ('/admin', 'admin', 'Admin Portal'),
-                ('/contact', 'contact', 'Contact')
+                ('/contact', 'contact', 'Contact'),
+                ('/logout', 'logout', 'Logout')
             ] -%}
         {% else %}
             {% set navigation_bar = [
@@ -59,7 +60,7 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
           <div class="navbar-nav" id="navigation" style="text-align: right;">
                 {% for href, id, caption in navigation_bar %}
-                    {% if active_page == 'login' %}
+                    {% if active_page == 'login' or active_page == 'admin' %}
                         <a {% if id == active_page %} class="nav-link active text-white-50" {% else %} class="hover nav-link text-light" {% endif %} href="{{ href|e }}">
                         {{ caption|e }}
                         </a>
@@ -70,10 +71,6 @@
                     {% endif %}
                 {% endfor %}
 
-              {% if session.logged_in %}
-              <!--<a class="nav-link text-light" href="/admin">Admin Portal</a>-->
-              <a class="nav-link text-dark" href="/logout">Logout</a>
-              {% endif %}
 
           </div>
         </div>

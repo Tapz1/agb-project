@@ -6,7 +6,7 @@ from flaskr.controllers.testimonial_controller import get_testimonials
 from flaskr.services.testimonial_service import delete_entry, update_approval
 from flaskr.services.mail_service import MailService
 from flaskr.models.submissionForms import RequestTestimonial, UploadForm
-from flaskr.controllers.upload_controller import upload_multiple_images
+from flaskr.controllers.upload_controller import upload_multiple_images, upload_bg_image
 import os
 
 
@@ -50,6 +50,10 @@ def admin_portal():
         if "upload-image" in request.form:
             # print("* upload button pressed *")
             upload_multiple_images(image_form=image_form, existing_photos=existing_photos, isNew=True, project_name="")
+
+        if "upload-bg-image" in request.form:
+            print("upload bg attempted")
+            upload_bg_image(page_name="login")
 
     return render_template("admin.html", name=name, email=email, title="Admin", form=form,
                            image_form=image_form, pending_testimonials=pending)

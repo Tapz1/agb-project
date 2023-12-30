@@ -1,12 +1,13 @@
 
 from flask import render_template, redirect, flash, url_for, request, session
 
+from flaskr.controllers.upload_controller import upload_bg_image
 from flaskr.services.project_service import project_exists, get_project_id_by_email
 from flaskr.services.testimonial_service import (get_all_approved, paginate_approved, add_testimonial, get_testimonial_id_by_email,
                                                  get_all_pending, get_limited_approved, add_project_id)
 from flaskr.services.mail_service import MailService
 from flaskr.services.token_service import confirm_token
-from flaskr.models.submissionForms import TestimonialForm
+from flaskr.models.submissionForms import TestimonialForm, UploadForm
 from flask_paginate import get_page_parameter, Pagination
 
 
@@ -16,6 +17,8 @@ def testimonials():
     all_testimonials = []
     pagination = None
     paginated_data = []
+
+    image_form = UploadForm()
 
     try:
         all_testimonials = get_testimonials('approved')
@@ -54,7 +57,11 @@ def testimonials():
         print("Error paginating")
         print(e)
 
-    return render_template("testimonials.html", testimonials=paginated_data, pagination=pagination)
+    if request.method == 'POST' and "upload-image" in request.form:
+        print("upload bg attempted")
+        upload_bg_image(page_name="testimonials")
+
+    return render_template("testimonials.html", testimonials=paginated_data, pagination=pagination, image_form=image_form)
 
 
 def testimonial_form(token):

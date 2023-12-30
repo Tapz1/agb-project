@@ -52,23 +52,11 @@
 		{% elif active_page == 'contact' %}
 			style="background: linear-gradient(rgba(240, 240, 240, 0.1), rgba(240, 240, 240, 0.1)), url({{url_for('static', filename='background-images/contact-bg.jpg')}});
 			background-size: cover; background-attachment: fixed; background-position: 40% 50%;"
-		{% elif active_page == 'login' %}
+		{% elif active_page == 'login' or active_page == 'admin' %}
 			style="background: linear-gradient(rgba(240, 240, 240, 0.1), rgba(240, 240, 240, 0.1)), url({{ url_for('static', filename='background-images/login-bg.JPG') }});
 				background-size: cover; background-repeat: no-repeat; display: flex;"
 		{% endif %}
 >
-
-<!--
-	<div class="container text-center" style="">
-      <div class="text-normal" style="font-weight: 500; display: inline-block; padding-top: 5px;">
-           <div class="" style="">
-               {% include 'includes/_messages.html' %}
-          </div>
-      </div>
-    </div>
--->
-
-    <!--{% include 'includes/_messages.html' %}-->
 
 
 	{% block body %}{% endblock %}
