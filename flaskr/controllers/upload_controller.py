@@ -141,7 +141,7 @@ def upload_bg_image(page_name):
             #filename = secure_filename(image.filename)
 
             #image_path = os.path.join(static_path, "background-images", page_filename)
-            image_path = url_for(static_path, filename="background-images/page_filename")
+            image_path = url_for('static', filename="background-images/page_filename")
             image.save(image_path)
 
             img = Image.open(image_path)        # can go straight into Pillow since filename already in system
