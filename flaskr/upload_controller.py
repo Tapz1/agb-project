@@ -143,7 +143,7 @@ def upload_bg_image(page_name):
         if image and allowed_file(image.filename):
             #filename = secure_filename(image.filename)
 
-            image_path = bg_image_path + '/' + page_filename
+            image_path = url_for('static', filename='background-images/' + page_filename)
             print(f"image_path: {image_path}")
             #image_path = url_for('static', filename=f"background-images/{page_filename}")
             image.save(image_path)

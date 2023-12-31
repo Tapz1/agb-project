@@ -64,7 +64,7 @@
             <div>
                 <a href="{{ url_for('blueprint.view_image', filename=photo.filename) }}">
                     <!--<img class="img-thumbnail" src="{{photo.image_path}}" alt="photo.filename" style="width: 300px; height: 300px;">-->
-                    <img class="img-thumbnail" src="{{url_for('static', filename='uploads'+'/'+ project_name + '/' + photo.filename)}}" alt="{{photo.filename}}" style="width: 300px; height: 300px;">
+                    <img class="img-thumbnail" src="{{url_for('static', filename='uploads/'+ project_name + '/' + photo.filename)}}" alt="{{photo.filename}}" style="width: 300px; height: 300px;">
                 </a>
             </div>
 
