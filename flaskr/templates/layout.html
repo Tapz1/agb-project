@@ -53,7 +53,7 @@
 			background: linear-gradient(rgba(240, 240, 240, 0.1), rgba(240, 240, 240, 0.1)), url({{url_for('static', filename='background-images/contact-bg.jpg')}}) no-repeat 40% center;
 
 		{% elif active_page == 'login' or active_page == 'admin' %}
-			background: linear-gradient(rgba(240, 240, 240, 0.1), rgba(240, 240, 240, 0.1)), url({{ url_for('static', filename='background-images/login-bg.JPG') }}) no-repeat;
+			background: linear-gradient(rgba(240, 240, 240, 0.1), rgba(240, 240, 240, 0.1)), url({{ url_for('static', filename='background-images/login-bg.jpg') }}) no-repeat;
 
 		{% endif %}
 
@@ -72,15 +72,6 @@
 
 	}
 
-	/* Then tablets, laptops and desktops (768px and up) */
-	@media only screen and (max-width: 768px) {
-		.page_bg{
-			{% if active_page == 'testimonials' %}
-				<!--background-size: 100% 100vh;-->
-
-			{% endif %}
-			}
-		}
 </style>
 
 <body class="d-flex flex-column page_bg">
