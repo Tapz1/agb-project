@@ -1,11 +1,11 @@
 from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, request, redirect, url_for, flash, current_app
 
-from flaskr.controllers.testimonial_controller import get_testimonials
-from flaskr.services.testimonial_service import delete_entry, update_approval
-from flaskr.services.mail_service import MailService
-from flaskr.models.submissionForms import RequestTestimonial, UploadForm
-from flaskr.controllers.upload_controller import upload_multiple_images, upload_bg_image
+from flaskr.testimonial_controller import get_testimonials
+from flaskr.testimonial_service import delete_entry, update_approval
+from flaskr.mail_service import MailService
+from flaskr.submissionForms import RequestTestimonial, UploadForm
+from flaskr.upload_controller import upload_multiple_images, upload_bg_image
 import os
 
 

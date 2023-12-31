@@ -1,8 +1,8 @@
 
 from flask import render_template, request, session
 
-from flaskr.controllers.upload_controller import upload_bg_image
-from flaskr.models.submissionForms import UploadForm
+from flaskr.upload_controller import upload_bg_image
+from flaskr.submissionForms import UploadForm
 
 
 def contact():

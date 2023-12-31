@@ -1,6 +1,6 @@
 from flask_mail import Message, Mail
 from flask import current_app, render_template, url_for
-from flaskr.services.token_service import generate_confirmation_token
+from flaskr.token_service import generate_confirmation_token
 
 
 def send_email(msg):

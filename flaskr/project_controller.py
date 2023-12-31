@@ -2,11 +2,11 @@ import traceback
 
 from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, redirect, url_for, flash, current_app, request
-from flaskr.controllers.upload_controller import upload_multiple_images
-from flaskr.services.project_service import delete_project_row, get_all_projects, get_projects_by_town, \
+from flaskr.upload_controller import upload_multiple_images
+from flaskr.project_service import delete_project_row, get_all_projects, get_projects_by_town, \
     get_project_item_db, get_multiple_project_items_db, get_project_item_by_name_db
-from flaskr.services.image_service import get_images_from_project, get_project_thumbnail
-from flaskr.models.submissionForms import UploadForm
+from flaskr.image_service import get_images_from_project, get_project_thumbnail
+from flaskr.submissionForms import UploadForm
 from flask_paginate import get_page_parameter, Pagination
 import os
 import shutil
