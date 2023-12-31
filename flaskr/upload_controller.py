@@ -10,7 +10,6 @@ from flaskr.project_service import get_project_id, add_project
 from PIL import Image
 
 
-
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in current_app.app_context().app.config['ALLOWED_EXTENSIONS']
 
