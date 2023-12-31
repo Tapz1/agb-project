@@ -52,6 +52,11 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    try:
+        os.makedirs(app.config['BACKGROUND_IMAGES_PATH'])
+    except OSError:
+        pass
+
     from flaskr.blueprint import blueprint
     app.register_blueprint(blueprint, url_prefix='/')
 

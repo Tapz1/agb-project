@@ -143,12 +143,13 @@ def upload_bg_image(page_name):
         if image and allowed_file(image.filename):
             #filename = secure_filename(image.filename)
 
-            image_path = './AllanGilbertBuilders/flaskr/static/background-images/' + page_filename
+            #image_path = './AllanGilbertBuilders/flaskr/static/background-images/' + page_filename
+
+            image_path = url_for('static', filename=f"background-images/{page_filename}")
             print(f"image_path: {image_path}")
-            #image_path = url_for('static', filename=f"background-images/{page_filename}")
             image.save(image_path)
 
-            img = Image.open(image_path)        # can go straight into Pillow since filename already in system
+            img = Image.open(image_path)
             img.save(image_path, "JPEG", optimize=True)  # optimizes images
 
             flash("Your image was uploaded as a background image!", 'success')
