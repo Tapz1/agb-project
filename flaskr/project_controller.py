@@ -86,12 +86,12 @@ def delete_project(project_id):
         #os.rmdir(file_path)
         shutil.rmtree(file_path)
         flash("Project deleted!", "success")
-        return redirect(url_for("blueprint.view_all_projects"))
+        return redirect(request.referrer)
     except Exception as e:
         print(e)
         print(tb.format_exception(None, e, e.__traceback__))
         flash("Project could not be deleted!", "danger")
-        return redirect(url_for("blueprint.view_all_projects"))
+        return redirect(request.referrer)
 
 
 def get_paginated_projects(sort_by, town=None):
