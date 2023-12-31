@@ -54,23 +54,6 @@ def get_projects_by_town(town, limit, offset, sort_by):
     return projects, paginated_projects
 
 
-def get_projects_by_email_db(email):
-    db = get_db_connection()
-
-    cur = db.cursor()
-
-    projects = cur.execute(
-        "SELECT * "
-        "FROM projects "
-        "WHERE email = ?"
-        "INNER JOIN testimonials on testimonials.email = projects.owners_email",
-        [email]
-    ).fetchall()
-
-    cur.close()
-    return projects
-
-
 def get_project_id(project_name):
     db = get_db_connection()
 
@@ -105,7 +88,6 @@ def get_project_item_by_name_db(project_name, item):
     print(project_item)
     cur.close()
     return project_item
-
 
 
 def get_multiple_project_items_db(item):
@@ -156,18 +138,6 @@ def project_exists(email):
     cur.close()
 
     return count
-
-
-def get_project_by_testimonial(testimonial_id):
-    db = get_db_connection()
-
-    cur = db.cursor()
-
-    project = list(cur.execute("SELECT * FROM projects WHERE testimonial_id = ?", [testimonial_id]).fetchone())
-
-    cur.close()
-
-    return project
 
 
 def get_limited_projects(limit):

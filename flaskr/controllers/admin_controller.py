@@ -2,7 +2,6 @@ from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, request, redirect, url_for, flash, current_app
 
 from flaskr.controllers.testimonial_controller import get_testimonials
-# from config.config import CLIENT_EMAIL
 from flaskr.services.testimonial_service import delete_entry, update_approval
 from flaskr.services.mail_service import MailService
 from flaskr.models.submissionForms import RequestTestimonial, UploadForm
@@ -29,7 +28,6 @@ def admin_portal():
     ms = MailService()
 
     upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
-    # upload_folder = url_for('static', filename='uploads')
     existing_photos = os.listdir(upload_folder)
 
     pending = None
@@ -48,7 +46,6 @@ def admin_portal():
             return redirect(request.url)
 
         if "upload-image" in request.form:
-            # print("* upload button pressed *")
             upload_multiple_images(image_form=image_form, existing_photos=existing_photos, isNew=True, project_name="")
 
         if "upload-bg-image" in request.form:

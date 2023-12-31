@@ -9,7 +9,6 @@ from flaskr.services.image_service import add_image_db
 from flaskr.services.project_service import get_project_id, add_project
 from PIL import Image
 
-# from config.config import ALLOWED_EXTENSIONS
 
 
 def allowed_file(filename):
@@ -61,9 +60,7 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                 try:
                     project_path = os.path.join(project_upload_path, project_name)
                     project_id = int(os.urandom(4).hex(), 16)
-                    print(f"project_id: {project_id}")  # TODO: for testing - remove in deployment !!!
                     add_project(project_id, project_name, project_path[path_slice:], owners_email, town, date)
-                    print(f"project_id confirmed: {project_id}")    # TODO: for testing - remove in deployment !!!
                     print("New project created!")
 
                     # flash("Your images were successfully uploaded your new project!", 'success')
@@ -92,10 +89,8 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
 
                     # image_path[6:] is to splice off the "flaskr" from path
                     image_id = int(os.urandom(4).hex(), 16)
-                    print(f"image_id: {image_id}")  # TODO: for testing - remove in deployment !!!
                     add_image_db(image_id=image_id, image_path=image_path[path_slice:], filename=new_filename, project_name=project_name,
                                  project_id=project_id)
-                    print(f"image_id confirmed: {image_id}")    # TODO: for testing - remove in deployment !!!
 
                 flash("Your images were successfully uploaded your new project!", 'success')
                 redirect(url_for("blueprint.view_project", project_name=project_name))
@@ -147,8 +142,6 @@ def upload_bg_image(page_name):
 
             image_path = os.path.join(static_path, "background-images", page_filename)
             image.save(image_path)
-
-            print("image saved")
 
             img = Image.open(image_path)        # can go straight into Pillow since filename already in system
             img.save(image_path, "JPEG", optimize=True)  # optimizes images

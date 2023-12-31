@@ -1,5 +1,5 @@
 
-from flask import render_template, redirect, flash, url_for, request, session, current_app
+from flask import render_template, request, session
 
 from flaskr.controllers.upload_controller import upload_bg_image
 from flaskr.models.submissionForms import UploadForm

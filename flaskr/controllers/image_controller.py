@@ -35,10 +35,6 @@ def view_image(filename):
                            image_id=image_id, project_name=project_name, project_id=project_id)
 
 
-def get_limited_images(limit):
-    return get_limited_images_db(limit)
-
-
 def get_checked_images():
     return get_checked_images_db()
 

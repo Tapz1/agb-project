@@ -24,8 +24,6 @@ def gallery():
     project_thumbnails = []
     pagination = None
     towns = ["All"]
-    #town = dropdown_form.filter_by.data
-
 
     # preview slideshow banner
     try:
@@ -99,25 +97,4 @@ def gallery():
     return render_template("gallery.html", images=images, form=dropdown_form, image_form=image_form,
                            enumerated_photos=enumerated_photos, first_photo=first_photo,
                            project_data=zip(projects, project_thumbnails), pagination=pagination, title="Gallery")
-
-
-def view_gallery_carousel():
-    session.modified = True
-    image_form = UploadForm()
-
-    upload_folder = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], "gallery_carousel")
-    photos = []
-
-    try:
-        photos = os.listdir(upload_folder)
-        photo_names = [photo for photo in photos]
-        photos = ['uploads/gallery_carousel' + photo for photo in photos]
-
-        return render_template("gallery_carousel_photos.html", all_photos=zip(photos, photo_names))
-
-
-    except Exception as e:
-        print("Error with getting images:")
-        print(e)
-        print(traceback.format_exception(None, e, e.__traceback__))
 

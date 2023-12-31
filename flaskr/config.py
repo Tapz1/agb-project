@@ -7,9 +7,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_NAME = "database.db"
 
 # Upload Info ###
-#UPLOAD_FOLDER = './static/uploads'         # path for production
-UPLOAD_FOLDER = 'flaskr/static/uploads'     # path for dev
-STATIC_PATH = 'flaskr/static'     # path for dev
+UPLOAD_FOLDER = './static/uploads'         # path for production
+#UPLOAD_FOLDER = 'flaskr/static/uploads'     # path for dev
+STATIC_PATH = './static'     # path for dev
+#STATIC_PATH = 'flaskr/static'     # path for dev
 PATH_SLICE = 6
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
@@ -27,5 +28,5 @@ EMAIL_SEND_AS = EMAIL_USERNAME
 # login info
 CLIENT_EMAIL = os.environ.get('CLIENT_EMAIL')
 DEV_EMAIL = os.environ.get('DEV_EMAIL')
-#ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
-ADMIN_PASSWORD = "test"                   # for development ###
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
+#ADMIN_PASSWORD = "test"                   # for development ###

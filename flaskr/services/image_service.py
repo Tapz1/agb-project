@@ -92,18 +92,6 @@ def delete_image_db(image_id):
     db.close()
 
 
-def get_image_by_id(image_id):
-    db = get_db_connection()
-
-    cur = db.cursor()
-
-    thumbnail = list(cur.execute("SELECT * FROM images WHERE image_id = ?", [image_id]).fetchone())
-
-    cur.close()
-
-    return thumbnail
-
-
 def get_image_by_name(filename):
     db = get_db_connection()
 
@@ -114,6 +102,7 @@ def get_image_by_name(filename):
     cur.close()
 
     return thumbnail
+
 
 def update_check_db(image_id, isChecked):
     db = get_db_connection()

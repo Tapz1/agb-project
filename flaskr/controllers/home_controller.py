@@ -31,7 +31,6 @@ def home():
 
     try:
         testimonial_highlights = get_limited_testimonials(2)
-        #testimonial_highlights = get_all_approved() # for carousel style
 
         if len(testimonial_highlights) == 0:
             print("No testimonials")

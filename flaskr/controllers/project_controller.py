@@ -48,11 +48,11 @@ def view_all_projects():
 
 
 def view_project(project_name):
+    """takes project name since it's client facing"""
     session.modified = True
     image_form = UploadForm()
     project_id = get_project_item_by_name(project_name, "project_id")
     project_town = get_project_item_by_name(project_name, "town")
-
 
     try:
 
@@ -160,10 +160,6 @@ def get_project_item_by_name(project_name, item):
     for blueprint endpoints -
     item can be 'town', 'project_id', 'date'"""
     return get_project_item_by_name_db(project_name, item)
-
-
-def get_projects(sort_by='DESC'):
-    return get_all_projects(sort_by=sort_by)
 
 
 def get_multiple_project_items(items):
