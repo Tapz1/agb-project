@@ -62,7 +62,7 @@ def testimonials():
         print("upload bg attempted")
         upload_bg_image(page_name="testimonials")
 
-    return render_template("testimonials.html", testimonials=paginated_data, pagination=pagination, image_form=image_form)
+    return render_template("testimonials.html", title="Testimonials", testimonials=paginated_data, pagination=pagination, image_form=image_form)
 
 
 def testimonial_form(token):

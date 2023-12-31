@@ -6,6 +6,7 @@
     {% endblock %}
     {% block body %}
     <div id="" class="">
+        {% include 'includes/_messages.html' %}
         <!--replace background-->
         {% if session.logged_in %}
         {% from "includes/_formhelpers.html" import render_field %}
@@ -29,7 +30,7 @@
 
 
         <!--welcome preview-->
-        <div class="container-md info-sections" style="">
+        <div class="container-md info-sections" style="max-width:100%; padding-left: 40px; padding-right: 40px;">
             <div class="row justify-content-center">
                 <div class="col-md info-sections-title">
                     <h1 class="display-5 font-medium">Welcome to Allan Gilbert Builders</h1>
@@ -37,7 +38,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-auto">
                     <p class="text-xl">
                     At Allan Gilbert Builders, we are more than just builders; we are artisans
                     dedicated to creating exceptional living spaces. With over three decades
@@ -48,7 +49,7 @@
             </div>
         </div>
         <!--about-->
-        <div class="container-md info-sections" style="">
+        <div class="container-md info-sections" style="max-width:100%; padding-left: 40px; padding-right: 40px;">
             <div class="row justify-content-center">
                 <div class="col-md info-sections-title">
                     <h1 class="display-4 font-medium">About Us</h1>
@@ -56,7 +57,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md">
+                <div class="col-md-auto">
                     <p class="text-xl">
                         Our story is one of passion, craftsmanship and a commitment to
                         excellence. A family owned and operated business, three generations
@@ -67,7 +68,7 @@
             </div>
         </div>
                 <!--services-->
-        <div class="container-md info-sections" style="">
+        <div class="container-md info-sections" style="max-width:100%; padding-left: 40px; padding-right: 40px;">
             <div class="row justify-content-center">
                 <div class="col-md info-sections-title">
                     <h1 class="display-4 font-medium">Our Services</h1>
@@ -75,7 +76,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md">
+                <div class="col-md-auto">
                     <p class="text-xl">
                         At Allen Gilbert Builders, we take pride in offering a comprehensive
                         range of construction and remodeling services tailored to meet your

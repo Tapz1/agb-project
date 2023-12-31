@@ -3,19 +3,19 @@
 <style>
     .navbar_bar {
     {% if active_page == 'home' %}
-        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.0));
+        <!--background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));-->
      {% elif active_page == 'testimonials' %}
-        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.0), #A1BBCF, rgba(255, 255, 255, 0.0));
+        <!--background: linear-gradient(to bottom, rgba(128, 162, 187, 0.0), #80A2BB, rgba(128, 162, 187, 0.0));-->
     {% elif active_page == 'contact' %}
 
     {% elif active_page == 'gallery' %}
-        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.0), white, rgba(255, 255, 255, 0.0));
+        <!--background: linear-gradient(to bottom, rgba(255, 255, 255, 0.0), white, rgba(255, 255, 255, 0.0));-->
 
     {% endif %}
     }
 </style>
 
-<nav class="navbar navbar-expand-md navbar_layout sticky-top navbar_bar">
+<nav class="navbar navbar-expand-md navbar_layout sticky-top">
 
     <div class="container-fluid">
         <a class="navbar-brand" style="" href="/">
@@ -25,7 +25,8 @@
 
       <!-- condensed menu button for smaller screens -->
         <button class="navbar-toggler justify-content-end" data-bs-theme="light" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"
+                style="margin-top: -60px;">
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -51,7 +52,7 @@
         {% endif %}
 		{% set active_page = active_page|default('home') -%}
 
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup" style="margin-top: -60px;">
           <div class="navbar-nav" id="navigation" style="text-align: right;">
                 {% for href, id, caption in navigation_bar %}
                     {% if active_page == 'login' or active_page == 'admin' %}

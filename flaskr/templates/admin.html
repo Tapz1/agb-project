@@ -125,9 +125,9 @@
                 <tr>
                     <!--<th scope="row">1</th>-->
                   <td class="testimonial-column">
-                      <h3 class="text-light">{{i.name}}<small class="text-muted"> ({{ i.email }}) </small></h3>
-                      <p class="text-light"><i> {{i.town}}, NH</i></p>
-                      <p class="testimonial-content text-center text-light">"{{i.message}}"</p>
+                      <h3 class="">{{i.name}}<small class="text-muted"> ({{ i.email }}) </small></h3>
+                      <p class=""><i> {{i.town}}, NH</i></p>
+                      <p class="testimonial-content text-center ">"{{i.message}}"</p>
                   </td>
                   <td class="button-column">
                       <form action="{{ url_for('blueprint.approve_testimonial', testimonial_id=i.testimonial_id) }}" method="post" class="buttons">

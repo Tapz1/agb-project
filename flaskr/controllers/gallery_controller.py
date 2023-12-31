@@ -98,7 +98,7 @@ def gallery():
 
     return render_template("gallery.html", images=images, form=dropdown_form, image_form=image_form,
                            enumerated_photos=enumerated_photos, first_photo=first_photo,
-                           project_data=zip(projects, project_thumbnails), pagination=pagination)
+                           project_data=zip(projects, project_thumbnails), pagination=pagination, title="Gallery")
 
 
 def view_gallery_carousel():

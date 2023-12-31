@@ -12,5 +12,4 @@ def contact():
     if request.method == 'POST' and "upload-image" in request.form:
         upload_bg_image(page_name="contact")
 
-
-    return render_template("contact.html", image_form=image_form)
+    return render_template("contact.html", image_form=image_form, title="Contact Us")
