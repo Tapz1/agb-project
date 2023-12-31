@@ -22,7 +22,7 @@ def download_file(name):
 def upload_multiple_images(image_form, existing_photos, isNew, project_name):
     """for projects"""
     project_path = ""
-    path_slice = current_app.app_context().app.config['PATH_SLICE']
+    path_slice = current_app.app_context().app.config['PATH_SLICE']     # for dev
     project_upload_path = current_app.app_context().app.config['UPLOAD_FOLDER']
     try:
         if 'image' not in request.files:
