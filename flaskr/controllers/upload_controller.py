@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 
 from flaskr.services.image_service import add_image_db
 from flaskr.services.project_service import get_project_id, add_project
-from PIL import Image
+#from PIL import Image
 
 
 
