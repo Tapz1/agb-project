@@ -110,7 +110,7 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
 
 
 def upload_bg_image(page_name):
-    static_path = current_app.app_context().app.config['STATIC_PATH']
+    bg_image_path = current_app.app_context().app.config['BACKGROUND_IMAGES_PATH']
     print(f"page_name: {page_name}")
     page_filename = ""
     if page_name == 'home':
@@ -140,7 +140,7 @@ def upload_bg_image(page_name):
         if image and allowed_file(image.filename):
             #filename = secure_filename(image.filename)
 
-            image_path = os.path.join(static_path, "background-images", page_filename)
+            image_path = bg_image_path + '/' + page_filename
             print(f"image_path: {image_path}")
             #image_path = url_for('static', filename=f"background-images/{page_filename}")
             image.save(image_path)
