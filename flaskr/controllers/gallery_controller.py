@@ -29,8 +29,6 @@ def gallery():
 
     # preview slideshow banner
     try:
-        upload_folder = os.path.join(current_app.app_context().app.config['UPLOAD_FOLDER'], "gallery_carousel")
-        image = os.listdir(upload_folder)
         images = get_checked_images()
         if len(images) > 0:
             first_photo = images[0]  # to add first photo as active on carousel

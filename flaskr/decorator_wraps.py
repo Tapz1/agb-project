@@ -10,6 +10,7 @@ class DecoratorWraps():
         @wraps(f)
         def wrap(*args, **kwargs):
             if 'logged_in' in session:
+            #if session['logged_in'] is True:
                 return f(*args, **kwargs)
             else:
                 flash('Not authorized', 'danger')

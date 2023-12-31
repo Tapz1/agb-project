@@ -1,6 +1,6 @@
 
 CREATE TABLE IF NOT EXISTS testimonials (
-    testimonial_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    testimonial_id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     email TEXT NOT NULL,
     message TEXT NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS testimonials (
 );
 
 CREATE TABLE IF NOT EXISTS projects (
-    project_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    project_id INTEGER PRIMARY KEY,
     project_name TEXT NOT NULL,
     project_path TEXT NOT NULL,
     owners_email TEXT,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS projects (
 
 
 CREATE TABLE IF NOT EXISTS images (
-    image_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    image_id INTEGER PRIMARY KEY,
     date_uploaded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     image_path TEXT NOT NULL,
     filename TEXT NOT NULL,

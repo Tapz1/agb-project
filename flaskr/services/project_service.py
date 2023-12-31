@@ -6,13 +6,13 @@ def get_db_connection():
     return db
 
 
-def add_project(project_name, project_path, owners_email, town, date):
+def add_project(project_id, project_name, project_path, owners_email, town, date):
     db = get_db_connection()
 
     cur = db.cursor()
-    insert_sql = "INSERT INTO projects (project_name, project_path, owners_email, town, date) " \
-                 "VALUES(:project_name, :project_path, :owners_email, :town, :date)"
-    cur.execute(insert_sql, {'project_name': project_name, 'project_path': project_path, 'owners_email': owners_email, 'town': town, 'date': date})
+    insert_sql = "INSERT INTO projects (project_id, project_name, project_path, owners_email, town, date) " \
+                 "VALUES(:project_id, :project_name, :project_path, :owners_email, :town, :date)"
+    cur.execute(insert_sql, {'project_id': project_id, 'project_name': project_name, 'project_path': project_path, 'owners_email': owners_email, 'town': town, 'date': date})
 
     db.commit()
     cur.close()
@@ -93,6 +93,19 @@ def get_project_item_db(project_id, item):
     print(project_item)
     cur.close()
     return project_item
+
+
+def get_project_item_by_name_db(project_name, item):
+    db = get_db_connection()
+
+    cur = db.cursor()
+
+    project_item = cur.execute(f"SELECT {item} FROM projects WHERE project_name = ?", [project_name]).fetchone()[0]
+
+    print(project_item)
+    cur.close()
+    return project_item
+
 
 
 def get_multiple_project_items_db(item):

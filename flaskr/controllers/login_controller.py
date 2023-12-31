@@ -1,5 +1,5 @@
 from flaskr.decorator_wraps import DecoratorWraps
-from flask import render_template, redirect, flash, url_for, request, session, current_app
+from flask import render_template, redirect, flash, request, session, current_app, url_for
 
 
 @DecoratorWraps.only_whenNotLoggedIn
@@ -16,7 +16,7 @@ def login():
             session['logged_in'] = True
             session['email'] = email
             flash('You are now logged in', 'success')
-            return redirect(request.referrer)
+            return redirect(url_for("blueprint.admin_portal"))
         else:
             error = 'Invalid login'
             flash(error, "danger")

@@ -67,14 +67,14 @@ def get_project_thumbnail(project_id):
     return thumbnail[2]
 
 
-def add_image_db(image_path, filename, project_name, project_id):
+def add_image_db(image_id, image_path, filename, project_name, project_id):
     db = get_db_connection()
     cur = db.cursor()
 
-    insert_sql = "INSERT INTO images (image_path, filename, project_name, project_id) " \
-                 "VALUES(:image_path, :filename, :project_name, :project_id)"
+    insert_sql = "INSERT INTO images (image_id, image_path, filename, project_name, project_id) " \
+                 "VALUES(:image_id, :image_path, :filename, :project_name, :project_id)"
     cur.execute(insert_sql,
-                {'image_path': image_path, 'filename': filename, 'project_name': project_name, 'project_id': project_id})
+                {'image_id': image_id, 'image_path': image_path, 'filename': filename, 'project_name': project_name, 'project_id': project_id})
 
     db.commit()
     cur.close()
@@ -103,6 +103,17 @@ def get_image_by_id(image_id):
 
     return thumbnail
 
+
+def get_image_by_name(filename):
+    db = get_db_connection()
+
+    cur = db.cursor()
+
+    thumbnail = list(cur.execute("SELECT * FROM images WHERE filename = ?", [filename]).fetchone())
+
+    cur.close()
+
+    return thumbnail
 
 def update_check_db(image_id, isChecked):
     db = get_db_connection()

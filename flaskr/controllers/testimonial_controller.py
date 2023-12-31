@@ -1,3 +1,4 @@
+import os
 
 from flask import render_template, redirect, flash, url_for, request, session
 
@@ -88,7 +89,9 @@ def testimonial_form(token):
 
     if request.method == 'POST':
         if form.validate():
-            add_testimonial(name, email, message, town)
+            testimonial_id = int(os.urandom(4).hex(), 16)
+            print(f"testimonial_id: {testimonial_id}")
+            add_testimonial(testimonial_id, name, email, message, town)
             ms.send_testimonial_email(name, email, message, town)
             ms.testimonial_receipt(name, email, message, town)
 

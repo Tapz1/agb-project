@@ -56,12 +56,14 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                 except Exception as e:
                     print(e)
                     flash("There's already an existing project with that name", 'danger')
-                    # return redirect(request.url)
+                    return redirect(request.url)
 
                 try:
                     project_path = os.path.join(project_upload_path, project_name)
-
-                    add_project(project_name, project_path[path_slice:], owners_email, town, date)
+                    project_id = int(os.urandom(4).hex(), 16)
+                    print(f"project_id: {project_id}")  # TODO: for testing - remove in deployment !!!
+                    add_project(project_id, project_name, project_path[path_slice:], owners_email, town, date)
+                    print(f"project_id confirmed: {project_id}")    # TODO: for testing - remove in deployment !!!
                     print("New project created!")
 
                     # flash("Your images were successfully uploaded your new project!", 'success')
@@ -74,11 +76,11 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                 project_path = os.path.join(project_upload_path, project_name)
 
             try:
-                project_id = None
 
                 for image in uploaded_images:
-                    image_filename = secure_filename(image.filename)
-                    image_path = os.path.join(project_path, image_filename)
+                    #image_filename = secure_filename(image.filename)
+                    new_filename = secure_filename(f"{project_name}_{os.urandom(3).hex()}")
+                    image_path = os.path.join(project_path, new_filename)
                     image.save(image_path)
 
                     img = Image.open(image_path)
@@ -89,11 +91,14 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                     project_id = get_project_id(project_name)
 
                     # image_path[6:] is to splice off the "flaskr" from path
-                    add_image_db(image_path=image_path[path_slice:], filename=image_filename, project_name=project_name,
+                    image_id = int(os.urandom(4).hex(), 16)
+                    print(f"image_id: {image_id}")  # TODO: for testing - remove in deployment !!!
+                    add_image_db(image_id=image_id, image_path=image_path[path_slice:], filename=new_filename, project_name=project_name,
                                  project_id=project_id)
+                    print(f"image_id confirmed: {image_id}")    # TODO: for testing - remove in deployment !!!
 
                 flash("Your images were successfully uploaded your new project!", 'success')
-                redirect(url_for("blueprint.view_project", project_id=project_id))
+                redirect(url_for("blueprint.view_project", project_name=project_name))
             except Exception as e:
                 print(e)
                 print(traceback.format_exception(None, e, e.__traceback__))

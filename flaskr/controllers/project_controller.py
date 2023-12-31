@@ -4,7 +4,7 @@ from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, redirect, url_for, flash, current_app, request
 from flaskr.controllers.upload_controller import upload_multiple_images
 from flaskr.services.project_service import delete_project_row, get_all_projects, get_projects_by_town, \
-    get_project_item_db, get_multiple_project_items_db
+    get_project_item_db, get_multiple_project_items_db, get_project_item_by_name_db
 from flaskr.services.image_service import get_images_from_project, get_project_thumbnail
 from flaskr.models.submissionForms import UploadForm
 from flask_paginate import get_page_parameter, Pagination
@@ -47,11 +47,11 @@ def view_all_projects():
     return render_template("view_all_projects.html")
 
 
-def view_project(project_id):
+def view_project(project_name):
     session.modified = True
     image_form = UploadForm()
-    project_name = get_project_item(project_id, "project_name")
-    project_town = get_project_item(project_id, "town")
+    project_id = get_project_item_by_name(project_name, "project_id")
+    project_town = get_project_item_by_name(project_name, "town")
 
 
     try:
@@ -153,6 +153,13 @@ def get_all_project_thumbnails(projects):
 def get_project_item(project_id, item):
     """item can be 'town', 'project_name', 'date'"""
     return get_project_item_db(project_id, item)
+
+
+def get_project_item_by_name(project_name, item):
+    """
+    for blueprint endpoints -
+    item can be 'town', 'project_id', 'date'"""
+    return get_project_item_by_name_db(project_name, item)
 
 
 def get_projects(sort_by='DESC'):

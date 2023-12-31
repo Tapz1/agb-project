@@ -62,7 +62,7 @@
         {% for photo in photos %}
         <div class="col-md-4 text-center">
             <div>
-                <a href="{{ url_for('blueprint.view_image', image_id=photo.image_id) }}">
+                <a href="{{ url_for('blueprint.view_image', filename=photo.filename) }}">
                     <img class="img-thumbnail" src="{{photo.image_path}}" alt="photo.filename" style="width: 300px; height: 300px;">
                 </a>
             </div>

@@ -6,13 +6,13 @@ def get_db_connection():
     return db
 
 
-def add_testimonial(name, email, message, town):
+def add_testimonial(testimonial_id, name, email, message, town):
     db = get_db_connection()
 
     cur = db.cursor()
-    insert_sql = "INSERT INTO testimonials (name, email, message, town) " \
-                 "VALUES(:name, :email, :message, :town)"
-    cur.execute(insert_sql, {'name': name, 'email': email, 'message': message, 'town': town})
+    insert_sql = "INSERT INTO testimonials (testimonial_id, name, email, message, town) " \
+                 "VALUES(:testimonial_id, :name, :email, :message, :town)"
+    cur.execute(insert_sql, {'testimonial_id': testimonial_id, 'name': name, 'email': email, 'message': message, 'town': town})
 
     db.commit()
     cur.close()
