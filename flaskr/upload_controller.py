@@ -145,7 +145,9 @@ def upload_bg_image(page_name):
 
             #image_path = './AllanGilbertBuilders/flaskr/static/background-images/' + page_filename
 
-            image_path = url_for('static', filename=f"background-images/{page_filename}")
+            #image_path = url_for('static', filename=f"background-images/{page_filename}")
+            image_path = os.path.join(bg_image_path, page_filename)
+
             print(f"image_path: {image_path}")
             image.save(image_path)
 
