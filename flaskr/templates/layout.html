@@ -41,8 +41,6 @@
 <style>
 	.page_bg:before {
 		{% if active_page == 'testimonials' %}
-			<!-- local filesystem commented out-->
-			<!--background: url({{url_for('static', filename='background-images/testimonials-bg.jpg')}}) no-repeat center center;-->
 			background: url('../../static/background-images/testimonials-bg.jpg') no-repeat center center;
 
 		{% elif active_page == 'home' %}
