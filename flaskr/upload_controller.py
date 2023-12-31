@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 
 from flaskr.image_service import add_image_db
 from flaskr.project_service import get_project_id, add_project
-#from PIL import Image
+from PIL import Image
 
 
 
@@ -60,7 +60,8 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                 try:
                     project_path = os.path.join(project_upload_path, project_name)
                     project_id = int(os.urandom(4).hex(), 16)
-                    add_project(project_id, project_name, project_path[path_slice:], owners_email, town, date)
+                    # add_project(project_id, project_name, project_path[path_slice:], owners_email, town, date)
+                    add_project(project_id, project_name, project_path, owners_email, town, date)
                     print("New project created!")
 
                     # flash("Your images were successfully uploaded your new project!", 'success')
@@ -89,8 +90,10 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
 
                     # image_path[6:] is to splice off the "flaskr" from path
                     image_id = int(os.urandom(4).hex(), 16)
-                    add_image_db(image_id=image_id, image_path=image_path[path_slice:], filename=new_filename, project_name=project_name,
-                                 project_id=project_id)
+                    # add_image_db(image_id=image_id, image_path=image_path[path_slice:], filename=new_filename, project_name=project_name,
+                                 # project_id=project_id)
+                    add_image_db(image_id=image_id, image_path=image_path, filename=new_filename,
+                                 project_name=project_name, project_id = project_id)
 
                 flash("Your images were successfully uploaded your new project!", 'success')
                 redirect(url_for("blueprint.view_project", project_name=project_name))
