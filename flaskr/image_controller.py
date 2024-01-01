@@ -4,7 +4,7 @@ from flaskr.project_controller import get_project_item
 from flaskr.image_service import delete_image_db, update_check_db, \
     get_checked_images_db, get_image_by_name
 import os
-
+import traceback as tb
 
 @DecoratorWraps.is_logged_in
 def delete_image(image_id, project_id, filename):
@@ -41,9 +41,13 @@ def get_checked_images():
 
 @DecoratorWraps.is_logged_in
 def update_check_image(image_id, isChecked, project_id):
-    if isChecked == '0':
-        flash("Image removed from Gallery slideshow", "success")
-    elif isChecked == '1':
-        flash("Image added to Gallery slideshow!", "success")
-    update_check_db(image_id, isChecked)
+    try:
+        if isChecked == '0':
+            flash("Image removed from Gallery slideshow", "success")
+        elif isChecked == '1':
+            flash("Image added to Gallery slideshow!", "success")
+        update_check_db(image_id, isChecked)
+    except Exception as e:
+        print(e)
+        print(tb.format_exception(None, e, e.__traceback__))
     return redirect(url_for("blueprint.view_project", project_id=project_id))
