@@ -1,5 +1,5 @@
 from flaskr.decorator_wraps import DecoratorWraps
-from flask import render_template, redirect, url_for, flash, current_app
+from flask import render_template, redirect, url_for, flash, current_app, request
 from flaskr.project_controller import get_project_item
 from flaskr.image_service import delete_image_db, update_check_db, \
     get_checked_images_db, get_image_by_name
@@ -40,7 +40,7 @@ def get_checked_images():
 
 
 @DecoratorWraps.is_logged_in
-def update_check_image(image_id, isChecked, project_id):
+def update_check_image(image_id, isChecked):
     try:
         if isChecked == '0':
             flash("Image removed from Gallery slideshow", "success")
@@ -48,6 +48,7 @@ def update_check_image(image_id, isChecked, project_id):
             flash("Image added to Gallery slideshow!", "success")
         update_check_db(image_id, isChecked)
     except Exception as e:
+        flash("Unable to add to slideshow", "danger")
         print(e)
         print(tb.format_exception(None, e, e.__traceback__))
-    return redirect(url_for("blueprint.view_project", project_id=project_id))
+    return redirect(request.referrer)

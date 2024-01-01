@@ -73,9 +73,9 @@
             <div class="container-md" style="padding: 10px 0px;">
               <form
                   {% if photo.isChecked == 0 %}
-                      action="{{ url_for('blueprint.update_check_image', image_id=photo.image_id, isChecked=1, project_id=photo.project_id) }}" method="post"
+                      action="{{ url_for('blueprint.update_check_image', image_id=photo.image_id, isChecked=1) }}" method="post"
                   {% else %}
-                      action="{{ url_for('blueprint.update_check_image', image_id=photo.image_id, isChecked=0, project_id=photo.project_id) }}" method="post"
+                      action="{{ url_for('blueprint.update_check_image', image_id=photo.image_id, isChecked=0) }}" method="post"
                   {% endif %}
               >
 

@@ -27,5 +27,5 @@ blueprint.route('/admin/delete-testimonial/<string:testimonial_id>', methods=['P
 blueprint.route('/admin/view-projects', methods=['GET', 'POST'])(view_all_projects)
 blueprint.route('/admin/delete-project/<string:project_id>', methods=['POST'])(delete_project)
 blueprint.route('/admin/delete-image/<string:image_id>/<string:project_id>/<string:filename>', methods=['POST'])(delete_image)
-blueprint.route('/admin/update-check/<string:image_id>/<string:isChecked>/<string:project_id>', methods=['POST'])(update_check_image)
+blueprint.route('/admin/update-check/<string:image_id>/<string:isChecked>', methods=['POST'])(update_check_image)
 
