@@ -31,7 +31,7 @@ def testimonials():
         for testimonial in all_testimonials:
             email = testimonial[2]
             if project_exists(email) > 0:
-                print("Project exists with same email in testimonials")
+                #print("Project exists with same email in testimonials")
                 add_project_id(project_id=get_project_id_by_email(email),
                                  testimonial_id=get_testimonial_id_by_email(email))
     except Exception as e:
