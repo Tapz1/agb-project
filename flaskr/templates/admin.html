@@ -35,21 +35,26 @@
 
 <div class="container-md bg-dark bg-opacity-50" style="max-width: 100%; margin-bottom: 15px;">
     <form method="post" action="" class="">
-        {% for field in form %}
         <div class="row align-items-center">
-            <div class="col-md-auto text-md admin-forms font-med-bold">
+            <div class="col-md-auto text-md admin-forms font-med-bold text-center">
                 <label class="text-light">Send a testimonial request</label>
             </div>
             <div class="row align-items-start admin-forms" style="margin: 1px 10px; padding-right: 15px;">
+                {% for field in form %}
                 <div class="col-md-auto">
+                    {% if field.id == 'email' %}
                     {{field(class="form-control", placeholder="Email")}}
+                    {% elif field.id == 'name' %}
+                    {{field(class="form-control", placeholder="Name")}}
+                    {% endif %}
                 </div>
-                <div class="col-md-auto" style="">
+
+                {% endfor %}
+                <div class="col-md-auto text-center" style="">
                     <button type="submit" class="btn btn-outline-success" name="send-request">Send</button>
                 </div>
             </div>
         </div>
-        {% endfor %}
     </form>
 </div>
 

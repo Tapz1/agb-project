@@ -22,6 +22,7 @@ def admin_portal():
 
     form = RequestTestimonial(request.form)
     request_email = form.email.data
+    request_name = form.name.data
 
     image_form = UploadForm()
 
@@ -41,7 +42,7 @@ def admin_portal():
         print("POST request detected")
         if "send-request" in request.form and form.validate():
             print("send button pressed")
-            ms.send_testimonial_request(request_email)
+            ms.send_testimonial_request(request_email, request_name)
             flash('Your request has been sent successfully!', 'success')
             return redirect(request.url)
 

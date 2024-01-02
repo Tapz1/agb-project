@@ -19,8 +19,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT')
 
 # email config
-#TO_EMAIL = os.environ.get('CLIENT_EMAIL')
-TO_EMAIL = os.environ.get('DEV_EMAIL')    # for development ###
+TO_EMAIL = os.environ.get('CLIENT_EMAIL')
+#TO_EMAIL = os.environ.get('DEV_EMAIL')    # for development ###
 EMAIL_USERNAME = os.environ.get('MAILING_USERNAME')
 EMAIL_PASSWORD = os.environ.get('MAILING_PASSWORD')
 EMAIL_SEND_AS = EMAIL_USERNAME
