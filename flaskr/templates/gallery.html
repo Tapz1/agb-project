@@ -112,7 +112,7 @@
 
     <!--projects-->
     <div class="container-md" style="max-width:100%; padding: 0px 20px;">
-        <div class="row justify-content-center">
+        <div class="row justify-content-evenly">
             {% for project, thumbnail in project_data %}
             <div class="col-md-4 img-thumbnail project__wrap" style="padding: 15px 15px; margin-top: 3%; margin-bottom: 3%; background: linear-gradient(rgba(240, 240, 240, 0.0), rgba(240, 240, 240, 0.0)), url({{ thumbnail }}); background-size: cover;"> <!--background-image: url({{ thumbnail }}); background-size: cover;-->
                 <a href="{{ url_for('blueprint.view_project', project_name=project[1]) }}" style="text-decoration: none;" class="text-dark">
