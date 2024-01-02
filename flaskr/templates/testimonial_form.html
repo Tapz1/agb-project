@@ -19,12 +19,12 @@
     {% set town = 'town' %}
     {% from "includes/_formhelpers.html" import render_field %}
         <!--This iterates the form fields-->
-    <div class="container testimonial-form fill-height" style="max-height: 100%;">
+    <div class="container-md testimonial-form fill-height" style="max-width: 100%; margin-bottom: 200px;">
         <form id="testimonial-form" method="post" action="" class="">
             {% for field in form %}
             <div class="row content justify-content-center text-md" style="font-weight: 500;">
-                <div class="col-md-2 form-labels">
-                    <label>{{field.label}}</label>
+                <div class="col-md-2">
+                    <label class="bg-light bg-opacity-10">{{field.label}}</label>
                 </div>
                 <div class="col-md-4"> {% if field.id != email %}
                     {{field(class="form-control")}}
