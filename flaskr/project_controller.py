@@ -4,7 +4,7 @@ from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, redirect, url_for, flash, current_app, request
 from flaskr.upload_controller import upload_multiple_images
 from flaskr.project_service import delete_project_row, get_all_projects, get_projects_by_town, \
-    get_project_item_db, get_multiple_project_items_db, get_project_item_by_name_db
+    get_project_item_db, get_multiple_project_items_db, get_project_item_by_name_db, get_project_item_by_id_db
 from flaskr.image_service import get_images_from_project, get_project_thumbnail
 from flaskr.submissionForms import UploadForm
 from flask_paginate import get_page_parameter, Pagination
@@ -45,6 +45,17 @@ def view_all_projects():
         print(traceback.format_exception(None, e, e.__traceback__))
 
     return render_template("view_all_projects.html")
+
+
+def view_project_by_id(project_id):
+    try:
+        project_name = get_project_item_by_id_db(project_id, item="project_name")
+        return redirect(url_for("blueprint.view_project", project_name=project_name))
+    except Exception as e:
+        print("Error with getting project:")
+        print(e)
+        print(traceback.format_exception(None, e, e.__traceback__))
+        return redirect(request.referrer)
 
 
 def view_project(project_name):

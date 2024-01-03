@@ -90,6 +90,18 @@ def get_project_item_by_name_db(project_name, item):
     return project_item
 
 
+def get_project_item_by_id_db(project_id, item):
+    db = get_db_connection()
+
+    cur = db.cursor()
+
+    project_item = cur.execute(f"SELECT {item} FROM projects WHERE project_name = ?", [project_name]).fetchone()[0]
+
+    # print(project_item)
+    cur.close()
+    return project_item
+
+
 def get_multiple_project_items_db(item):
     db = get_db_connection()
 

@@ -55,7 +55,7 @@
                 {% endif %}
 
                 {% if i.project_id %}
-                    <p><a href="{{ url_for('blueprint.view_project', project_name=i.project_name) }}">View the Project</a></p>
+                    <p><a href="{{ url_for('blueprint.view_project_by_id', project_id=i.project_id) }}">View the Project</a></p>
                 {% endif %}
                 {% if session.logged_in %}
                 <td class="btn btn-default">
