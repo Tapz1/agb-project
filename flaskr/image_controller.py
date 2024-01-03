@@ -32,7 +32,7 @@ def view_image(filename):
     project_id = image[5]
 
     return render_template("view_image.html", image_path=image_path, filename=filename,
-                           image_id=image_id, project_name=project_name, project_id=project_id)
+                           image_id=image_id, project_name=project_name, project_id=project_id, title=f"viewing {filename}")
 
 
 def get_checked_images():

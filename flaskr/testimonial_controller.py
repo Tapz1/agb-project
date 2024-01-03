@@ -109,7 +109,7 @@ def testimonial_form(token):
             error = "Testimonial could not be submitted"
             flash(error, "danger")
             return render_template('testimonial_form.html', form=form, title="Add Testimonial")
-    return render_template("testimonial_form.html", form=form, title="Add Testimonial")
+    return render_template("testimonial_form.html", form=form, title="Post Your Testimonial")
 
 
 def get_testimonials(option, limit=""):

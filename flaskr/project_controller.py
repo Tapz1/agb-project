@@ -44,7 +44,7 @@ def view_all_projects():
         print(e)
         print(traceback.format_exception(None, e, e.__traceback__))
 
-    return render_template("view_all_projects.html")
+    return render_template("view_all_projects.html", title="All Projects")
 
 
 def view_project_by_id(project_id):
@@ -78,7 +78,7 @@ def view_project(project_name):
                 return redirect(request.url)
 
         return render_template("view_project.html", project_name=project_name,
-                               image_form=image_form, photos=photos, project_town=project_town)
+                               image_form=image_form, photos=photos, project_town=project_town, title=project_name)
 
     except Exception as e:
         print("Error with getting images:")
