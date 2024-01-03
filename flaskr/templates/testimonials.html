@@ -55,7 +55,12 @@
                 {% endif %}
 
                 {% if i.project_id %}
-                    <p><a href="{{ url_for('blueprint.view_project_by_id', project_id=i.project_id) }}">View the Project</a></p>
+                    <!--<p><a href="{{ url_for('blueprint.view_project_by_id', project_id=i.project_id) }}">View the Project</a></p>-->
+                    <p>
+                        <form action="{{ url_for('blueprint.view_project_by_id', project_id=i.project_id) }}">
+                            <input type="submit" value="View the Project" name="" class="">
+                        </form>
+                    </p>
                 {% endif %}
                 {% if session.logged_in %}
                 <td class="btn btn-default">
