@@ -95,7 +95,7 @@ def get_project_item_by_id_db(project_id, item):
 
     cur = db.cursor()
 
-    project_item = cur.execute(f"SELECT {item} FROM projects WHERE project_name = ?", [project_name]).fetchone()[0]
+    project_item = cur.execute(f"SELECT {item} FROM projects WHERE project_id = ?", [project_id]).fetchone()[0]
 
     # print(project_item)
     cur.close()
