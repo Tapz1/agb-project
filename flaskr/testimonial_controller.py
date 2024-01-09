@@ -2,13 +2,13 @@ import os
 
 from flask import render_template, redirect, flash, url_for, request, session
 
-from flaskr.controllers.upload_controller import upload_bg_image
-from flaskr.services.project_service import project_exists, get_project_id_by_email
-from flaskr.services.testimonial_service import (get_all_approved, paginate_approved, add_testimonial, get_testimonial_id_by_email,
-                                                 get_all_pending, get_limited_approved, add_project_id)
-from flaskr.services.mail_service import MailService
-from flaskr.services.token_service import confirm_token
-from flaskr.models.submissionForms import TestimonialForm, UploadForm
+from flaskr.upload_controller import upload_bg_image
+from flaskr.project_service import project_exists, get_project_id_by_email
+from flaskr.testimonial_service import (get_all_approved, paginate_approved, add_testimonial, get_testimonial_id_by_email,
+                                        get_all_pending, get_limited_approved, add_project_id)
+from flaskr.mail_service import MailService
+from flaskr.token_service import confirm_token
+from flaskr.submissionForms import TestimonialForm, UploadForm
 from flask_paginate import get_page_parameter, Pagination
 
 
@@ -31,7 +31,7 @@ def testimonials():
         for testimonial in all_testimonials:
             email = testimonial[2]
             if project_exists(email) > 0:
-                print("Project exists with same email in testimonials")
+                #print("Project exists with same email in testimonials")
                 add_project_id(project_id=get_project_id_by_email(email),
                                  testimonial_id=get_testimonial_id_by_email(email))
     except Exception as e:
@@ -109,7 +109,7 @@ def testimonial_form(token):
             error = "Testimonial could not be submitted"
             flash(error, "danger")
             return render_template('testimonial_form.html', form=form, title="Add Testimonial")
-    return render_template("testimonial_form.html", form=form, title="Add Testimonial")
+    return render_template("testimonial_form.html", form=form, title="Post Your Testimonial")
 
 
 def get_testimonials(option, limit=""):

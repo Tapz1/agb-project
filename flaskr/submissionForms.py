@@ -14,7 +14,8 @@ class TestimonialForm(Form):
 
 
 class RequestTestimonial(Form):
-    email = EmailField('', [validators.DataRequired(), validators.Email(message='Must be a valid email address')])
+    name = StringField('Name', [validators.Length(min=1, max=50)], id='name')
+    email = EmailField('', [validators.DataRequired(), validators.Email(message='Must be a valid email address')], id='email')
 
 
 class UploadForm(Form):

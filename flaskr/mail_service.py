@@ -1,6 +1,6 @@
 from flask_mail import Message, Mail
 from flask import current_app, render_template, url_for
-from flaskr.services.token_service import generate_confirmation_token
+from flaskr.token_service import generate_confirmation_token
 
 
 def send_email(msg):
@@ -25,17 +25,18 @@ class MailService(object):
         self.TO_EMAIL = current_app.app_context().app.config['TO_EMAIL']
         self.SEND_AS_EMAIL = current_app.app_context().app.config['MAIL_DEFAULT_SENDER']
 
-    def send_testimonial_request(self, email):
+    def send_testimonial_request(self, email, name):
         token = generate_confirmation_token(email)
         matching_url = url_for("blueprint.testimonial_form", token=token, _external=True)
 
         email_subject = "Allan Gilbert Builders is requesting to post your experience!"
-        email_body = render_template("testimonial_request.html", matching_url=matching_url)
+        email_body = render_template("testimonial_request.html", matching_url=matching_url, name=name)
         msg = Message(
             subject=email_subject,
             sender=self.SEND_AS_EMAIL,
             recipients=[email],
-            html=email_body
+            html=email_body,
+            bcc=self.TO_EMAIL
         )
 
         send_email(msg)

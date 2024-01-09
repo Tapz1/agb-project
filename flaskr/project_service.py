@@ -61,7 +61,7 @@ def get_project_id(project_name):
 
     project_id = cur.execute("SELECT project_id FROM projects WHERE project_name = ?", [project_name]).fetchone()[0]
 
-    print(project_id)
+    # print(project_id)
     cur.close()
     return project_id
 
@@ -73,7 +73,7 @@ def get_project_item_db(project_id, item):
 
     project_item = cur.execute(f"SELECT {item} FROM projects WHERE project_id = ?", [project_id]).fetchone()[0]
 
-    print(project_item)
+    # print(project_item)
     cur.close()
     return project_item
 
@@ -85,7 +85,19 @@ def get_project_item_by_name_db(project_name, item):
 
     project_item = cur.execute(f"SELECT {item} FROM projects WHERE project_name = ?", [project_name]).fetchone()[0]
 
-    print(project_item)
+    # print(project_item)
+    cur.close()
+    return project_item
+
+
+def get_project_item_by_id_db(project_id, item):
+    db = get_db_connection()
+
+    cur = db.cursor()
+
+    project_item = cur.execute(f"SELECT {item} FROM projects WHERE project_id = ?", [project_id]).fetchone()[0]
+
+    # print(project_item)
     cur.close()
     return project_item
 
@@ -123,7 +135,7 @@ def get_project_id_by_email(email):
     project_path = list(cur.execute("SELECT project_id FROM projects WHERE owners_email = ?", [email]).fetchone())
 
     cur.close()
-    print(f"project id from db: {project_path[0]}")
+    # print(f"project id from db: {project_path[0]}")
 
     return project_path[0]
 
@@ -134,7 +146,7 @@ def project_exists(email):
     cur = db.cursor()
 
     count = cur.execute("SELECT COUNT(*) FROM projects WHERE owners_email = ?", [email]).fetchone()[0]
-    print(f"project exists count: {count}")
+    # print(f"project exists count: {count}")
     cur.close()
 
     return count

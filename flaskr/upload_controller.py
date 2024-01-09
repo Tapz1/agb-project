@@ -5,10 +5,9 @@ import traceback
 from flask import current_app, send_from_directory, request, flash, redirect, url_for
 from werkzeug.utils import secure_filename
 
-from flaskr.services.image_service import add_image_db
-from flaskr.services.project_service import get_project_id, add_project
-#from PIL import Image
-
+from flaskr.image_service import add_image_db
+from flaskr.project_service import get_project_id, add_project
+from PIL import Image
 
 
 def allowed_file(filename):
@@ -22,7 +21,7 @@ def download_file(name):
 def upload_multiple_images(image_form, existing_photos, isNew, project_name):
     """for projects"""
     project_path = ""
-    path_slice = current_app.app_context().app.config['PATH_SLICE']
+    path_slice = current_app.app_context().app.config['PATH_SLICE']     # for dev
     project_upload_path = current_app.app_context().app.config['UPLOAD_FOLDER']
     try:
         if 'image' not in request.files:
@@ -60,7 +59,8 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                 try:
                     project_path = os.path.join(project_upload_path, project_name)
                     project_id = int(os.urandom(4).hex(), 16)
-                    add_project(project_id, project_name, project_path[path_slice:], owners_email, town, date)
+                    # add_project(project_id, project_name, project_path[path_slice:], owners_email, town, date)
+                    add_project(project_id, project_name, project_path, owners_email, town, date)
                     print("New project created!")
 
                     # flash("Your images were successfully uploaded your new project!", 'success')
@@ -89,8 +89,10 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
 
                     # image_path[6:] is to splice off the "flaskr" from path
                     image_id = int(os.urandom(4).hex(), 16)
-                    add_image_db(image_id=image_id, image_path=image_path[path_slice:], filename=new_filename, project_name=project_name,
-                                 project_id=project_id)
+                    # add_image_db(image_id=image_id, image_path=image_path[path_slice:], filename=new_filename, project_name=project_name,
+                                 # project_id=project_id)
+                    add_image_db(image_id=image_id, image_path=image_path, filename=new_filename,
+                                 project_name=project_name, project_id = project_id)
 
                 flash("Your images were successfully uploaded your new project!", 'success')
                 redirect(url_for("blueprint.view_project", project_name=project_name))
@@ -110,7 +112,7 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
 
 
 def upload_bg_image(page_name):
-    static_path = current_app.app_context().app.config['STATIC_PATH']
+    bg_image_path = current_app.app_context().app.config['BACKGROUND_IMAGES_PATH']
     print(f"page_name: {page_name}")
     page_filename = ""
     if page_name == 'home':
@@ -140,10 +142,15 @@ def upload_bg_image(page_name):
         if image and allowed_file(image.filename):
             #filename = secure_filename(image.filename)
 
-            image_path = os.path.join(static_path, "background-images", page_filename)
+            #image_path = './AllanGilbertBuilders/flaskr/static/background-images/' + page_filename
+
+            #image_path = url_for('static', filename=f"background-images/{page_filename}")
+            image_path = os.path.join(bg_image_path, page_filename)
+
+            print(f"image_path: {image_path}")
             image.save(image_path)
 
-            img = Image.open(image_path)        # can go straight into Pillow since filename already in system
+            img = Image.open(image_path)
             img.save(image_path, "JPEG", optimize=True)  # optimizes images
 
             flash("Your image was uploaded as a background image!", 'success')

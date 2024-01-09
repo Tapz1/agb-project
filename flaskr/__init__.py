@@ -3,8 +3,8 @@ from datetime import timedelta
 from flask import Flask
 from flaskr.config import (UPLOAD_FOLDER, DB_NAME, SECRET_KEY, SECURITY_PASSWORD_SALT, EMAIL_USERNAME,
                            EMAIL_PASSWORD, EMAIL_SEND_AS, TO_EMAIL, DEV_EMAIL, CLIENT_EMAIL, ADMIN_PASSWORD, ALLOWED_EXTENSIONS,
-                           PATH_SLICE, STATIC_PATH)
-from flaskr.services.project_service import add_project
+                           PATH_SLICE, BACKGROUND_IMAGES_PATH)
+from flaskr.project_service import add_project
 
 
 def create_app(test_config=None):
@@ -14,7 +14,7 @@ def create_app(test_config=None):
         SECRET_KEY=SECRET_KEY,
         SECURITY_PASSWORD_SALT=SECURITY_PASSWORD_SALT,
         UPLOAD_FOLDER=UPLOAD_FOLDER,
-        STATIC_PATH=STATIC_PATH,
+        BACKGROUND_IMAGES_PATH=BACKGROUND_IMAGES_PATH,
         PATH_SLICE=PATH_SLICE,
         ALLOWED_EXTENSIONS=ALLOWED_EXTENSIONS,
         DATABASE=os.path.join(app.instance_path, DB_NAME),
@@ -49,6 +49,11 @@ def create_app(test_config=None):
 
     try:
         os.makedirs(app.config['UPLOAD_FOLDER'])
+    except OSError:
+        pass
+
+    try:
+        os.makedirs(app.config['BACKGROUND_IMAGES_PATH'])
     except OSError:
         pass
 

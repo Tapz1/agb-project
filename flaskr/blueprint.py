@@ -1,19 +1,19 @@
 from flask import Blueprint
-from flaskr.controllers.home_controller import home
-from flaskr.controllers.gallery_controller import gallery
-from flaskr.controllers.contact_controller import contact
-from flaskr.controllers.testimonial_controller import testimonials, testimonial_form
-from flaskr.controllers.login_controller import login, logout
-from flaskr.controllers.admin_controller import admin_portal, approve_testimonial, delete_testimonial, delete_testimonial_request
-from flaskr.controllers.project_controller import view_all_projects, view_project, delete_project
-from flaskr.controllers.image_controller import delete_image, view_image, update_check_image
+from flaskr.home_controller import home
+from flaskr.gallery_controller import gallery
+from flaskr.contact_controller import contact
+from flaskr.testimonial_controller import testimonials, testimonial_form
+from flaskr.login_controller import login, logout
+from flaskr.admin_controller import admin_portal, approve_testimonial, delete_testimonial, delete_testimonial_request
+from flaskr.project_controller import view_all_projects, view_project, delete_project, view_project_by_id
+from flaskr.image_controller import delete_image, view_image, update_check_image
 
 
 blueprint = Blueprint('blueprint', __name__, template_folder='templates')
 
 blueprint.route('/', methods=['GET', 'POST'])(home)
-blueprint.route('/contact', methods=['GET'])(contact)
-blueprint.route('/testimonials', methods=['GET'])(testimonials)
+blueprint.route('/contact', methods=['GET', 'POST'])(contact)
+blueprint.route('/testimonials', methods=['GET', 'POST'])(testimonials)
 blueprint.route('/gallery', methods=['GET', 'POST'])(gallery)
 blueprint.route('/gallery/view-project/<string:project_name>', methods=['GET', 'POST'])(view_project)
 blueprint.route('/gallery/view-image/<string:filename>', methods=['GET', 'POST'])(view_image)
@@ -26,6 +26,7 @@ blueprint.route('/admin/delete-testimonial-request/<string:testimonial_id>', met
 blueprint.route('/admin/delete-testimonial/<string:testimonial_id>', methods=['POST'])(delete_testimonial)
 blueprint.route('/admin/view-projects', methods=['GET', 'POST'])(view_all_projects)
 blueprint.route('/admin/delete-project/<string:project_id>', methods=['POST'])(delete_project)
+blueprint.route('/gallery/get-project/<string:project_id>', methods=['GET', 'POST'])(view_project_by_id)
 blueprint.route('/admin/delete-image/<string:image_id>/<string:project_id>/<string:filename>', methods=['POST'])(delete_image)
-blueprint.route('/admin/update-check/<string:image_id>/<string:isChecked>/<string:project_id>', methods=['POST'])(update_check_image)
+blueprint.route('/admin/update-check/<string:image_id>/<string:isChecked>', methods=['POST'])(update_check_image)
 

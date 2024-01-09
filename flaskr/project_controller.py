@@ -2,11 +2,11 @@ import traceback
 
 from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, redirect, url_for, flash, current_app, request
-from flaskr.controllers.upload_controller import upload_multiple_images
-from flaskr.services.project_service import delete_project_row, get_all_projects, get_projects_by_town, \
-    get_project_item_db, get_multiple_project_items_db, get_project_item_by_name_db
-from flaskr.services.image_service import get_images_from_project, get_project_thumbnail
-from flaskr.models.submissionForms import UploadForm
+from flaskr.upload_controller import upload_multiple_images
+from flaskr.project_service import delete_project_row, get_all_projects, get_projects_by_town, \
+    get_project_item_db, get_multiple_project_items_db, get_project_item_by_name_db, get_project_item_by_id_db
+from flaskr.image_service import get_images_from_project, get_project_thumbnail
+from flaskr.submissionForms import UploadForm
 from flask_paginate import get_page_parameter, Pagination
 import os
 import shutil
@@ -44,7 +44,18 @@ def view_all_projects():
         print(e)
         print(traceback.format_exception(None, e, e.__traceback__))
 
-    return render_template("view_all_projects.html")
+    return render_template("view_all_projects.html", title="All Projects")
+
+
+def view_project_by_id(project_id):
+    try:
+        project_name = get_project_item_by_id_db(project_id, item="project_name")
+        return redirect(url_for("blueprint.view_project", project_name=project_name))
+    except Exception as e:
+        print("Error with getting project:")
+        print(e)
+        print(traceback.format_exception(None, e, e.__traceback__))
+        return redirect(request.referrer)
 
 
 def view_project(project_name):
@@ -67,7 +78,7 @@ def view_project(project_name):
                 return redirect(request.url)
 
         return render_template("view_project.html", project_name=project_name,
-                               image_form=image_form, photos=photos, project_town=project_town)
+                               image_form=image_form, photos=photos, project_town=project_town, title=project_name)
 
     except Exception as e:
         print("Error with getting images:")
@@ -86,12 +97,12 @@ def delete_project(project_id):
         #os.rmdir(file_path)
         shutil.rmtree(file_path)
         flash("Project deleted!", "success")
-        return redirect(url_for("blueprint.view_all_projects"))
+        return redirect(request.referrer)
     except Exception as e:
         print(e)
         print(tb.format_exception(None, e, e.__traceback__))
         flash("Project could not be deleted!", "danger")
-        return redirect(url_for("blueprint.view_all_projects"))
+        return redirect(request.referrer)
 
 
 def get_paginated_projects(sort_by, town=None):
