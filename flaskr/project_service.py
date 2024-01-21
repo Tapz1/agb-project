@@ -1,4 +1,5 @@
 from flaskr.db import get_db
+import traceback as tb
 
 
 def get_db_connection():
@@ -7,16 +8,22 @@ def get_db_connection():
 
 
 def add_project(project_id, project_name, project_path, owners_email, town, date):
+    """adding project_id, project_name, project_path, owners_email, town, date to db"""
     db = get_db_connection()
 
     cur = db.cursor()
-    insert_sql = "INSERT INTO projects (project_id, project_name, project_path, owners_email, town, date) " \
-                 "VALUES(:project_id, :project_name, :project_path, :owners_email, :town, :date)"
-    cur.execute(insert_sql, {'project_id': project_id, 'project_name': project_name, 'project_path': project_path, 'owners_email': owners_email, 'town': town, 'date': date})
+    try:
+        insert_sql = "INSERT INTO projects (project_id, project_name, project_path, owners_email, town, date) " \
+                     "VALUES(:project_id, :project_name, :project_path, :owners_email, :town, :date)"
+        cur.execute(insert_sql, {'project_id': project_id, 'project_name': project_name, 'project_path': project_path, 'owners_email': owners_email, 'town': town, 'date': date})
 
-    db.commit()
-    cur.close()
-    #conn.close()
+        db.commit()
+        cur.close()
+        #conn.close()
+    except Exception as e:
+        print("Error adding project to db")
+        print(e)
+        print(tb.format_exception(None, e, e.__traceback__))
 
 
 def get_all_projects(limit, offset, sort_by):
@@ -102,6 +109,29 @@ def get_project_item_by_id_db(project_id, item):
     return project_item
 
 
+def get_project_info(project_id):
+    db = get_db_connection()
+
+    cur = db.cursor()
+
+    project_info = cur.execute(f"SELECT * FROM projects WHERE project_id = ?", [project_id]).fetchone()
+
+    # print(project_item)
+    cur.close()
+    return project_info
+
+
+def edit_project_db(project_id, project_name, project_path, owners_email, town, date):
+    db = get_db_connection()
+    cur = db.cursor()
+
+    cur.execute("UPDATE projects SET project_name = ?, project_path = ?, owners_email = ?, town = ?, date = ? WHERE project_id = ?", [project_name, project_path, owners_email, town, date, project_id])
+
+    db.commit()
+    cur.close()
+    db.close()
+
+
 def get_multiple_project_items_db(item):
     db = get_db_connection()
 
@@ -162,3 +192,5 @@ def get_limited_projects(limit):
     cur.close()
 
     return project
+
+

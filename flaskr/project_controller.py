@@ -4,13 +4,15 @@ from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, redirect, url_for, flash, current_app, request
 from flaskr.upload_controller import upload_multiple_images
 from flaskr.project_service import delete_project_row, get_all_projects, get_projects_by_town, \
-    get_project_item_db, get_multiple_project_items_db, get_project_item_by_name_db, get_project_item_by_id_db
+    get_project_item_db, get_multiple_project_items_db, get_project_item_by_name_db, get_project_item_by_id_db, \
+    edit_project_db, get_project_info
 from flaskr.image_service import get_images_from_project, get_project_thumbnail
 from flaskr.submissionForms import UploadForm
 from flask_paginate import get_page_parameter, Pagination
 import os
 import shutil
 import traceback as tb
+from datetime import datetime
 
 
 @DecoratorWraps.is_logged_in
@@ -61,9 +63,24 @@ def view_project_by_id(project_id):
 def view_project(project_name):
     """takes project name since it's client facing"""
     session.modified = True
-    image_form = UploadForm()
+    project_upload_path = current_app.app_context().app.config['UPLOAD_FOLDER']
+    path_slice = current_app.app_context().app.config['PATH_SLICE']  # for dev
+
+    image_form = UploadForm(request.form)
     project_id = get_project_item_by_name(project_name, "project_id")
-    project_town = get_project_item_by_name(project_name, "town")
+
+    # project details
+    project_info = get_project_info(project_id)
+
+    # page details
+    project_town = project_info['town']
+
+    # populating edit fields
+    image_form.new_project.data = project_name
+    image_form.town.data = project_info['town']
+    image_form.owners_email.data = project_info['owners_email']
+    image_form.project_date.data = datetime.strptime(project_info['date'], "%Y-%m-%d")
+    new_path = project_info['project_path']     # default to existing path if failure
 
     try:
 
@@ -73,6 +90,37 @@ def view_project(project_name):
         #print(f'uploads/{project_name}')
 
         if request.method == 'POST':
+            if "update-project" in request.form:
+                print("updating project info..")
+                if image_form.new_project.data != request.form['new_project']:  # if project name is changed, rename directory
+                    try:    # renaming project directory
+                        old_path = project_info['project_path']
+                        new_path = os.path.join(project_upload_path, request.form['new_project'])
+                        print("old path: " + old_path)
+                        print("new path: " + new_path)
+                        os.rename(src=old_path, dst=new_path)     # TODO: worked in dev env
+                    except Exception as e:
+                        print("Error creating new project path")
+                        flash("Issue with renaming project directory", 'danger')
+                        print(tb.format_exception(None, e, e.__traceback__))
+                        return redirect(request.referrer)
+
+                try:
+                    project_name_edit = request.form['new_project']
+                    town_edit = request.form['town']
+                    owners_email_edit = request.form['owners_email']
+                    date_edit = request.form['project_date']
+                    edit_project(project_id, project_name=project_name_edit, project_path=new_path,
+                                 owners_email=owners_email_edit, town=town_edit, date=date_edit)
+                    flash("Project information updated!", 'success')
+                    return redirect(url_for("blueprint.view_project", project_name=project_name_edit))
+                except Exception as e:
+                    print("Issue editing project")
+                    flash("There was an issue editing the project", 'danger')
+                    print(e)
+                    print(tb.format_exception(None, e, e.__traceback__))
+                    return redirect(request.referrer)
+
             if "upload-image" in request.form:
                 upload_multiple_images(image_form=image_form, existing_photos=existing_photos, isNew=False, project_name=project_name)
                 return redirect(request.url)
@@ -175,3 +223,9 @@ def get_project_item_by_name(project_name, item):
 
 def get_multiple_project_items(items):
     return get_multiple_project_items_db(items)
+
+
+def edit_project(project_id, project_name, project_path, owners_email, town, date):
+    """initially created to edit project names & towns"""
+    return edit_project_db(project_id, project_name, project_path, owners_email, town, date)
+

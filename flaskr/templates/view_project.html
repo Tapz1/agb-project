@@ -3,6 +3,24 @@
 
 {% block body %}
 
+<script>
+    jQuery(document).ready(function($) {
+      $('.edit_project') .hide()
+        $('a[href^="#"]').on('click', function(event) {
+            var target = $( $(this).attr('href') );
+            target.fadeToggle(100);
+            if( target.length ) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+<style>
+    .edit_project{
+      display: none;
+    }
+</style>
+
  <div class="container-md text-center" style="max-width: 100%;">
         {% include 'includes/_messages.html' %}
     <header class="container-md" style="position:relative; max-width: 100%;">
@@ -10,7 +28,16 @@
             <div class="row text-center">
                 <div class="col-sm-auto" style="padding:0;">
                     <div style="background-color: rgba(255,255,255,0.0);">
-                        <h1 style="font-weight: 600;" class="">{{ project_name }}</h1>
+                        <h1 style="font-weight: 600;" class="">{{ project_name }}
+                            {% if session.logged_in %}
+                            <a href="#edit" class="text-dark">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                  <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+                                </svg>
+                            </a>
+                            {% endif %}
+
+                        </h1>
                     </div>
                 </div>
             </div>
@@ -20,6 +47,43 @@
                         <h3>{{ project_town }}, NH</h3>
                     </div>
                 </div>
+            </div>
+
+            <!--edit project-->
+            <div class="edit_project" id="edit">
+                <form method="post" action="" class="" enctype="multipart/form-data">
+                    <div class="row justify-content-start text-md" style="font-weight: 500; margin: 0px 10px;">
+
+                        <div class="col-md-auto form-labels bg-light" id="" style="">
+                            <div class="col-md-auto form-labels font-med-bold" style="font-size: 20px; padding-top: 0.5%; margin-bottom: 10px;">
+                                <label class="text-dark">Edit Project</label>
+                            </div>
+
+                            <div class="col-md form-labels" style="text-align: left;">
+                                {{ image_form.new_project.label }}
+                                {{ image_form.new_project(style="width:100%; height: 100%;") }}
+                            </div>
+                            <div class="col-md form-labels" style="text-align: left;">
+                                {{ image_form.town.label }}
+                                {{ image_form.town(style="width:100%; height: 100%;") }}
+                            </div>
+                            <div class="col-md form-labels" style="text-align: left;">
+                                {{ image_form.owners_email.label }}
+                                {{ image_form.owners_email(style="width:100%; height: 100%;") }}
+                            </div>
+                            <div class="col-md form-labels" style="text-align: left;">
+                                {{ image_form.project_date.label }}
+                                {{ image_form.project_date(style="width:100%; height: 100%;") }}
+                            </div>
+                            <div class="col-md">
+                                <button class="buttons btn btn-outline-primary"
+                                    data-callback='onSubmit'
+                                    data-action='submit'
+                                    name="update-project">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </header>

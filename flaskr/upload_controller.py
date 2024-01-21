@@ -39,7 +39,7 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                         flash(
                             f"Did you already upload this photo? An image already exists in here with the name: {filename}",
                             "warning")
-                        return redirect(request.url)
+                        return redirect(request.referrer)
             if isNew:
                 image_filename = []
                 # creating a new project #
@@ -54,13 +54,13 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                 except Exception as e:
                     print(e)
                     flash("There's already an existing project with that name", 'danger')
-                    return redirect(request.url)
+                    return redirect(request.referrer)
 
                 try:
                     project_path = os.path.join(project_upload_path, project_name)
                     project_id = int(os.urandom(4).hex(), 16)
-                    # add_project(project_id, project_name, project_path[path_slice:], owners_email, town, date)
-                    add_project(project_id, project_name, project_path, owners_email, town, date)
+                    # add_project(project_id, project_name, project_path[path_slice:], owners_email, town, date)  #TODO: for dev testing
+                    add_project(project_id, project_name, project_path, owners_email, town, date)      #TODO:  for prod
                     print("New project created!")
 
                     # flash("Your images were successfully uploaded your new project!", 'success')
@@ -68,7 +68,7 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                     print(e)
                     print(traceback.format_exception(None, e, e.__traceback__))
                     flash("Unable to add project", 'warning')
-                    # return redirect(request.url)
+                    return redirect(request.referrer)
             else:
                 project_path = os.path.join(project_upload_path, project_name)
 
@@ -89,10 +89,10 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
 
                     # image_path[6:] is to splice off the "flaskr" from path
                     image_id = int(os.urandom(4).hex(), 16)
-                    # add_image_db(image_id=image_id, image_path=image_path[path_slice:], filename=new_filename, project_name=project_name,
-                                 # project_id=project_id)
-                    add_image_db(image_id=image_id, image_path=image_path, filename=new_filename,
-                                 project_name=project_name, project_id = project_id)
+                    #add_image_db(image_id=image_id, image_path=image_path[path_slice:], filename=new_filename, project_name=project_name,
+                    #             project_id=project_id)       # TODO: for dev
+                    add_image_db(image_id=image_id, image_path=image_path, filename=new_filename,      # TODO: for prod
+                                 project_name=project_name, project_id=project_id)
 
                 flash("Your images were successfully uploaded your new project!", 'success')
                 redirect(url_for("blueprint.view_project", project_name=project_name))
@@ -100,7 +100,7 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                 print(e)
                 print(traceback.format_exception(None, e, e.__traceback__))
                 flash("Unable to upload images", 'danger')
-                # return redirect(request.url)
+                return redirect(request.referrer)
         else:
             flash('No image selected')
             # return redirect(request.url)

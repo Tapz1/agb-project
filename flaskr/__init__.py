@@ -2,9 +2,8 @@ import os
 from datetime import timedelta
 from flask import Flask
 from flaskr.config import (UPLOAD_FOLDER, DB_NAME, SECRET_KEY, SECURITY_PASSWORD_SALT, EMAIL_USERNAME,
-                           EMAIL_PASSWORD, EMAIL_SEND_AS, TO_EMAIL, DEV_EMAIL, CLIENT_EMAIL, ADMIN_PASSWORD, ALLOWED_EXTENSIONS,
-                           PATH_SLICE, BACKGROUND_IMAGES_PATH)
-from flaskr.project_service import add_project
+                           EMAIL_PASSWORD, EMAIL_SEND_AS, TO_EMAIL, DEV_EMAIL, CLIENT_EMAIL, BCC_EMAIL, ADMIN_PASSWORD,
+                            ALLOWED_EXTENSIONS, PATH_SLICE, BACKGROUND_IMAGES_PATH)
 
 
 def create_app(test_config=None):
@@ -31,6 +30,7 @@ def create_app(test_config=None):
         MAIL_ASCII_ATTACHMENTS=False,
         DEV_EMAIL=DEV_EMAIL,
         CLIENT_EMAIL=CLIENT_EMAIL,
+        BCC_EMAIL=BCC_EMAIL,
         ADMIN_PASSWORD=ADMIN_PASSWORD
     )
 
