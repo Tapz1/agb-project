@@ -49,8 +49,7 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                 town = request.form['town']
                 date = request.form['project_date']
                 try:
-                    pathlib.Path(project_upload_path, project_name).mkdir(
-                        exist_ok=False)
+                    pathlib.Path(project_upload_path, project_name).mkdir(exist_ok=False)
                 except Exception as e:
                     print(e)
                     flash("There's already an existing project with that name", 'danger')
@@ -60,8 +59,13 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                     project_path = os.path.join(project_upload_path, project_name)
                     project_id = int(os.urandom(4).hex(), 16)
                     # add_project(project_id, project_name, project_path[path_slice:], owners_email, town, date)  #TODO: for dev testing
-                    add_project(project_id, project_name, project_path, owners_email, town, date)      #TODO:  for prod
-                    print("New project created!")
+
+                    if add_project(project_id, project_name, project_path, owners_email, town, date) is False:
+                        os.rmdir(project_path)      # remove newly added project folder directory
+                        flash("Unable to add project to database", 'danger')
+                        return redirect(request.url)
+                    else:
+                        print("New project created!")
 
                     # flash("Your images were successfully uploaded your new project!", 'success')
                 except Exception as e:
@@ -76,8 +80,8 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
 
                 for image in uploaded_images:
                     #image_filename = secure_filename(image.filename)
-                    new_filename = secure_filename(f"{project_name}_{os.urandom(3).hex()}")
-                    image_path = os.path.join(project_path, new_filename)
+                    new_filename = secure_filename(f"agb_{os.urandom(3).hex()}")
+                    image_path = os.path.join(project_path, new_filename)       # TODO: project name being in image path poses a problem
                     image.save(image_path)
 
                     img = Image.open(image_path)

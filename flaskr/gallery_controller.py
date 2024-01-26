@@ -39,7 +39,7 @@ def gallery():
         print(traceback.format_exception(None, e, e.__traceback__))
 
     try:
-        projects, pagination = get_paginated_projects(sort_by='DESC')
+        projects, pagination = get_paginated_projects()
 
         # projects & thumbnails binding
         project_thumbnails = get_all_project_thumbnails(projects)
@@ -70,7 +70,7 @@ def gallery():
                 try:
                     # projects
                     """pagination"""
-                    projects, pagination = get_paginated_projects(sort_by="desc")
+                    projects, pagination = get_paginated_projects()
                     project_thumbnails = get_all_project_thumbnails(projects)
                     #redirect(url_for("blueprint.gallery"))
                 except Exception as e:
@@ -78,7 +78,7 @@ def gallery():
                     print(e)
             else:
                 try:
-                    projects, pagination = get_paginated_projects(town=town, sort_by="desc")
+                    projects, pagination = get_paginated_projects(town=town)
                     project_thumbnails = get_all_project_thumbnails(projects)
                     with current_app.app_context().app.test_request_context():
                         print(url_for("blueprint.gallery", page=''))

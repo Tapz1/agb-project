@@ -1,4 +1,3 @@
-
 CREATE TABLE IF NOT EXISTS testimonials (
     testimonial_id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,

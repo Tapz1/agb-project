@@ -6,7 +6,7 @@ from flaskr.upload_controller import upload_multiple_images
 from flaskr.project_service import delete_project_row, get_all_projects, get_projects_by_town, \
     get_project_item_db, get_multiple_project_items_db, get_project_item_by_name_db, get_project_item_by_id_db, \
     edit_project_db, get_project_info
-from flaskr.image_service import get_images_from_project, get_project_thumbnail
+from flaskr.image_service import get_images_from_project, get_project_thumbnail, edit_image_project_info
 from flaskr.submissionForms import UploadForm
 from flask_paginate import get_page_parameter, Pagination
 import os
@@ -22,7 +22,7 @@ def view_all_projects():
     try:
         upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
 
-        projects, pagination = get_paginated_projects(sort_by="DESC")
+        projects, pagination = get_paginated_projects()
         print('test')
 
         photo_thumbnails = []
@@ -91,14 +91,25 @@ def view_project(project_name):
 
         if request.method == 'POST':
             if "update-project" in request.form:
+
+                project_name_edit = project_name  # keep project name the same unless changed
+                town_edit = request.form['town']
+                owners_email_edit = request.form['owners_email']
+                date_edit = request.form['project_date']
+
                 print("updating project info..")
                 if image_form.new_project.data != request.form['new_project']:  # if project name is changed, rename directory
                     try:    # renaming project directory
-                        old_path = project_info['project_path']
-                        new_path = os.path.join(project_upload_path, request.form['new_project'])
+                        project_name_edit = request.form['new_project']
+                        old_path = project_info['project_path']     # TODO: for dev
+                        new_path = os.path.join(project_upload_path, request.form['new_project'])       # TODO: for dev
                         print("old path: " + old_path)
                         print("new path: " + new_path)
                         os.rename(src=old_path, dst=new_path)     # TODO: worked in dev env
+                        if edit_image_project_info(project_id, project_name=project_name_edit, project_path=new_path) is False:    # update the project name in image db
+                            os.rename(src=new_path, dst=old_path)       # revert name changes if this fails
+                            flash("Issue with renaming project info with images", 'danger')
+                            return redirect(request.url)
                     except Exception as e:
                         print("Error creating new project path")
                         flash("Issue with renaming project directory", 'danger')
@@ -106,10 +117,6 @@ def view_project(project_name):
                         return redirect(request.referrer)
 
                 try:
-                    project_name_edit = request.form['new_project']
-                    town_edit = request.form['town']
-                    owners_email_edit = request.form['owners_email']
-                    date_edit = request.form['project_date']
                     edit_project(project_id, project_name=project_name_edit, project_path=new_path,
                                  owners_email=owners_email_edit, town=town_edit, date=date_edit)
                     flash("Project information updated!", 'success')
@@ -153,7 +160,7 @@ def delete_project(project_id):
         return redirect(request.referrer)
 
 
-def get_paginated_projects(sort_by, town=None):
+def get_paginated_projects(town=None):
     all_projects = []
     paginated_projects = []
 
@@ -169,7 +176,7 @@ def get_paginated_projects(sort_by, town=None):
 
     if town is None:
         try:
-            all_projects, paginated_projects = get_all_projects(limit=limit, offset=offset, sort_by=sort_by)
+            all_projects, paginated_projects = get_all_projects(limit=limit, offset=offset)
         except Exception as e:
             print("Error with getting projects")
             print(e)
@@ -178,7 +185,7 @@ def get_paginated_projects(sort_by, town=None):
                                 per_page=limit, css_framework='bootstrap', alignment='center', bs_version='5')
     else:
         try:
-            all_projects, paginated_projects = get_projects_by_town(town=town, limit=limit, offset=offset, sort_by=sort_by)
+            all_projects, paginated_projects = get_projects_by_town(town=town, limit=limit, offset=offset)
         except Exception as e:
             print("Error with getting projects by town")
             print(e)

@@ -17,6 +17,7 @@ def create_app(test_config=None):
         PATH_SLICE=PATH_SLICE,
         ALLOWED_EXTENSIONS=ALLOWED_EXTENSIONS,
         DATABASE=os.path.join(app.instance_path, DB_NAME),
+        #DATABASE=os.path.join("../instance", DB_NAME),      # TODO: use this path for dev environment
         MAIL_SERVER='smtp.gmail.com',
         MAIL_PORT=587,
         MAIL_USE_TLS=True,
