@@ -1,3 +1,4 @@
+import logging
 import traceback
 
 from flaskr.decorator_wraps import DecoratorWraps
@@ -19,11 +20,12 @@ from datetime import datetime
 def view_all_projects():
     session.modified = True
 
+    logging.debug("Viewing all projects")
+
     try:
         upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
 
         projects, pagination = get_paginated_projects()
-        print('test')
 
         photo_thumbnails = []
 
@@ -42,9 +44,8 @@ def view_all_projects():
                                project_data=zip(projects, photo_thumbnails))
 
     except Exception as e:
-        print("Error with getting images:")
-        print(e)
-        print(traceback.format_exception(None, e, e.__traceback__))
+        msg = "Error with getting images"
+        logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
 
     return render_template("view_all_projects.html", title="All Projects")
 
@@ -54,15 +55,16 @@ def view_project_by_id(project_id):
         project_name = get_project_item_by_id_db(project_id, item="project_name")
         return redirect(url_for("blueprint.view_project", project_name=project_name))
     except Exception as e:
-        print("Error with getting project:")
-        print(e)
-        print(traceback.format_exception(None, e, e.__traceback__))
+        msg = "Error with getting project"
+        logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
         return redirect(request.referrer)
 
 
 def view_project(project_name):
     """takes project name since it's client facing"""
     session.modified = True
+    logging.debug(f"Viewing project: {project_name}")
+
     project_upload_path = current_app.app_context().app.config['UPLOAD_FOLDER']
     path_slice = current_app.app_context().app.config['PATH_SLICE']  # for dev
 
@@ -117,6 +119,10 @@ def view_project(project_name):
                         return redirect(request.referrer)
 
                 try:
+                    logging.debug(f"Attempting to edit project {project_name}: \n"
+                                  f"project path: {new_path}, owner's email: {owners_email_edit}, town: {town_edit}, "
+                                  f"date: {date_edit}")
+
                     edit_project(project_id, project_name=project_name_edit, project_path=new_path,
                                  owners_email=owners_email_edit, town=town_edit, date=date_edit)
                     flash("Project information updated!", 'success')
@@ -136,9 +142,8 @@ def view_project(project_name):
                                image_form=image_form, photos=photos, project_town=project_town, title=project_name)
 
     except Exception as e:
-        print("Error with getting images:")
-        print(e)
-        print(traceback.format_exception(None, e, e.__traceback__))
+        msg = "Error with getting images"
+        logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
         return redirect(url_for("blueprint.gallery"))
 
 
@@ -147,16 +152,20 @@ def delete_project(project_id):
     upload_folder = current_app.app_context().app.config['UPLOAD_FOLDER']
     try:
         project_name = get_project_item_db(project_id, "project_name")
+        logging.debug(f"Attempting to delete project: {project_name}")
+
         file_path = os.path.join(upload_folder, project_name)
         delete_project_row(project_id)
         #os.rmdir(file_path)
         shutil.rmtree(file_path)
-        flash("Project deleted!", "success")
+        conf_msg = "Project deleted!"
+        logging.info(conf_msg)
+        flash(conf_msg, "success")
         return redirect(request.referrer)
     except Exception as e:
-        print(e)
-        print(tb.format_exception(None, e, e.__traceback__))
-        flash("Project could not be deleted!", "danger")
+        msg = "Project could not be deleted!"
+        logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
+        flash(f"{msg}", "danger")
         return redirect(request.referrer)
 
 
@@ -210,14 +219,14 @@ def get_all_project_thumbnails(projects):
                 # print(first_photo_path)
             photo_thumbnails.append(first_photo_path)
     except Exception as e:
-        print("Error getting thumbnails")
-        print(e)
-        print(tb.format_exception(None, e, e.__traceback__))
+        msg = "Error getting thumbnails"
+        logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
     return photo_thumbnails
 
 
 def get_project_item(project_id, item):
     """item can be 'town', 'project_name', 'date'"""
+    #logging.debug(f"getting {item}")
     return get_project_item_db(project_id, item)
 
 

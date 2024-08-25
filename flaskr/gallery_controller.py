@@ -1,3 +1,4 @@
+import logging
 import traceback
 
 from flask import render_template, flash, url_for, request, session, current_app
@@ -12,6 +13,7 @@ import traceback as tb
 
 def gallery():
     session.modified = True
+    logging.debug("gallery entry")
     image_form = UploadForm()
 
     images = []
@@ -45,9 +47,9 @@ def gallery():
         project_thumbnails = get_all_project_thumbnails(projects)
 
     except Exception as e:
-        print(e)
-        print(tb.format_exception(None, e, e.__traceback__))
-        flash("Unable to get binded projects & thumbnails", 'danger')
+        msg = "Unable to get binded projects & thumbnails"
+        logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
+        flash(msg, 'danger')
 
     try:
         """town filtering"""
@@ -57,8 +59,9 @@ def gallery():
         dropdown_form.filter_by.choices = towns
 
     except Exception as e:
-        flash("Unable to get towns", 'danger')
-        print(e)
+        error = "Unable to get towns"
+        flash(error, 'danger')
+        logging.error(f"{error}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
 
     if request.method == 'POST':
 
@@ -87,8 +90,9 @@ def gallery():
                     #redirect(url_for("blueprint.gallery", page='1'))
 
                 except Exception as e:
-                    flash("Unable to get town-specific projects", 'danger')
-                    print(e)
+                    err_msg = "Unable to get town-specific projects"
+                    flash(err_msg, 'danger')
+                    logging.error(f"{err_msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
 
         if "upload-image" in request.form:
             upload_bg_image(page_name="gallery")

@@ -1,3 +1,5 @@
+import logging
+
 from flask import render_template, session, flash, request
 
 from flaskr.submissionForms import UploadForm
@@ -6,6 +8,7 @@ import traceback as tb
 
 
 def home():
+    logging.debug("home entry")
     session.modified = True
 
     image_form = UploadForm()

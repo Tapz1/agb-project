@@ -37,7 +37,7 @@
 
     {% include 'includes/_messages.html' %}
     <header class="container-md" style="position:relative; max-width: 100%;">
-        <div class="row justify-content-center " style="">
+        <div class="row justify-content-center " style="align">
                 <!--preview carousel-->
             <div id="previewCarousel" class="carousel slide" data-bs-ride="carousel">
                 <!--indicators-->
@@ -48,12 +48,13 @@
                     {% endfor %}
                 </div>
 
+                {% if images %}
                 <!--the slideshow-->
                 <div class="carousel-inner">
                     {% for photo in images %}
                     <div {% if photo == first_photo %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}
                             style="">
-                        <img class="d-block w-100" src="{{ photo.image_path }}"  style="">
+                        <img class="d-block w-100" src="{{ photo.image_path }}"  style="max-height: 20vh;">
                         <p>{{photo.image_path}}</p>
                         <div class="carousel-caption">
                             <div class="container-md">
@@ -84,6 +85,7 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
+                {% endif %}
             </div>
         </div>
     </header>
@@ -115,7 +117,7 @@
         <div class="row justify-content-evenly">
             {% for project, thumbnail in project_data %}
             <div class="col-md-4 project__wrap" style="padding: 10px 10px; margin-top: 2%; margin-bottom: 2%;" onclick="">
-                <div class="img-thumbnail" style="padding: 15px 15px; background: linear-gradient(rgba(240, 240, 240, 0.0), rgba(240, 240, 240, 0.0)), url({{ thumbnail }}); background-size: cover;"> <!--background-image: url({{ thumbnail }}); background-size: cover;-->
+                <div class="img-thumbnail" style="padding: 15px 15px; background: linear-gradient(rgba(240, 240, 240, 0.0), rgba(240, 240, 240, 0.0)), url({{ thumbnail }}); background-size: cover; background-position: 50% 50%; height: auto; width: 100%;"> <!--background-image: url({{ thumbnail }}); background-size: cover;-->
                     <a href="{{ url_for('blueprint.view_project', project_name=project[1]) }}" style="text-decoration: none;" class="text-dark">
                         <div class="row justify-content-center text-center project_description" style="margin-bottom: 30px; border: 1px solid black;">
                             <h5 class="text-center font-med-bold ">{{ project[1] }}</h5>

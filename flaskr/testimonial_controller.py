@@ -1,4 +1,6 @@
+import logging
 import os
+import traceback
 
 from flask import render_template, redirect, flash, url_for, request, session
 
@@ -24,8 +26,8 @@ def testimonials():
     try:
         all_testimonials = get_testimonials('approved')
     except Exception as e:
-        print("Error with getting testimonials")
-        print(e)
+        msg = "Error with getting testimonials"
+        logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
 
     try:        # looks for any existing projects with the same email in a testimonial
         for testimonial in all_testimonials:
@@ -35,8 +37,8 @@ def testimonials():
                 add_project_id(project_id=get_project_id_by_email(email),
                                  testimonial_id=get_testimonial_id_by_email(email))
     except Exception as e:
-        print("Unable to attach project ids")
-        print(e)
+        msg = "Unable to attach project ids"
+        logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
 
     try:
         search = False
@@ -55,8 +57,8 @@ def testimonials():
                                 per_page=limit, css_framework='bootstrap', alignment='center', bs_version='5')
 
     except Exception as e:
-        print("Error paginating")
-        print(e)
+        msg = "Error paginating"
+        logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
 
     if request.method == 'POST' and "upload-image" in request.form:
         print("upload bg attempted")
@@ -82,31 +84,37 @@ def testimonial_form(token):
 
     form = TestimonialForm(request.form, email=confirmed_email)
     name = form.name.data
-    email = form.email.data
+    email = str(form.email.data).lower()
     message = form.message.data
-    town = form.town.data
+    town = str(form.town.data).title()
 
     ms = MailService()
 
     if request.method == 'POST':
         if form.validate():
             testimonial_id = int(os.urandom(4).hex(), 16)
-            print(f"testimonial_id: {testimonial_id}")
+            logging.debug(f"testimonial_id created, attempting to send testimonial emails")
+            logging.debug("Testimonial data: \n"
+                          f"name: {name}"
+                          f"email: {email}"
+                          f"message: {message}"
+                          f"town: {town}")
             add_testimonial(testimonial_id, name, email, message, town)
             ms.send_testimonial_email(name, email, message, town)
             ms.testimonial_receipt(name, email, message, town)
 
             try:
                 if project_exists(email) > 0:
-                    print("Project exists with same email")
+                    logging.debug("Project exists with same email, adding project ID to testimonial")
                     add_project_id(project_id=get_project_id_by_email(email), testimonial_id=get_testimonial_id_by_email(email))
             except Exception as e:
-                print("Issue with adding project_id to testimonial")
-                print(e)
+                msg = "Issue with adding project_id to testimonial"
+                logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
             flash("Your testimonial was successfully sent for approval", 'success')
             return redirect(url_for("blueprint.home"))
         else:
             error = "Testimonial could not be submitted"
+            logging.error(error)
             flash(error, "danger")
             return render_template('testimonial_form.html', form=form, title="Add Testimonial")
     return render_template("testimonial_form.html", form=form, title="Post Your Testimonial")

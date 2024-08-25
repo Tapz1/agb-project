@@ -1,3 +1,4 @@
+import logging
 import os
 import pathlib
 import traceback
@@ -15,11 +16,13 @@ def allowed_file(filename):
 
 
 def download_file(name):
+    logging.debug("Downloading file..")
     return send_from_directory(current_app.app_context().app.config['UPLOAD_FOLDER'], name)
 
 
 def upload_multiple_images(image_form, existing_photos, isNew, project_name):
     """for projects"""
+    logging.debug(f"Uploading images for {project_name}")
     project_path = ""
     path_slice = current_app.app_context().app.config['PATH_SLICE']     # for dev
     project_upload_path = current_app.app_context().app.config['UPLOAD_FOLDER']
@@ -45,14 +48,15 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                 # creating a new project #
 
                 project_name = request.form['new_project']
-                owners_email = request.form['owners_email']
-                town = request.form['town']
+                owners_email = (request.form['owners_email']).lower()
+                town = (request.form['town']).title()
                 date = request.form['project_date']
                 try:
                     pathlib.Path(project_upload_path, project_name).mkdir(exist_ok=False)
                 except Exception as e:
-                    print(e)
-                    flash("There's already an existing project with that name", 'danger')
+                    msg = "There's already an existing project with that name"
+                    logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
+                    flash(msg, 'danger')
                     return redirect(request.referrer)
 
                 try:
@@ -60,18 +64,21 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                     project_id = int(os.urandom(4).hex(), 16)
                     # add_project(project_id, project_name, project_path[path_slice:], owners_email, town, date)  #TODO: for dev testing
 
+                    logging.debug("Attempting to add project: \n"
+                                  f"project name: {project_name}, project path: {project_path}, owner's email: {owners_email}, town: {town}, date: {date}")
+
                     if add_project(project_id, project_name, project_path, owners_email, town, date) is False:
                         os.rmdir(project_path)      # remove newly added project folder directory
                         flash("Unable to add project to database", 'danger')
                         return redirect(request.url)
                     else:
-                        print("New project created!")
+                        logging.info("New project successfully added!")
 
                     # flash("Your images were successfully uploaded your new project!", 'success')
                 except Exception as e:
-                    print(e)
-                    print(traceback.format_exception(None, e, e.__traceback__))
-                    flash("Unable to add project", 'warning')
+                    msg = "Unable to add project"
+                    logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
+                    flash(msg, 'warning')
                     return redirect(request.referrer)
             else:
                 project_path = os.path.join(project_upload_path, project_name)
@@ -89,6 +96,7 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                     img.save(image_path, "JPEG", optimize=True)     # optimizes images
 
                     print("project name: "+project_name)
+                    logging.debug(f"project name: {project_name} ")
                     project_id = get_project_id(project_name)
 
                     # image_path[6:] is to splice off the "flaskr" from path
@@ -101,17 +109,18 @@ def upload_multiple_images(image_form, existing_photos, isNew, project_name):
                 flash("Your images were successfully uploaded your new project!", 'success')
                 redirect(url_for("blueprint.view_project", project_name=project_name))
             except Exception as e:
-                print(e)
-                print(traceback.format_exception(None, e, e.__traceback__))
-                flash("Unable to upload images", 'danger')
+                msg = "Unable to upload images"
+                logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
+                flash(msg, 'danger')
                 return redirect(request.referrer)
         else:
             flash('No image selected')
             # return redirect(request.url)
 
     except Exception as e:
-        print(e)
-        flash("Your image could not be uploaded", 'danger')
+        eMsg = "Your image could not be uploaded"
+        logging.error(f"{eMsg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
+        flash(eMsg, 'danger')
         # return redirect(request.url)
 
 
@@ -161,8 +170,9 @@ def upload_bg_image(page_name):
             return redirect(request.url)
 
     except Exception as e:
-        print(e)
-        flash("Your image could not be uploaded", 'danger')
+        msg = "Your image could not be uploaded"
+        logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
+        flash(msg, 'danger')
         return redirect(request.url)
 
 

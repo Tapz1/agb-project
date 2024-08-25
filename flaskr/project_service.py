@@ -1,3 +1,6 @@
+import logging
+import traceback
+
 from flask import redirect, request
 
 from flaskr.db import get_db
@@ -26,9 +29,8 @@ def add_project(project_id, project_name, project_path, owners_email, town, date
 
         return True
     except Exception as e:
-        print("Error adding project to db")
-        print(e)
-        print(tb.format_exception(None, e, e.__traceback__))
+        msg = f"Error adding project to db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
         return False
 
 
@@ -48,9 +50,8 @@ def get_all_projects(limit, offset):
         cur.close()
         return projects, paginated_projects
     except Exception as e:
-        print("Could not retrieve all projects from db")
-        print(e)
-        print(tb.format_exception(None, e, e.__traceback__))
+        msg = "Could not retrieve all projects from db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
         return False
 
 
@@ -72,9 +73,8 @@ def get_projects_by_town(town, limit, offset):
         cur.close()
         return projects, paginated_projects
     except Exception as e:
-        print("Could not retrieve all projects by town from db")
-        print(e)
-        print(tb.format_exception(None, e, e.__traceback__))
+        msg = "Could not retrieve all projects by town from db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
         return False
 
 
@@ -91,9 +91,8 @@ def get_project_id(project_name):
         return project_id
 
     except Exception as e:
-        print(f"Could not retrieve project_id from the project_name: {project_name}")
-        print(e)
-        print(tb.format_exception(None, e, e.__traceback__))
+        msg = f"Could not retrieve project_id from the project_name: {project_name}"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
         return False
 
 
@@ -110,9 +109,8 @@ def get_project_item_db(project_id, item):
         return project_item
 
     except Exception as e:
-        print("Could not retrieve project item from db")
-        print(e)
-        print(tb.format_exception(None, e, e.__traceback__))
+        msg = "Could not retrieve project item from db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
         return False
 
 
@@ -129,9 +127,8 @@ def get_project_item_by_name_db(project_name, item):
         return project_item
 
     except Exception as e:
-        print("Could not retrieve project item by name from db")
-        print(e)
-        print(tb.format_exception(None, e, e.__traceback__))
+        msg = "Could not retrieve project item by name from db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
         return False
 
 
@@ -148,9 +145,8 @@ def get_project_item_by_id_db(project_id, item):
         return project_item
 
     except Exception as e:
-        print(f"Could not retrieve project item={item} by id from db")
-        print(e)
-        print(tb.format_exception(None, e, e.__traceback__))
+        msg = f"Could not retrieve project item={item} by id from db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
         return False
 
 
@@ -167,9 +163,8 @@ def get_project_info(project_id):
         return project_info
 
     except Exception as e:
-        print("Could not retrieve project_info from db")
-        print(e)
-        print(tb.format_exception(None, e, e.__traceback__))
+        msg = "Could not retrieve project_info from db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
         return False
 
 
@@ -178,15 +173,15 @@ def edit_project_db(project_id, project_name, project_path, owners_email, town, 
         db = get_db_connection()
         cur = db.cursor()
 
-        cur.execute("UPDATE projects SET project_name = ?, project_path = ?, owners_email = ?, town = ?, date = ? WHERE project_id = ?", [project_name, project_path, owners_email, town, date, project_id])
+        cur.execute("UPDATE projects SET project_name = ?, project_path = ?, owners_email = ?, town = ?, date = ? "
+                    "WHERE project_id = ?", [project_name, project_path, owners_email, town, date, project_id])
 
         db.commit()
         cur.close()
         db.close()
     except Exception as e:
-        print("Could not update the project in db")
-        print(e)
-        print(tb.format_exception(None, e, e.__traceback__))
+        msg = "Could not update the project in db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
         return False
 
 
@@ -194,7 +189,7 @@ def get_multiple_project_items_db(item):
     db = get_db_connection()
 
     cur = db.cursor()
-    print(f"getting {item}s")
+    # print(f"getting {item}s")
     items = list(cur.execute(f"SELECT DISTINCT({item}) FROM projects").fetchall())
 
     cur.close()
