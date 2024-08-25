@@ -54,7 +54,7 @@
                     {% for photo in images %}
                     <div {% if photo == first_photo %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}
                             style="">
-                        <img class="d-block w-100" src="{{ photo.image_path }}"  style="max-height: 20vh;">
+                        <img class="" src="{{ photo.image_path }}"  style="max-height: 20vh; width: auto; height: 100%;">
                         <p>{{photo.image_path}}</p>
                         <div class="carousel-caption">
                             <div class="container-md">
