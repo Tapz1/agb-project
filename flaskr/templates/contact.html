@@ -2,9 +2,11 @@
 {% set active_page = "contact" %}
 
 {% block head %}
-    <link rel="preload" href="" as="image"/>
-
+    {% for img in img_list %}
+        <link rel="preload" href="{{ img }}" as="image"/>
+    {% endfor %}
 {% endblock %}
+
 {% block body %}
 
 <div id="main-content" class="main-content" style="">
