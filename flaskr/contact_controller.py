@@ -9,13 +9,19 @@ def contact():
     image_form = UploadForm()
 
     # grab all images in contact-images folder easy to add awards later on
-    contact_img_dir = r'./static/contact-images'
-    img_list = []
-    contact_images = os.listdir(contact_img_dir)
 
-    for img in contact_images:
-        img_path = url_for('static', filename=f"contact-images/{img}")
-        img_list.append(img_path)
+    img_list = []
+    try:
+        contact_img_dir = 'static/contact-images'
+
+        contact_images = os.listdir(contact_img_dir)
+
+        for img in contact_images:
+            img_path = url_for('static', filename=f"contact-images/{img}")
+            print(img_path)
+            img_list.append(img_path)
+    except Exception as e:
+        print(f"Issue getting contact-images: {e}")
 
     if request.method == 'POST' and "upload-image" in request.form:
         upload_bg_image(page_name="contact")
