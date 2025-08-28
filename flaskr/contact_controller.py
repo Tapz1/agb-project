@@ -14,7 +14,7 @@ def contact():
     try:
         contact_img_dir = os.path.join(current_app.root_path, 'static', 'contact-images')
 
-        contact_images = os.listdir(contact_img_dir)
+        contact_images = sorted(os.listdir(contact_img_dir))
 
         for img in contact_images:
             img_path = url_for('static', filename=f"contact-images/{img}")
