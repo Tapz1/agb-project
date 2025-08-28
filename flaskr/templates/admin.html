@@ -61,7 +61,6 @@
 {% from "includes/_formhelpers.html" import render_field %}
 <div class="container-md bg-dark bg-opacity-75" style="margin-bottom: 20px; max-width: 100%;">
         <div class="row align-items-end">
-            <!--{% from "includes/_formhelpers.html" import render_field %}-->
             <div class="col-md-auto text-md admin-forms font-med-bold" style="margin-top: 10px;">
                 <h1 class="display-6 text-light">Add a Project</h1>
             </div>
@@ -112,7 +111,6 @@
                     data-callback='onSubmit'
                     data-action='submit'
                     name="upload-image">Upload</button>
-                <!--<p class="buttons"><input type="Submit" class="btn btn-outline" value="Send"></p>-->
             </div>
         </div>
     </form>
@@ -128,7 +126,6 @@
             <tbody>
                 {% for i in pending_testimonials %}
                 <tr>
-                    <!--<th scope="row">1</th>-->
                   <td class="testimonial-column">
                       <h3 class="">{{i.name}}<small class="text-muted"> ({{ i.email }}) </small></h3>
                       <p class=""><i> {{i.town}}, NH</i></p>
