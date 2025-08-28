@@ -1,4 +1,4 @@
-from flask import render_template, request, session, url_for
+from flask import render_template, request, session, url_for, current_app
 import os
 from flaskr.upload_controller import upload_bg_image
 from flaskr.submissionForms import UploadForm
@@ -12,13 +12,13 @@ def contact():
 
     img_list = []
     try:
-        contact_img_dir = 'static/contact-images'
+        contact_img_dir = os.path.join(current_app.root_path, 'static', 'contact-images') # url_for('static', filename='contact-images/')
 
         contact_images = os.listdir(contact_img_dir)
 
         for img in contact_images:
             img_path = url_for('static', filename=f"contact-images/{img}")
-            print(img_path)
+            #print(img_path)
             img_list.append(img_path)
     except Exception as e:
         print(f"Issue getting contact-images: {e}")
