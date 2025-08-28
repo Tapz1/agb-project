@@ -1,4 +1,10 @@
+import logging
+import traceback
+
+from flask import redirect, request
+
 from flaskr.db import get_db
+import traceback as tb
 
 
 def get_db_connection():
@@ -7,106 +13,183 @@ def get_db_connection():
 
 
 def add_project(project_id, project_name, project_path, owners_email, town, date):
-    db = get_db_connection()
+    """adding project_id, project_name, project_path, owners_email, town, date to db"""
 
-    cur = db.cursor()
-    insert_sql = "INSERT INTO projects (project_id, project_name, project_path, owners_email, town, date) " \
-                 "VALUES(:project_id, :project_name, :project_path, :owners_email, :town, :date)"
-    cur.execute(insert_sql, {'project_id': project_id, 'project_name': project_name, 'project_path': project_path, 'owners_email': owners_email, 'town': town, 'date': date})
+    try:
+        db = get_db_connection()
 
-    db.commit()
-    cur.close()
-    #conn.close()
+        cur = db.cursor()
+
+        insert_sql = "INSERT INTO projects (project_id, project_name, project_path, owners_email, town, date) " \
+                     "VALUES(:project_id, :project_name, :project_path, :owners_email, :town, :date)"
+        cur.execute(insert_sql, {'project_id': project_id, 'project_name': project_name, 'project_path': project_path, 'owners_email': owners_email, 'town': town, 'date': date})
+
+        db.commit()
+        cur.close()
+
+        return True
+    except Exception as e:
+        msg = f"Error adding project to db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
+        return False
 
 
-def get_all_projects(limit, offset, sort_by):
+def get_all_projects(limit, offset):
     """paginated"""
-    db = get_db_connection()
+    try:
+        db = get_db_connection()
 
-    cur = db.cursor()
-    print(f"sort_by value in db: {sort_by}")
-    projects = list(cur.execute(
-        f"SELECT * FROM projects ORDER BY date {sort_by}").fetchall())
+        cur = db.cursor()
+        projects = list(cur.execute(
+            f"SELECT * FROM projects").fetchall())
 
-    paginated_projects = list(cur.execute(
-        f"SELECT * FROM projects ORDER BY date {sort_by} LIMIT {limit} OFFSET {offset}"
-    ).fetchall())
+        paginated_projects = list(cur.execute(
+            f"SELECT * FROM projects LIMIT {limit} OFFSET {offset}"
+        ).fetchall())
 
-    cur.close()
-    return projects, paginated_projects
+        cur.close()
+        return projects, paginated_projects
+    except Exception as e:
+        msg = "Could not retrieve all projects from db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
+        return False
 
 
-def get_projects_by_town(town, limit, offset, sort_by):
+def get_projects_by_town(town, limit, offset):
     """paginated"""
-    db = get_db_connection()
+    try:
+        db = get_db_connection()
 
-    cur = db.cursor()
+        cur = db.cursor()
 
-    projects = list(cur.execute(
-        f"SELECT * FROM projects WHERE town = ? ORDER BY date {sort_by}", [town]
-    ).fetchall())
+        projects = list(cur.execute(
+            f"SELECT * FROM projects WHERE town = ?", [town]
+        ).fetchall())
 
-    paginated_projects = list(cur.execute(
-        f"SELECT * FROM projects WHERE town = ? ORDER BY date {sort_by} LIMIT {limit} OFFSET {offset}", [town]
-    ).fetchall())
+        paginated_projects = list(cur.execute(
+            f"SELECT * FROM projects WHERE town = ? LIMIT {limit} OFFSET {offset}", [town]
+        ).fetchall())
 
-    cur.close()
-    return projects, paginated_projects
+        cur.close()
+        return projects, paginated_projects
+    except Exception as e:
+        msg = "Could not retrieve all projects by town from db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
+        return False
 
 
 def get_project_id(project_name):
-    db = get_db_connection()
+    try:
+        db = get_db_connection()
 
-    cur = db.cursor()
+        cur = db.cursor()
 
-    project_id = cur.execute("SELECT project_id FROM projects WHERE project_name = ?", [project_name]).fetchone()[0]
+        project_id = cur.execute("SELECT project_id FROM projects WHERE project_name = ?", [project_name]).fetchone()[0]
 
-    # print(project_id)
-    cur.close()
-    return project_id
+        # print(project_id)
+        cur.close()
+        return project_id
+
+    except Exception as e:
+        msg = f"Could not retrieve project_id from the project_name: {project_name}"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
+        return False
 
 
 def get_project_item_db(project_id, item):
-    db = get_db_connection()
+    try:
+        db = get_db_connection()
 
-    cur = db.cursor()
+        cur = db.cursor()
 
-    project_item = cur.execute(f"SELECT {item} FROM projects WHERE project_id = ?", [project_id]).fetchone()[0]
+        project_item = cur.execute(f"SELECT {item} FROM projects WHERE project_id = ?", [project_id]).fetchone()[0]
 
-    # print(project_item)
-    cur.close()
-    return project_item
+        # print(project_item)
+        cur.close()
+        return project_item
+
+    except Exception as e:
+        msg = "Could not retrieve project item from db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
+        return False
 
 
 def get_project_item_by_name_db(project_name, item):
-    db = get_db_connection()
+    try:
+        db = get_db_connection()
 
-    cur = db.cursor()
+        cur = db.cursor()
 
-    project_item = cur.execute(f"SELECT {item} FROM projects WHERE project_name = ?", [project_name]).fetchone()[0]
+        project_item = cur.execute(f"SELECT {item} FROM projects WHERE project_name = ?", [project_name]).fetchone()[0]
 
-    # print(project_item)
-    cur.close()
-    return project_item
+        # print(project_item)
+        cur.close()
+        return project_item
+
+    except Exception as e:
+        msg = "Could not retrieve project item by name from db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
+        return False
 
 
 def get_project_item_by_id_db(project_id, item):
-    db = get_db_connection()
+    try:
+        db = get_db_connection()
 
-    cur = db.cursor()
+        cur = db.cursor()
 
-    project_item = cur.execute(f"SELECT {item} FROM projects WHERE project_id = ?", [project_id]).fetchone()[0]
+        project_item = cur.execute(f"SELECT {item} FROM projects WHERE project_id = ?", [project_id]).fetchone()[0]
 
-    # print(project_item)
-    cur.close()
-    return project_item
+        # print(project_item)
+        cur.close()
+        return project_item
+
+    except Exception as e:
+        msg = f"Could not retrieve project item={item} by id from db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
+        return False
+
+
+def get_project_info(project_id):
+    try:
+        db = get_db_connection()
+
+        cur = db.cursor()
+
+        project_info = cur.execute(f"SELECT * FROM projects WHERE project_id = ?", [project_id]).fetchone()
+
+        # print(project_item)
+        cur.close()
+        return project_info
+
+    except Exception as e:
+        msg = "Could not retrieve project_info from db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
+        return False
+
+
+def edit_project_db(project_id, project_name, project_path, owners_email, town, date):
+    try:
+        db = get_db_connection()
+        cur = db.cursor()
+
+        cur.execute("UPDATE projects SET project_name = ?, project_path = ?, owners_email = ?, town = ?, date = ? "
+                    "WHERE project_id = ?", [project_name, project_path, owners_email, town, date, project_id])
+
+        db.commit()
+        cur.close()
+        db.close()
+    except Exception as e:
+        msg = "Could not update the project in db"
+        logging.error(f"{msg}: {e}\n{tb.format_exception(None, e, e.__traceback__)}")
+        return False
 
 
 def get_multiple_project_items_db(item):
     db = get_db_connection()
 
     cur = db.cursor()
-    print(f"getting {item}s")
+    # print(f"getting {item}s")
     items = list(cur.execute(f"SELECT DISTINCT({item}) FROM projects").fetchall())
 
     cur.close()
@@ -152,13 +235,4 @@ def project_exists(email):
     return count
 
 
-def get_limited_projects(limit):
-    db = get_db_connection()
 
-    cur = db.cursor()
-
-    project = list(cur.execute("SELECT * FROM projects ORDER BY date desc LIMIT ?", [limit]).fetchall())
-
-    cur.close()
-
-    return project

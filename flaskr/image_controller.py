@@ -1,3 +1,6 @@
+import logging
+import traceback
+
 from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, redirect, url_for, flash, current_app, request
 from flaskr.project_controller import get_project_item
@@ -19,8 +22,9 @@ def delete_image(image_id, project_id, filename):
             flash("Image deleted!", "success")
 
         except Exception as e:
-            print(e)
-            flash("Image could not be deleted!", "danger")
+            msg = "Image could not be deleted!"
+            logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
+            flash(msg, "danger")
         return redirect(url_for("blueprint.view_project", project_name=project_name))
 
 
@@ -48,7 +52,7 @@ def update_check_image(image_id, isChecked):
             flash("Image added to Gallery slideshow!", "success")
         update_check_db(image_id, isChecked)
     except Exception as e:
-        flash("Unable to add to slideshow", "danger")
-        print(e)
-        print(tb.format_exception(None, e, e.__traceback__))
+        msg = "Unable to add to slideshow"
+        flash(msg, "danger")
+        logging.error(f"{msg}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
     return redirect(request.referrer)

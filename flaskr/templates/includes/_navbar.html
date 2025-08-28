@@ -55,15 +55,17 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup" style="margin-top: -60px;">
           <div class="navbar-nav" id="navigation" style="text-align: right;">
                 {% for href, id, caption in navigation_bar %}
-                    {% if active_page == 'login' or active_page == 'admin' %}
-                        <a {% if id == active_page %} class="nav-link active text-white-50" {% else %} class="hover nav-link text-light" {% endif %} href="{{ href|e }}">
+                    <!--{ if active_page == 'login' or active_page == 'admin' }-->
+                        <a {% if id == active_page %} class="nav-link active text-white text-opacity-75 nav_links" {% else %} class="hover nav-link text-light nav_links" {% endif %} href="{{ href|e }}">
                         {{ caption|e }}
                         </a>
-                    {% else %}
+                    <!-- else-->
+<!--
                     <a {% if id == active_page %} class="nav-link active text-black-50" {% else %} class="hover nav-link text-dark" {% endif %} href="{{ href|e }}">
                         {{ caption|e }}
                     </a>
-                    {% endif %}
+-->
+                    <!--end if-->
                 {% endfor %}
 
 

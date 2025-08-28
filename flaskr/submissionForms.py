@@ -23,9 +23,9 @@ class UploadForm(Form):
     project = SelectField(u'Project Info', choices=[])
     image = MultipleFileField('Upload Images', [validators.DataRequired()])
     new_project = StringField('Project Name')
-    owners_email = EmailField("", [validators.Email(message='Must be a valid email address')])
-    town = StringField("", [validators.Length(min=3, max=50)])
-    project_date = DateField("", default=date.today)
+    owners_email = EmailField("Owner's Email", [validators.Email(message='Must be a valid email address')])
+    town = StringField("Town", [validators.Length(min=3, max=50)])
+    project_date = DateField("Project Date", [validators.Length(min=1)], default=date.today)
     isChecked = BooleanField("Add to Gallery slideshow", default=False)
     # description = TextAreaField(u'Image Description')
 

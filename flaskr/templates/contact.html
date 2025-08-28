@@ -16,7 +16,7 @@
             <form method="post" action="" class="" enctype="multipart/form-data">
                 <div class="row justify-content-end" style="font-weight: 500;">
                     <div class="col-3 form-labels" style="text-align: right;">
-                            <p class="font-med-bold text-normal">Change Background</p>
+                            <p class="font-med-bold text-normal upload_bg text-light">Change Background</p>
                         {{ image_form.bg_image(class="form-control", style="font-size: 10px;") }}
                             <button class="buttons btn btn-outline-primary btn-sm"
                             data-callback='onSubmit'
@@ -112,13 +112,11 @@
             </div>
         </div>
         <div class="row justify-content-between" style="text-align: center; padding-bottom: 30px;">
-            <div class="col-md" style="">
-                <img class="img-fluid" src="{{ url_for('static', filename='contact-images/award.png') }}" alt="" style="max-height: 10rem;">
+            {% for img in img_list %}
+            <div class="col-md" style="margin-bottom: 1.5rem;">
+                <img class="img-fluid" src="{{ img }}" alt="" style="max-height: 10rem;">
             </div>
-            <div class="col-md">
-                <img class="img-fluid" src="{{ url_for('static', filename='logo/FullLogo_Transparent_NoBuffer.png') }}" alt="" style="max-height: 10rem;">
-            </div>
-
+            {% endfor %}
 
         </div>
     </div>

@@ -2,9 +2,8 @@ import os
 from datetime import timedelta
 from flask import Flask
 from flaskr.config import (UPLOAD_FOLDER, DB_NAME, SECRET_KEY, SECURITY_PASSWORD_SALT, EMAIL_USERNAME,
-                           EMAIL_PASSWORD, EMAIL_SEND_AS, TO_EMAIL, DEV_EMAIL, CLIENT_EMAIL, ADMIN_PASSWORD, ALLOWED_EXTENSIONS,
-                           PATH_SLICE, BACKGROUND_IMAGES_PATH)
-from flaskr.project_service import add_project
+                           EMAIL_PASSWORD, EMAIL_SEND_AS, TO_EMAIL, DEV_EMAIL, CLIENT_EMAIL, BCC_EMAIL, ADMIN_PASSWORD,
+                            ALLOWED_EXTENSIONS, PATH_SLICE, BACKGROUND_IMAGES_PATH, CONTACT_IMAGE_DIR)
 
 
 def create_app(test_config=None):
@@ -14,10 +13,12 @@ def create_app(test_config=None):
         SECRET_KEY=SECRET_KEY,
         SECURITY_PASSWORD_SALT=SECURITY_PASSWORD_SALT,
         UPLOAD_FOLDER=UPLOAD_FOLDER,
+        CONTACT_IMAGE_DIR=CONTACT_IMAGE_DIR,
         BACKGROUND_IMAGES_PATH=BACKGROUND_IMAGES_PATH,
         PATH_SLICE=PATH_SLICE,
         ALLOWED_EXTENSIONS=ALLOWED_EXTENSIONS,
         DATABASE=os.path.join(app.instance_path, DB_NAME),
+        #DATABASE=os.path.join("../instance", DB_NAME),      # TODO: use this path for dev environment
         MAIL_SERVER='smtp.gmail.com',
         MAIL_PORT=587,
         MAIL_USE_TLS=True,
@@ -31,6 +32,7 @@ def create_app(test_config=None):
         MAIL_ASCII_ATTACHMENTS=False,
         DEV_EMAIL=DEV_EMAIL,
         CLIENT_EMAIL=CLIENT_EMAIL,
+        BCC_EMAIL=BCC_EMAIL,
         ADMIN_PASSWORD=ADMIN_PASSWORD
     )
 

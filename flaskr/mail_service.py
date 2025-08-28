@@ -24,6 +24,7 @@ class MailService(object):
         self.EMAIL_FROM = current_app.app_context().app.config['MAIL_USERNAME']
         self.TO_EMAIL = current_app.app_context().app.config['TO_EMAIL']
         self.SEND_AS_EMAIL = current_app.app_context().app.config['MAIL_DEFAULT_SENDER']
+        self.TO_BCC = current_app.app_context().app.config['BCC_EMAIL']
 
     def send_testimonial_request(self, email, name):
         token = generate_confirmation_token(email)
@@ -36,7 +37,7 @@ class MailService(object):
             sender=self.SEND_AS_EMAIL,
             recipients=[email],
             html=email_body,
-            bcc=self.TO_EMAIL
+            bcc=[self.TO_EMAIL, self.TO_BCC]
         )
 
         send_email(msg)

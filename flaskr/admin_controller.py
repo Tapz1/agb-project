@@ -1,3 +1,6 @@
+import logging
+import traceback
+
 from flaskr.decorator_wraps import DecoratorWraps
 from flask import render_template, session, request, redirect, url_for, flash, current_app
 
@@ -59,42 +62,42 @@ def admin_portal():
 
 @DecoratorWraps.is_logged_in
 def approve_testimonial(testimonial_id):
-
+    logging.debug("approving testimonial")
     try:
         update_approval(testimonial_id)
         flash("Testimonial approved!", "success")
         return redirect(url_for("blueprint.admin_portal"))
     except Exception as e:
-        print(e)
         error = "Testimonial could not be approved"
+        logging.error(f"{error}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
         flash(error, "danger")
         return redirect(url_for("blueprint.admin_portal"))
 
 
 @DecoratorWraps.is_logged_in
 def delete_testimonial_request(testimonial_id):
-
+    logging.debug(f"deleting testimonial request id: {testimonial_id}")
     try:
         delete_entry(testimonial_id)
         flash("Testimonial deleted!", "success")
         return redirect(url_for("blueprint.admin_portal"))
     except Exception as e:
-        print(e)
         error = "Testimonial could not be deleted"
+        logging.error(f"{error}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
         flash(error, "danger")
         return redirect(url_for("blueprint.admin_portal"))
 
 
 @DecoratorWraps.is_logged_in
 def delete_testimonial(testimonial_id):
-
+    logging.debug(f"deleting approved testimonial id: {testimonial_id}")
     try:
         delete_entry(testimonial_id)
         flash("Testimonial deleted!", "success")
         return redirect(url_for("blueprint.testimonials"))
     except Exception as e:
-        print(e)
         error = "Testimonial could not be deleted"
+        logging.error(f"{error}: {e}\n{traceback.format_exception(None, e, e.__traceback__)}")
         flash(error, "danger")
         return redirect(url_for("blueprint.testimonials"))
 

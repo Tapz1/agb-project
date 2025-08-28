@@ -14,12 +14,18 @@ BACKGROUND_IMAGES_PATH = './static/background-images'     # path for dev
 PATH_SLICE = 6
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
+# contact image folder
+CONTACT_IMAGE_DIR = './static/contact-images'
+
+
 # secret keys
 SECRET_KEY = os.environ.get('SECRET_KEY')
 SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT')
 
 # email config
-TO_EMAIL = os.environ.get('CLIENT_EMAIL')
+TO_EMAIL = os.environ.get('CLIENT_EMAIL')      # prod
+BCC_EMAIL = os.environ.get('LISA_EMAIL')        # prod
+#BCC_EMAIL = os.environ.get('DEV_EMAIL')        # dev testing
 #TO_EMAIL = os.environ.get('DEV_EMAIL')    # for development ###
 EMAIL_USERNAME = os.environ.get('MAILING_USERNAME')
 EMAIL_PASSWORD = os.environ.get('MAILING_PASSWORD')
