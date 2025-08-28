@@ -1,4 +1,4 @@
-from flask import render_template, request, session, current_app, url_for
+from flask import render_template, request, session, url_for
 import os
 from flaskr.upload_controller import upload_bg_image
 from flaskr.submissionForms import UploadForm
@@ -9,7 +9,7 @@ def contact():
     image_form = UploadForm()
 
     # grab all images in contact-images folder easy to add awards later on
-    contact_img_dir = current_app.app_context().app.config['CONTACT_IMAGE_DIR']
+    contact_img_dir = r'./static/contact-images'
     img_list = []
     contact_images = os.listdir(contact_img_dir)
 
