@@ -400,19 +400,19 @@ p
   max-height: 20vh;
 }*/
 
-.project_description_no_hover {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity .2s, visibility .2s;
-}
-
 .project_description {
     visibility: hidden;
     opacity: 0;
     transition: opacity .2s, visibility .2s;
 }
 
-.project__wrap:hover .project_description {
+.project_description_hover {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .2s, visibility .2s;
+}
+
+.project__wrap:hover .project_description_hover {
   visibility: visible;
   opacity: 1;
   background: linear-gradient(rgba(240, 240, 240, 0.5), rgba(240, 240, 240, 0.5));
