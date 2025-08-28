@@ -22,3 +22,5 @@ htmlcov/
 dist/2
 build/
 *.egg-info/
+
+.uploads/

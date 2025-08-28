@@ -14,6 +14,10 @@ BACKGROUND_IMAGES_PATH = './static/background-images'     # path for dev
 PATH_SLICE = 6
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
+# contact image folder
+CONTACT_IMAGE_DIR = './static/contact-images'
+
+
 # secret keys
 SECRET_KEY = os.environ.get('SECRET_KEY')
 SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT')
