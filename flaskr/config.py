@@ -16,7 +16,7 @@ PATH_SLICE = 6
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 # contact image folder
-CONTACT_IMAGE_DIR = './static/contact-images'
+CONTACT_IMAGE_DIR = r'./static/contact-images'
 
 
 # secret keys

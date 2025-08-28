@@ -4,7 +4,7 @@ from datetime import timedelta
 from flask import Flask, url_for
 from flaskr.config import (UPLOAD_FOLDER, DB_NAME, SECRET_KEY, SECURITY_PASSWORD_SALT, EMAIL_USERNAME,
                            EMAIL_PASSWORD, EMAIL_SEND_AS, TO_EMAIL, DEV_EMAIL, CLIENT_EMAIL, BCC_EMAIL, ADMIN_PASSWORD,
-                            ALLOWED_EXTENSIONS, PATH_SLICE, BACKGROUND_IMAGES_PATH, CONTACT_IMAGE_DIR)
+                            ALLOWED_EXTENSIONS, PATH_SLICE, BACKGROUND_IMAGES_PATH)
 
 
 def create_app(test_config=None):
@@ -14,7 +14,6 @@ def create_app(test_config=None):
         SECRET_KEY=SECRET_KEY,
         SECURITY_PASSWORD_SALT=SECURITY_PASSWORD_SALT,
         UPLOAD_FOLDER=UPLOAD_FOLDER,
-        CONTACT_IMAGE_DIR=CONTACT_IMAGE_DIR,
         BACKGROUND_IMAGES_PATH=BACKGROUND_IMAGES_PATH,
         PATH_SLICE=PATH_SLICE,
         ALLOWED_EXTENSIONS=ALLOWED_EXTENSIONS,
@@ -50,15 +49,6 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    local_contact_dir = CONTACT_IMAGE_DIR
-    instance_contact_dir = app.config['CONTACT_IMAGE_DIR']
-    try:
-        shutil.copytree(local_contact_dir, instance_contact_dir)
-    except FileExistsError:
-        print(f"Destination folder '{instance_contact_dir}' already exists.")
-    except OSError:
-        pass
-
     try:
         os.makedirs(app.config['UPLOAD_FOLDER'])
     except OSError:
@@ -83,5 +73,5 @@ def create_app(test_config=None):
 app = create_app()
 
 # Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    app.run(debug=True, port=5002)
+#if __name__ == '__main__':
+#    app.run(debug=True, port=5002)
