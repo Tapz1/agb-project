@@ -1,10 +1,9 @@
 import os
-import shutil
 from datetime import timedelta
-from flask import Flask, url_for
+from flask import Flask
 from flaskr.config import (UPLOAD_FOLDER, DB_NAME, SECRET_KEY, SECURITY_PASSWORD_SALT, EMAIL_USERNAME,
                            EMAIL_PASSWORD, EMAIL_SEND_AS, TO_EMAIL, DEV_EMAIL, CLIENT_EMAIL, BCC_EMAIL, ADMIN_PASSWORD,
-                            ALLOWED_EXTENSIONS, PATH_SLICE, BACKGROUND_IMAGES_PATH)
+                            ALLOWED_EXTENSIONS, PATH_SLICE, BACKGROUND_IMAGES_PATH, CONTACT_IMAGE_DIR)
 
 
 def create_app(test_config=None):
@@ -13,6 +12,7 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY=SECRET_KEY,
         SECURITY_PASSWORD_SALT=SECURITY_PASSWORD_SALT,
+        CONTACT_IMAGE_DIR=CONTACT_IMAGE_DIR,
         UPLOAD_FOLDER=UPLOAD_FOLDER,
         BACKGROUND_IMAGES_PATH=BACKGROUND_IMAGES_PATH,
         PATH_SLICE=PATH_SLICE,
@@ -73,5 +73,5 @@ def create_app(test_config=None):
 app = create_app()
 
 # Press the green button in the gutter to run the script.
-#if __name__ == '__main__':
-#    app.run(debug=True, port=5002)
+if __name__ == '__main__':
+    app.run(debug=True, port=5002)
