@@ -6,9 +6,6 @@
         {% for img in images %}
             <link rel="preload" href="{{ img }}" as="image"/>
         {% endfor %}
-        {% for project, thumbnail in project_data %}
-            <link rel="preload" href="{{ thumbnail }}" as="image"/>
-        {% endfor %}
     {% endblock %}
 
     {% block body %}
